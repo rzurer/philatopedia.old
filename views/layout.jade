@@ -1,0 +1,87 @@
+!!! 5
+html
+  head
+    title Philatopedia
+    link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Muli", type='text/css')
+    link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Raleway:100", type='text/css')
+    link(rel="stylesheet", href="/stylesheets/jquery-ui.css")
+    link(rel="stylesheet", href="/stylesheets/layout.css")
+    link(rel="stylesheet", href="/stylesheets/common.css")
+    link(rel="stylesheet", href="/stylesheets/stamp.css")
+    link(rel="stylesheet", href="/stylesheets/search.css")
+    link(rel="stylesheet", href="/stylesheets/stamplist.css")
+    link(rel="stylesheet", href="/stylesheets/album.css")
+    link(rel="stylesheet", href="/stylesheets/admin.css")
+    script(type="text/javascript", src="/javascripts/json2.js")
+    script(type="text/javascript", src="/javascripts/jquery-1.7.1.min.js")
+    script(type="text/javascript", src="/javascripts/jquery-ui-1.8.18.custom.min.js")
+    script(type="text/javascript", src="/javascripts/jquery.contextmenu.r2.js")   
+    script(type="text/javascript", src="/javascripts/common.js")
+    script(type="text/javascript", src="/javascripts/file-management.js")
+    script(type="text/javascript", src="/javascripts/dnd.js")
+    script(type="text/javascript", src="/javascripts/collections.js")
+    script(type="text/javascript", src="/javascripts/tags.js")
+    script(type="text/javascript", src="/javascripts/picklists.js")
+    script(type="text/javascript", src="/javascripts/navigationbuttons.js")
+    script(type="text/javascript", src="/javascripts/identifiers.js")
+    script(type="text/javascript", src="/javascripts/imagecarousel.js")
+    script(type="text/javascript", src="/javascripts/slider.js")
+    script(type="text/javascript", src="/javascripts/propertymanager.js")
+    script(type="text/javascript", src="/javascripts/search.js")
+    script(type="text/javascript", src="/javascripts/stamp.js")
+    script(type="text/javascript", src="/javascripts/_initializeusercollection.js")
+    script(type="text/javascript", src="/browserify.js")
+body
+    .welcome
+        label#welcome
+    #result
+    .header
+        .headertext
+            a(href="/")
+                label philatopedia
+        ul#menu.menu
+             li.active
+                a#home Home
+             li
+                a#sandbox Sandbox
+             li
+                a#usercollection My Collection
+             li
+                a#add Add
+             li#loginMenu
+                a#signin Signin
+             li#logoutMenu
+                a#signout Logout
+            .logincontainer
+                .logincontrols
+                    input#usernameInput.styled(type='text')
+                    button#loginButton.blue-button Sign In
+    .content
+        block content
+script
+    var user, username, loginControls, menuControls;
+    $(function () {
+        user = !{JSON.stringify(user)};
+        username = user && user.username ? user.username : '';
+        loginControls = {
+            body : $('body'),
+            usernameInput : $('#usernameInput'),
+            logincontainer : $('.logincontainer'),
+            welcome : $("#welcome"),
+            loginMenu : $('#loginMenu'),
+            logoutMenu : $('#logoutMenu'),
+            loginButton : $('#loginButton'),
+        };
+        menuControls = {
+            menu : $('#menu'),
+            homeLink : $('#home'),
+            sandboxLink : $('#sandbox'),
+            usercollectionLink : $('#usercollection'),
+            addLink : $('#add'),
+            signinLink : $('#signin'),
+            signoutLink : $('#signout')
+        };
+        currentUrl = window.location.pathname;
+        mainlayout.ready(loginControls, menuControls, username, currentUrl);
+    })
+   

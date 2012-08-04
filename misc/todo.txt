@@ -1,0 +1,53 @@
+I want country search on list
+menu logout login hide show flickers
+autofill from matching image
+back button issues
+Cannot read property '_id' of null
+    at getStamps (/home/zurer/projects/philatopedia/routes.js:55:34)
+    at /home/zurer/projects/philatopedia/routes.js:221:9
+images 
+	image save still wanky
+	thumbnail carousel accross page with right and left arrows and larger thumbnail on hover 
+	store original url of images downloaded from web
+	still problem on delete image when it is the default
+	clean temp directory
+	better storage by user
+	limit orig size - or - limit preview width
+	color lookup
+currency
+titles on inputs?
+Stamp Primary Key e
+	UserCollection => Sandbox => Reference Collection => UserCollection?
+	image seek integration
+stamp
+	catalog value/price paid
+	delete?
+user	
+	register email fname lname password
+	avatar /favorite stamp
+	profile
+home page/layout
+	perforation border
+	rotate images
+local storage
+	when year changes ==> issueyears?
+	first time browser?
+album page 
+	title
+	dynamic sizing
+infrastructure
+	can get to page w/o being signed in after session timeout?
+	paging
+	refactor css
+	jasmine vows sahi testing
+	backbone knockout
+what are you listening to
+store links to pages about countries stamps etc
+csv import?
+Defining a primary key for a stamp
+	The stamps are definitely not the same
+		If the stamp-issuing entity is not the same the 
+		If a catalog number is not the same
+		If the issue year is not the same
+	The stamps are probably not the same
+		If no image is greater than a ??% match

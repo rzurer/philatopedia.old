@@ -1,0 +1,23 @@
+extends ../layout 
+
+block content 
+	.stamplist
+		.taglabeltemplate
+			label
+			img(src='/images/grayx.png') 
+		.selectcollection
+			label Collection:
+			input#collectionsource.styled(type='text')
+			label Tags:
+			input#tagsource.styled(type='text')
+			input#addLocalTag(type='image', src='/images/arrow_right.png')
+			.localTaglabels
+		.searchcollection
+			img#doSearch(src='/images/search.jpg', title="Search by collection and tags")
+	- var wantImageNav = true
+		include _searchcriteria
+	- if (stamps != null && stamps.length > 0)
+		.listings
+			include _stamplisting
+	script
+		initializeUsercollection(!{JSON.stringify(arr)}, window, userCollection);

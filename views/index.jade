@@ -1,0 +1,30 @@
+extends layout 
+
+block content
+	img#homeImage(src='/images/StampCollectionPelicanLake1960.jpg')
+	script
+		var user;
+		function setImageHover() {
+			var image;
+			image = $('#homeImage');
+			if(user && user.username){
+				image.click(function(){
+					window.location = "/stamps/usercollection";
+				});
+				image.attr("title", "Click to satisfy your stamp lust");
+				image.mouseover(function() {
+					image.addClass('hoverImage');
+					image.css('cursor','pointer');
+				});
+				image.mouseout(function() {
+					image.removeClass('hoverImage');
+					image.css('cursor','auto');
+				});
+				return;
+			}
+			image.attr("title", "Sign in to satisfy your stamp lust");
+		}
+		$(function(){
+			user = !{JSON.stringify(user)};
+			setImageHover();
+		});

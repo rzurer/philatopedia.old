@@ -1,0 +1,59 @@
+each item in stamps
+  .stampitem(id= item._id)
+    .stampitem-image
+      img
+    .stampitem-left
+      - if(item.issuedBy)
+        .stampitem-issuedBy
+          label.bold  Issued By: 
+          label.normal= item.issuedBy
+      - if(item.issueYear)
+        .stampitem-issueYear
+          label.bold  Issue Year: 
+          label.normal= item.issueYear
+      - if(item.issueDate)
+        .stampitem-issueDate
+          label.bold  Issue Date: 
+          label.normal= item.issueDate
+      - if(item.faceValue)
+        .stampitem-faceValue
+          label.bold  Face Value:  
+        -if(item.currency && item.currency.length > 0 && item.currency[0])
+          label.normal= item.faceValue + ' ' + item.currency[0].symbol
+        -else
+          label.normal= item.faceValue      
+      - if(item.color)
+        .stampitem-color
+          label.bold  Color: 
+          label.normal= item.color
+    .stampitem-middle
+      - if(item.series)
+        .stampitem-series   
+          label.bold  Series: 
+          label.normal= item.series
+      - if(item.design)
+        .stampitem-design   
+          label.bold  Design: 
+          label.normal= item.design
+      - if(item.perf)
+        .stampitem-perf   
+          label.bold  Perforation: 
+          label.normal= item.perf
+      - if(item.collections && item.collections.length > 0)
+        .stampitem-collections   
+          label.bold  Collections: 
+          label.normal= item.collections
+      - if(item.tags && item.tags.length > 0)
+        .stampitem-tags   
+          label.bold  Tags: 
+          label.normal= item.tags
+    .stampitem-right
+      each identifier in item.identifiers
+        - if(identifier.value && identifier.value.length  > 0)
+          .stampitem-identifier
+            label.bold= identifier.name + ': '
+            label=  identifier.value
+  .stampitem-actions
+      label.deleteStamp delete
+      label.submitToSandbox copy to sandbox
+      label#toaster

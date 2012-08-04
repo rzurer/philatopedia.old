@@ -1,0 +1,17 @@
+.searchcriteria
+	label#searchcriteria.bold
+	.collectioncriteria
+		label#collectioncriteria.bold
+		label#collectionvalue
+	.tagscriteria
+		label#tagscriteria.bold
+		label#tagsvalue
+	.clearsearchdetail
+		img#clearsearchdetail(src='/images/eraser.png', title="Clear search")
+- if(wantImageNav)
+	.nav
+		.thumbnailNavPrevious
+			img(src='/images/previous.png', width= 20, onclick='previousThumbnail();')
+		.thumbnailNav
+		.thumbnailNavNext
+			img(src='/images/next.png', width= 20, onclick='nextThumbnail();')

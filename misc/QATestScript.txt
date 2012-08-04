@@ -1,0 +1,23 @@
+QATestScript
+Layout
+	Signin 
+		should drop down Signin entry
+		Signin entry
+			text box
+				should have focus
+			button
+				should change color on hover
+	Logged out
+		Menu
+			Signin 
+				should be highlighted
+			Home, Sandbox, MyCollection, Add
+				should not be highligted
+				should not have a click event
+			Image 
+				Hover
+					should have no border
+				Title 
+					should have title that reads 'Sign in to stisfy your stamp lust'
+			'philatopedia'
+				should not have a click event

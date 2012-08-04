@@ -1,0 +1,3 @@
+.cataloglisting(id=catalog._id || '')
+	label #{catalog.name || ''}
+	img(src='/images/delete.png', onclick='deleteCatalog("' + catalog._id + '");')

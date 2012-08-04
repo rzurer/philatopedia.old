@@ -1,0 +1,188 @@
+extends layout 
+
+block content 
+	.admin
+		.admin-currency
+			label Issued By: 
+			input#issuedBy.styled(type='text')
+			label Currency 
+			input#currency.styled(type='text')
+			input#currencySymbol.styled(type='text')
+			button#addCurrencyButton Add Currency
+	.admin-currency-list
+	.footer
+		#message
+		button#removeCountries Remove Countries
+		button#saveCountries Save Countries
+		button#refreshCountries Refresh
+	script
+		var countries = ['Abkhazia','Abu Dhabi','Abyssinia','Aden','Aegean Islands','Afars &amp; Issas','Afghanistan','Africa','Aguera La','Aitutaki','Ajman','Aland Islands','Alaouites','Albania','Alderney','Alexandretta','Alexandria','Algeria','Allenstein','Alwar','Ancachs','Andorra','Andorra (French)','Andorra (Spanish)','Angola','Angra','Anguilla','Anjouan','Annam &amp; Tonkin','Antarctica','Antigua','Antigua &amp; Barbuda','Antioquia','Apurimac','Arequippa','Argentina','Armenia','Army of the Northwest','Aruba','Ascension','Asch','Asia','Australia','Australian Antarctic Territory','Australian Area','Australian States','Austria','Austria/Crete','Austria/Lombardy/Venetia','Austria/Turkey','Ayacucho','Azerbaijan','Azores','Baden','Bahamas','Bahawalpur','Bahrain','Balkans','Baltic States','Bamra','Bangkok','Bangladesh','Barbados','Barbuda','Baroda','Barwani','Basutoland','Batum','Bavaria','Bechuanaland','Bechuanaland Protectorate','Belarus','Belgian Congo','Belgium','Belize','Bengasi','Benin','Bequia','Bergedorf','Berlin','Bermuda','Bhopal','Bhor','Bhutan','Biafra','Bielozersk District','Bohemia &amp; Moravia','Bolivar','Bolivia','Bophuthatswana','Bosnia','Bosnia &amp; Herzegovina','Botswana','Boyaca','Brazil','Bremen','British Antarctic Territory','British Asia','British Central Africa','British Colonies','British Columbia','British Commonwealth','British East Africa','British Guiana','British Honduras','British India','British Indian Ocean Territory','British North America','British Oceania','British Offices','British Offices/China','British Offices/Eritrea','British Offices/Middle East Forces','British Offices/Morocco Agencies','British Offices/Morocco/Tangier','British Offices/Somalia','British Offices/Tripolitania','British Offices/Turkey','British South Africa','British West Indies','Brunei','Brunswick','Buenos Aires','Bulgaria','Bundi','Burgos','Burkina Faso','Burma','Burundi','Bushire','Bussahir','Cabo Gracias a Dios','Cadiz','Caicos','Calchi','Calino','Cambodia','Cameroons','Cameroun','Canada','Canadian Provinces','Canal Zone','Canary Islands','Canton','Cape Juby','Cape of Good Hope','Cape Verde','Caroline Islands','Carupano','Caso','Castellorizo','Cavalle','Cayman Islands','Cays of Belize','Central Africa','Central America','Central China','Central Lithuania','Ceylon','Chachapoyas','Chad','Chala','Chamba','Channel Islands','Charkhari','Chembary District','Chiapas','Chiclayo','Chihuahua','Chile','China','China (PRC)','China/Tibet','Christmas Island','Cilicia','Ciskei','Cochin','Cochin China','Cocos Islands','Colombia','Comoro Islands','Confederate States','Congo Democratic Rep.(Ex Zaire)','Congo Peoples Rep.(ex Fr Congo)','Constantinople','Convention States','Coo','Cook Islands','Cordoba','Corfu','Corrientes','Costa Rica','Crete','Croatia','Croatian Sector','Cuautia','Cuba','Cucuta','Cuernavaca','Cundinamarca','Curacao','Cuzco','Cyprus','Cyrenaica','Czech. Legion Post','Czechoslovakia (Czech Republic)','Dagestan','Dahomey','Dalmatia','Danish West Indies','Danzig','DDR','Dedeagh','Denmark','Dhar','Dhufar','Diego Suarez','Djibouti','Dnieprovsk District','Dominica','Dominican Republic','Dubai','Durazzo','Dutch East Indies','Duttia','East Africa and Uganda','East Africa Forces Somalia','East China','Eastern Europe','Eastern Rumelia','Eastern Silesia','Ecuador','Egeo','Egypt','El Salvador','Elobey, Annobon &amp; Corisco','England','Epirus','Equatorial Guinea','Eritrea','Estero','Estonia','Ethiopia','Eupen','Europa','Europe','Falkland Islands','Far Eastern Republic','Faridkot','Faroe Islands','Fed. Of South Arabia','Fernando Po','Fiji','Finland','Fiume','France','France/China','France/China/Canton','France/Crete','France/Egypt/Alexandria','France/Fezzan','France/Germany','France/Turkey/Cavalle','France/Turkey/Port Lagos','France/Turkey/Vathy','France/Zanzibar','French Colonies','French Community','French Congo','French Equatorial Africa','French Guiana','French Guinea','French India','French Morocco','French Offices-Kouang','French Polynesia','French Southern &amp; Antarctic Territories','French Sudan','French West Africa','Fujeira','Fukien Province','Funafuti','Funchal','G.B.','Gabon','Gadiach District','Galapagos Islands','Gambia','GB','Georgia','German Colonies','German Democratic Republic','German East Africa','German New Guinea','German Occupation/WWII','German Offices Abroad','German South West Africa','German States','Germany','Germany and Area','Germany/China','Germany/Germania','Germany/Morocco','Germany/Russia','Germany/Turkey','Ghana','Gibraltar','Gilbert &amp; Ellice Islands','Glazov District','Go to Cambodia','Gold Coast','Gondal','Grand Comoro','Grazovetz District','Great Britain','Great Britain/Turkey','Greece','Greenland','Grenada','Grenada Grenadines','Grenadines','Griqualand West','Guadalajara','Guadeloupe','Guam','Guanacaste','Guatemala','Guayana','Guernsey','Guinea','Guinea-Bissau','Guyana','Gwalior','Haiti','Hamburg','Hanover','Hatay','Hawaii','Heligoland','Herzegovina','Hoi Hao','Honduras','Hong Kong','Hong Kong/China','Horta','Huacho','Hunan Province','Hungary','Hungary-Szeged','Hupei Province','Hyderabad','Iceland','Idar','Ifni','India','Indian Principalities','Indo-China','Indonesia','Indore','Inhambane','Inini','Inner Mongolia','International Commission in Indochina','Ionian Islands','Iran','Iraq','Irbit District','Ireland','Isle of Man','Israel','Istria &amp; the Slovene Coast','Italian Colonies','Italian East Africa','Italian Offices','Italian Social Republic','Italian States','Italy','Italy/Albania','Italy/Austria','Italy/China','Italy/Jerusalem','Italy/Kotar','Italy/Laibach','Italy/Turkey','Ivory Coast','Jaipur','Jamaica','Jammu &amp; Kashmir','Janina','Japan','Japan/China','Japan/Korea','Japanese Occupation','Jasdan','Jersey','Jerusalem','Jhalawar','Jind','Johdpur','Johore','Jordan','Kampuchia','Karelia','Karlsbad','Katanga','Kathiri State in Hadhramaut','Kathiri State of Seiyun','Kazakhstan','Kedah','Kelantan','Kenya','Kenya Uganda Tanganyika','Kherson District','Kiangsi Province','Kiauchau','Kionga','Kiribati','Kishangarh','Komi Republic','Korea','Korea (North)','Krasny District','Kremenchug District','Kuwait','Kwangchowan','Kwangsi Province','Kyrgyzstan','Labuan','Lagos','Laos','Laos &amp; Vietnam','Las Bela','Latakia','Latin America','Latvia','Lebanon','Leeward Islands','Lero','Lesotho','Liberia','Libya','Liechtenstein','Limbdi','Lipso','Lisso','Lithuania','Lithuania/Ponewesch','Lokhvitza District','Lombardy-Venetia','Lourenco Marques','Lubeck','Lundy','Luxembourg','Macao','Macau','Macedonia','Madagascar','Madeira','Mahra State','Malacca','Malaga','Malagasy Republic','Malawi','Malaya','Malaysia','Maldive Islands','Mali','Malmedy','Malta','Manama','Manchukuo','Manchuria','Mariana Islands','Marienwerder','Marshall Islands','Martinique','Mauritania','Mauritius','Mayotte','Mecklinburg-Schwerin','Mecklinburg-Strelitz','Medellin','Memel','Merida','Mesopotamia','Mexico','Micronesia','Middle Congo','Middle East','Modena','Moheli','Moldova','Monaco','Mongolia','Mongtseu','Montenegro','Montserrat','Moquegua','Morocco','Morvi','Moshansk District','Mozambique','Mozambique Company','Muscat','Muscat &amp; Oman','Myanmar','Nabha','Nagaland','Nagorno Karabakh','Namibia','Nandgaon','Nanumaga','Nanumea','Naples','Natal','Native Feudatory States','Nauru','Neapolitan Provinces','Negri Sembilan','Nepal','Netherlands','Netherlands &amp; Colonies','Netherlands Antilles','Netherlands Indies','Netherlands New Guinea','Nevis','New Britain','New Brunswick','New Caledonia','New Guinea','New Hebrides, British','New Hebrides, French','New Republic','New South Wales','New Zealand','New Zealand &amp; Dependencies','Newfoundland','Nicaragua','Nicolsk','Niger','Niger Coast Protectorate','Nigeria','Niklasdorf','Nisiro','Niuafo ou','Niue','Niutao','Norfolk Island','North Borneo','North China','North German Confederation','North Ingermanland','North Vietnam','North West Pacific Islands','Northeast China','Northeastern Provinces','Northern Ireland','Northern Nigeria','Northern Rhodesia','Northern Zone','Northwest China','Norway','Nossi Be','Nova Scotia','Nowanuggur','Nui','Nukufetau','Nukulaelae','Nyasaland Protectorate','Nyassa','Obock','Oceania','Offices Abroad','Offices in Africa','Offices in Africa Eritrea','Offices in Africa MEF','Offices in Africa Somalia','Offices in China','Offices in Crete','Offices in Egypt','Offices In India','Offices in Morocco','Offices in Tibet','Offices in Tripolitania','Offices in Turkey','Offices in Zanzibar','Oldenburg','Oltre Giuba','Oman','Omnibus','Orange Free State','Orange River Colony','Orchha','Orense','Pahang','Paita','Pakhoi','Pakistan','Palau','Palestine','Palestinian Authority','Panama','PAPAL STATES','Papua New Guinea','Paraguay','Parma','Pasco','Patiala','Patmo','Pechino','Peking','Penang','Penrhyn','Perak','Perlis','Peru','Philippines','Pisco','Piscopi','Pitcairn Islands','Piurra','Poland','Polish Antarctic Territory','Ponta Delgada','Poonch','Port Arthur &amp; Dairen','Port Lagos','Port Said','Portugal','Portugal &amp; Colonies','Portuguese Africa','Portuguese Congo','Portuguese Guinea','Portuguese India','Prince Edward Island','Prussia','Pskov District','Puerto Rico','Puno','Qatar','Quaiti State','Queensland','Quelimane','Rajasthan','Rajpeepla','Ras al Khaima','Redonda','Reichenberg-Maffersdorf','Republic Buriatia','Reunion','Rhodes','Rhodesia','Rhodesia &amp; Nyasaland','Riau Archipelago','Rio de Oro','Rio Muni','Romagna','Roman States','Romania','Romania/Turkey','Ross Dependency','Rouad, Ile','Ruanda Urundi','Rumburg','Russia','Russia/China','Russia/Turkey','Rwanda','Ryukyu Islands','Saar','Sabah','Salonika','Salvador','Samoa','San Marino','San Sebastian','Santa Cruz','Santander','Sarawak','Sardinia','Saseno','Saudi Arabia','Saxony','Scandinavia','Scarpanto','Schleswig','Schleswig-Holstein','Scotland','Scutari','Selangor','Senegal','Senegambia &amp; Niger','Serbia','Serbian Sector','Seville','Seychelles','Shanghai','Shansi','Sharjah','Sharjah &amp; Dependencies','Shensi Province','Siberia','Sierra Leone','Simi','Sinaloa','Singapore','Singapore-Malaya','Sinkiang','Sirmoor','Slovakia','Slovenia','Smyrna','Solikansk District','Solomon Islands','Somali Coast','Somalia','Somaliland Protectorate','Soroki District','Soruth','South Africa','South America','South Arabia','South Australia','South China','South East Asia','South Georgia','South Kasai','South Moluccas','South Russia','South Vietnam','South West Africa','Southern Nigeria','Southern Rhodesia','Southwest China','Spain','Spain and Colonies','Spanish Guinea','Spanish Morocco','Spanish Sahara','Spanish West Africa','Sri Lanka','St. Christopher','St. Christopher &amp; Nevis','St. Helena','St. Kitts','St. Kitts-Nevis','St. Lucia','St. Marie de Madagascar','St. Pierre &amp; Miquelon','St. Thomas &amp; Prince Islands','St. Vincent','St. Vincent Grenadines','Staffa Island','Stampalia','Stavropol District','Stellaland','Straits Settlements','Sudan','Sungei Ujong','Surinam','Swaziland','Sweden','Switzerland','Syria','Syria-Arabian Government','Syria-UAR','Szechwan Province','Szeged','Tadjikistan','Tahiti','Taiwan','Tanganyika','Tangier','Tannu Tuva','Tanzania','Tasmania','Tchongking','Tete','Thailand','Theresienstadt','Thrace','Thule','Thurn &amp; Taxis','Tibet','Tientsin','Timor','Tiraspol','Tlacotalpan','Tobago','Togo','Tokelau','Tolima','Tonga','Transcaucasian Federated Republics','Transkei','Transvaal','Travancore','Travancore-Cochin','Trengganu','Trieste','Trieste-Zone A','Trieste-Zone B','Trinidad','Trinidad &amp; Tobago','Tripoli','Tripolitania','Tristan da Cunha','Trucial States','Tsingtau','Tunisia','Turkey','Turkey in Asia','Turkish Republic of Northern Cyprus','Turkmenistan','Turks &amp; Caicos Islands','Turks Islands','Tuscany','Tuva','Tuvalu','Two Sicilies','Ubangi-Shari','Uganda','Ukraine','Umm al Qiwain','Union Island','United Arab Emirates','United Arab Republic','United Kingdom','United Nations','United Nations-Geneva','United Nations-Kosovo','United Nations-Vienna','United States','Upper Senegal &amp; Niger','Upper Silesia','Upper Volta','Uruguay','US Possessions','Uzbekistan','Vaitupu','Valona','Vanuatu','Vathy','Vatican City','Venda','Venezia Giulia','Venezuela','Vessiegronsk District','Victoria','Vietnam','Virgin Islands','Wadhwan','Wales &amp; Monmouthshire','Wallis &amp; Futuna Islands','Wenden (Livonia)','West Germany','West Indies','West Irian','Western Australia','Western Europe','Western Sahara','Western Ukraine','Wilayah Persekutuan','Worldwide','Wurttemberg','Yca','Yemen','Yemen Peoples Democratic Rep','Yucatan','Yugoslavia','Yugoslavia - Istria','Yugoslavia - Ljubljana','Yugoslavia - Trieste Zone B','Yunnan','Yunnan Fou','Zaire','Zambezia','Zambia','Zanzibar','Zara','Zelaya','Zemstov Issues','Zil Elwannyen Sesel','Zimbabwe','Zolotonosha District','Zululand'];
+		function saveCountries(){
+			$.ajax({
+				type: 'POST',
+				url: '/saveCountries',
+				data: {countries: countries},
+				success: function (message) {
+					$('#message').text(message);
+				}
+			});
+		}
+		function removeCountries(){
+			$.ajax({
+				type: 'POST',
+				url: '/removeCountries',
+				success: function (message) {
+					$('#message').text(message);
+				}
+			});
+		}
+		function refreshCountries() { 
+			removeLocalStorageKey('countries');
+			picklists.setCountriesAutocomplete(false);
+		}
+		function addCurrencyToCountry(){	
+			var issuedBy, name, symbol, countryCurrency;
+			countryName = $('#issuedBy').val();
+			name = $('#currency').val();
+			symbol = $('#currencySymbol').val();
+			countryCurrency = {countryName : countryName, name: name, symbol: symbol };
+			$.ajax({
+				type : 'POST',
+				url :'/addCurrencyToCountry',
+				data : { countryCurrency:  countryCurrency},
+				success: function(country){	
+					$('#currency').val('').focus();
+					$('#currencySymbol').val('');
+					displayCountries();
+					setAutocompletes();
+				}
+			});
+		}
+		function allowOrDisallowAddingCurrency(){
+			var canAddCurrency;
+			canAddCurrency = $("#issuedBy").val().trim().length > 0 && $("#currency").val().trim().length > 0;
+			if(canAddCurrency){
+				$("#addCurrencyButton").removeAttr('disabled');
+			} else {
+				$("#addCurrencyButton").attr('disabled', 'disabled');
+			}
+		}
+		function displayCountries() {
+			$.ajax({
+				type: 'POST',
+				url: '/getAllCountriesWithCurrencies',
+				async: false,
+				success: function(countries) {
+					renderCountriesTable(countries);
+				}
+			});
+		}
+		function createlabel (contents) {
+			var label;
+			label = $('<label></label>');
+			label.text(contents);
+			return label;
+		}
+		function updateCurrencies (obj, left, top) {
+			var id, currencyids, currencyNames, currencySymbols, currency, currencies;
+			id = $(obj).parents('tr').attr('id');
+			currencyids = [];
+			currencyNames = $(obj).parent('td').prev('td').find('.currencyName');
+			currencySymbols = $(obj).parent('td').prev('td').find('.currencySymbol');
+			currencyNames.each(function (){
+				currencyids.push($(this).attr('currencyid'));
+			});
+			currencies = [];
+			currencyids.forEach(function(currencyId){
+				currency = {_id: currencyId };
+				currencyNames.each(function (){
+					if($(this).attr('currencyid') === currencyId){
+						currency.name = $(this).val();
+					}
+				});
+				currencySymbols.each(function (){
+					if($(this).attr('currencyid') === currencyId){
+						currency.symbol = $(this).val();
+					}
+				});
+				currencies.push(currency);
+			});
+			$.ajax({
+				type: 'POST',
+				url: '/updateCurrencies',
+				data : { id:  id, currencies: currencies},
+				success: function(data) {
+					displayCountries();
+					setAutocompletes();
+					showToaster("currencies updated", left, top);
+				}
+			});
+		}
+		function createImageButton () {
+			var input, a;
+			input = $('<input></input>');
+			input.attr('type', 'image');
+			input.attr('src', '/images/save.png');
+			input.click(function(e){updateCurrencies(this, e.clientX + 15, e.clientY - 15);});
+			input.addClass('updateImage');
+			return input;
+		}
+		function createTextInput (contents, currencyId) {
+			var input;
+			input = $('<input type="text"/>');
+			input.val(contents);
+			input.addClass('styled');
+			input.attr('currencyId', currencyId);
+			return input;	
+		}
+		function renderCountriesTable (countries) {
+			var currenciesTable, row, cell, div, currency;
+			currenciesTable = $('<table></table>');
+			currenciesTable.attr("cellspacing", 0);
+			currenciesTable.attr("cellpadding", 0);
+			currenciesTable.addClass('currenciesTable');
+			countries.forEach(function (country) {
+				if(country.currencies.length > 0){
+					row = $('<tr></tr>');
+					row.attr('id', country._id);
+					cell = $('<td></td>');
+					cell.append(createlabel(country.name));
+					cell.addClass('currencyNameCell');
+					row.append(cell);
+					cell = $('<td></td>');
+					cell.addClass('currencyCell');
+					for (var i = 0; i < country.currencies.length; i += 1) {
+						currency = country.currencies[i];
+						div = $('<div/>');
+						div.css('display', 'inline');
+						div.append(createTextInput(currency.name, currency._id).addClass('currencyName'));
+						div.append(createTextInput(currency.symbol, currency._id).addClass('currencySymbol'));
+						cell.append(div);
+					};
+					row.append(cell);
+					cell = $('<td></td>');
+					cell.addClass('updateCurrencyCell');
+					cell.append(createImageButton());
+					row.append(cell);
+					currenciesTable.append(row);					
+				}
+			})
+			$(".admin-currency-list").empty();
+			$('.admin-currency-list').append(currenciesTable);
+		}
+		function setAutocompletes(){
+			picklists.setCountriesAutocomplete(false);
+			picklists.setCurrencyNamesAutocomplete(true);
+			picklists.setCurrencySymbolsAutocomplete(true);
+		}
+		$(function () {
+			$("#addCurrencyButton").click(addCurrencyToCountry);
+			$('#issuedBy').blur(allowOrDisallowAddingCurrency);
+			$('#currency').blur(allowOrDisallowAddingCurrency);
+			$('#removeCountries').click(removeCountries);
+			$('#saveCountries').click(saveCountries);
+			$('#refreshCountries').click(refreshCountries);
+			allowOrDisallowAddingCurrency();
+			setAutocompletes();
+			displayCountries();
+		});

@@ -1,0 +1,129 @@
+.stampcontainer
+	!=partial('_searchcriteria', {wantImageNav : true})
+	.toprail
+		.country
+			label Country:
+			input#issuedBy.styled(type='text', name='issuedBy', value=stamp.issuedBy || '')
+		.year
+			label Year:
+			input#issueYear.styled(type='text', name='issueYear', maxlength=4, value=stamp.issueYear || '')
+		.monthday
+			label Date: 
+			input.styled(type='text', id='issueDate', name='issueDate', value=stamp.issueDate || '', onblur="updateStamp(this);")
+		.series
+			label Series:
+			input.styled(type='text', name='series', value=stamp.series || '', onblur="updateStamp(this);")
+	.slider-container
+		.catalog
+			label Catalog:
+			input#defaultcatalog(type='checkbox')	
+		.prv
+			img(src='/images/previous.png', onclick='javascript:sliders[0].goToPrev()')
+		.slider
+			ul#catalogSlider
+				!=partial('stamps/_cataloglisting', cataloglistings)
+		.nxt
+			img(src='/images/next.png', onclick='javascript:sliders[0].goToNext()')
+		.slidercontrols
+			label Cat # :
+			input#catalognumber.styled.catalognumber(type='text', onblur="addOrUpdateIdentifier();")
+			input#currentCatalogId(type='hidden')
+		.watermark
+			label Wmk:
+			input#wmk.styled(type='text', onblur="addOrUpdateIdentifier();")
+		.design
+			label Design:
+			input.styled(type='text', name='design', value=stamp.design || '',onblur="updateStamp(this);")
+	.left
+		#imageContainer.largeimage
+			img#dropImage
+			input#currentImageId(type='hidden')
+		input#defaultimage(type='checkbox', title='This image will diplay on album pages')				
+		.imagecaption
+			label Caption:
+			input.styled(id='imagecaption', type='text', onblur="imageCarousel.setImageCaption(this);")
+		.imagenav
+			input#navFirst(type='image', src='/images/first.png', onclick='imageCarousel.navigateTo("first");')
+			input#navPrevious(type='image', src='/images/previous.png',onclick='imageCarousel.navigateTo("previous");')
+			input#navNext(type='image', src='/images/next.png',onclick='imageCarousel.navigateTo("next");')
+			input#navLast(type='image', src='/images/last.png',onclick='imageCarousel.navigateTo("last");')
+			input#navRemove.removeImage(type='image', src='/images/remove.png',onclick='removeImage()')
+	.centerrail
+		input#_id(type='hidden', name='_id', value=stamp._id || '')
+		.currency
+			.facevalue
+				label Face Value:
+				input.styled(type='text', name='faceValue', value=stamp.faceValue || '', onblur="updateStamp(this);")
+			.currencySymbol
+				input#currencySymbol.styled(type='text', value=stamp.currency.length > 0 ? stamp.currency[0].symbol : '', onblur="setCurrencySymbol();")
+			.currencyName
+				label Currency:
+				input#currency.styled(type='text', value=stamp.currency.length > 0 ? stamp.currency[0].name : '', onblur="setCurrencyName();")
+		.colors
+			label Colors:
+			input#colors.styled(type='text', name='color', value=stamp.color || '', onblur="updateStamp(this);")
+		.paperprintingperf	
+			.paper
+				label Paper:
+				input#paper.styled(type='text', name='paper', value=stamp.paper || '', onblur="updateStamp(this);")			
+			.printingMethod
+				label Printing:
+				input#printingMethod.styled(type='text', name='printingMethod', value=stamp.printingMethod || '', onblur="updateStamp(this);")			
+			.papercolor
+				label Paper Color:
+				input.styled(type='text', name='paperColor',  value=stamp.paperColor || '', onblur="updateStamp(this);")			
+			.perf
+				label Perf:
+				input.styled(type='text', name='perf', value=stamp.perf || '', onblur="updateStamp(this);")
+		.conditionandcomments
+			.condition
+				label Condition:
+				input#condition.styled(type='text', name='condition', placeholder='mint/used', value=stamp.condition || '')
+				input#centering.centering.styled(type='text', name='centering', placeholder='grade', value=stamp.centering || '')
+				input#gumstate.gumstate.styled(type='text',  name='gumstate',  placeholder='gum', value=stamp.gumstate || '')
+				input#conditioncomments.styled(type='text', name='conditioncomments',  placeholder='comments', value=stamp.conditioncomments || '', onblur="updateStamp(this);")
+			.comments
+				label Comments:
+				textarea.styled(name='comments',rows= 8, value=stamp.comments || '', onblur="updateStamp(this);")#{stamp.comments}		
+	.separator
+	.categorylabeltemplate
+		label
+		img(src='/images/grayx.png', onclick='deleteCategory(this)')
+	.categories
+		label Categories:
+		input#categorysource.styled(type='text')
+		input#addCategory(type='image', src='/images/arrow_right.png', onclick="addCategory()")
+		.categorylabels
+	.collectionlabeltemplate
+		label
+		img(src='/images/grayx.png', onclick='deleteCollection(this)')
+	.collections
+		label Collections:
+		input#collectionsource.styled(type='text', onblur='leaveCollection(this)')
+		input#addCollection(type='image', src='/images/arrow_right.png', onclick="addCollection()")
+		.collectionlabels
+	.taglabeltemplate
+		label
+		img(src='/images/grayx.png', onclick='deleteTag(this, upsertStamp)')
+	.tags
+		label Tags:
+		input#tagsource.styled(type='text', onblur='leaveTag(this)')
+		input#addTag(type='image', src='/images/arrow_right.png', onclick="addTag()")
+		.taglabels
+#popupImage
+	a#popupImageClose x
+	img#fullSizeImage
+#backgroundPopup	
+script
+	'use strict';
+	$(function() {
+		stamp = !{JSON.stringify(stamp)};
+		cataloglistings = !{JSON.stringify(cataloglistings)};
+		$('#clearsearchdetail').click(function () {
+			clearSearch();
+			showHideClearSearch($('#clearsearchdetail'));
+			displayThumbnails();
+		});
+		showHideClearSearch($('#clearsearchdetail'));
+		initializeStamp();
+	});

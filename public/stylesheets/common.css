@@ -1,0 +1,99 @@
+.bold {
+  font-weight: bold;}
+
+.ui-autocomplete-input {
+  font-family: Muli;
+  font-size: 16px;}
+
+.ui-datepicker-year {
+  display: none;}
+
+.styled {
+  padding: 10px;
+  border: solid 1px #E5E5E5;
+  outline: 0;
+  font-family: Muli;
+  font-size: 14px;
+  background: #FFFFFF url('bg_form.png') left top repeat-x;
+  background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #EEEEEE), to(#FFFFFF));
+  background: -moz-linear-gradient(top, #FFFFFF, #EEEEEE 1px, #FFFFFF 25px);
+  box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+  margin-bottom: 2px;
+  -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+  -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;}
+
+.separator {
+  height: 2px;
+  background-color: gainsboro;
+  float: left;
+  width: 100% ;}
+
+.top {
+  float: left;
+  display: inline-block;}
+
+.leftcol {
+  width: 405px;
+  float: left;}
+
+.leftcol input {
+  width: 280px;}
+
+.leftcol textarea {
+  width: 280px;
+  border: 1px solid gainsboro;}
+
+.rightcol {
+  width: 185px;
+  float: left;}
+
+.rightcol input {
+  width: 60px !important;}
+
+.right {
+  width: 90px;
+  height: 365px;
+  margin-top: 130px;
+  margin-left: 910px;
+  padding-left: 10px;
+  border-left: gainsboro 4px dashed;}
+
+.referenceright {
+  width: 90px;
+  height: 365px;
+  margin-top: 60px;
+  margin-left: 910px;
+  padding-left: 10px;
+  border-left: gainsboro 4px dashed;}
+
+.bottom {
+  width: 100%;
+  height: 10px;
+  background-color: lightgray;
+  float: left;}
+
+.highlight {
+  background-color: black;
+  color: white;
+  cursor: pointer;}
+
+.hide {
+  display: none !important;}
+
+.test {
+  height: 500px;
+  width: 100%;
+  float: left;}
+
+.centertop {
+  float: left;
+  width: 100%;
+  margin-left: 5px;}
+
+.hover {
+  border: 2px solid red !important;}
+
+.hoverDashedGray {
+  border: 1px dashed gainsboro !important;}

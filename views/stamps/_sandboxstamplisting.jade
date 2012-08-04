@@ -1,0 +1,50 @@
+.stampitem(id= sandboxstamplisting._id)
+  .stampitem-image
+    img
+  .stampitem-left
+    - if(sandboxstamplisting.issuedBy)
+      .stampitem-issuedBy
+        label.bold  Issued By: 
+        label.normal= sandboxstamplisting.issuedBy
+    - if(sandboxstamplisting.issueYear)
+      .stampitem-issueYear
+        label.bold  Issue Year: 
+        label.normal= sandboxstamplisting.issueYear
+    - if(sandboxstamplisting.issueDate)
+      .stampitem-issueDate
+        label.bold  Issue Date: 
+        label.normal= sandboxstamplisting.issueDate
+    - if(sandboxstamplisting.faceValue)
+      .stampitem-faceValue
+        label.bold  Face Value:
+      -if(!sandboxstamplisting.currency)  
+        label.normal= sandboxstamplisting.faceValue
+      -if(sandboxstamplisting.currency && sandboxstamplisting.currency.length > 0 && sandboxstamplisting.currency[0])  
+        label.normal= sandboxstamplisting.faceValue + ' ' + sandboxstamplisting.currency[0].symbol
+    - if(sandboxstamplisting.color)
+      .stampitem-color
+        label.bold  Color: 
+        label.normal= sandboxstamplisting.color
+  .stampitem-middle
+    - if(sandboxstamplisting.series)
+      .stampitem-series   
+        label.bold  Series: 
+        label.normal= sandboxstamplisting.series
+    - if(sandboxstamplisting.design)
+      .stampitem-design   
+        label.bold  Design: 
+        label.normal= sandboxstamplisting.design
+    - if(sandboxstamplisting.perf)
+      .stampitem-perf   
+        label.bold  Perforation: 
+        label.normal= sandboxstamplisting.perf
+    - if(sandboxstamplisting.tags && sandboxstamplisting.tags.length > 0)
+      .stampitem-tags   
+        label.bold  Tags: 
+        label.normal= sandboxstamplisting.tags
+  .stampitem-right
+    each identifier in sandboxstamplisting.identifiers
+      - if(identifier.value && identifier.value.length  > 0)
+        .stampitem-identifier
+          label.bold= identifier.name + ': '
+          label=  identifier.value
