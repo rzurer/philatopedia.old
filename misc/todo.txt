@@ -1,8 +1,4 @@
-Search does not apply on refresh
 actions blown away on search
-
-
-
 
 
 timeoutI want country search on list

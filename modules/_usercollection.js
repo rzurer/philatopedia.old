@@ -62,7 +62,7 @@ exports.privateMembers = {
 			}
 		}
 	},
-	truncate : function (callback) {
+	truncate : function () {
 		var value, truncated, labels;
 		labels = that.getStampLabels();
 		labels.each(function () {
@@ -73,17 +73,17 @@ exports.privateMembers = {
 				this.innerText = truncated;
 			}
 		});
-		if (callback) {
-			callback();
-		}
 	},
-	cleanup : function (html, callback) {
+	cleanup : function (html) {
+		that.listings.hide();
 		that.listings.html(html);
 		that.setImages();
 		tags.deleteLocalTags();
 		that.clearSearchEntries();
 		that.search.displaySearchCriteria();
-		that.truncate(callback);
+		that.truncate();
+		that.assignEventHandlers();
+		that.listings.show();
 	},
 	displaySubmittedToSandboxToaster : function (target) {
 		that.common.showToaster(target, that.toaster, "copied");
@@ -123,7 +123,7 @@ exports.privateMembers = {
 		});
 	},
 	assignEventHandlers : function (argument) {
-		this.getSubmitToSandboxActions().click(this.submitToSandbox);
+	    this.getSubmitToSandboxActions().click(this.submitToSandbox);
 		this.getDeleteStampActions().click(this.deleteStamp);
 		this.getStampListings().click(this.goToStamp);
 		this.clearSearchControl.click(this.clearSearch);
@@ -169,12 +169,8 @@ exports.privateMembers = {
 	ready : function () {
 		this.listings.hide();
 		this.setSearchControls();
-		this.setAutoCompletes();
-		this.assignEventHandlers();
-		this.search.filterStampListings(function () {
-			that.cleanup(function () {
-				that.listings.show();
-			});
+		this.setAutoCompletes();		
+		this.search.filterStampListings(function (html) { that.cleanup(html);
 		});
 	}
 };
