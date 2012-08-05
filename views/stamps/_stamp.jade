@@ -1,5 +1,6 @@
 .stampcontainer
-	!=partial('_searchcriteria', {wantImageNav : true})
+	- var wantImageNav = true
+		include _searchcriteria
 	.toprail
 		.country
 			label Country:
@@ -21,7 +22,7 @@
 			img(src='/images/previous.png', onclick='javascript:sliders[0].goToPrev()')
 		.slider
 			ul#catalogSlider
-				!=partial('stamps/_cataloglisting', cataloglistings)
+				include _cataloglisting
 		.nxt
 			img(src='/images/next.png', onclick='javascript:sliders[0].goToNext()')
 		.slidercontrols

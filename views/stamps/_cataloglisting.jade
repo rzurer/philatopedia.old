@@ -1,3 +1,4 @@
-li
-	input(type='hidden', value=cataloglisting._id || '')
-	label #{cataloglisting.name || ''}
+each cataloglisting in cataloglistings
+	li
+		input(type='hidden', value=cataloglisting._id || '')
+		label #{cataloglisting.name || ''}
