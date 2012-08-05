@@ -1,0 +1,220 @@
+juice
+gym
+bills
+post to forum
+medical
+	pearlman
+	agus?
+
+
+
+Calls
+
+rembert
+peter
+phillip and cyrilla
+fran
+andy var f
+louis
+StanSheb
+
+
+
+function addImage(dbId, filename, fileIsUrl, callback) {
+    var id, oldFilname, newFilename;
+    oldFilname = imagePath + filename.substring(filename.lastIndexOf('/'));
+    newFilename = oldFilname.replace("png", "jpg");
+    newFilename = oldFilname.replace("PNG", "jpg");
+    client.methodCall('getDbImgCount', [dbId], function (error, value) {
+        id = value + 1;
+        imagemagick.convert([oldFilname, newFilename], function (err, metadata){
+            if (err) throw err
+            client.methodCall('addImg', [dbId, id, newFilename, false], function (error, value) {
+                if(error){
+                    throw (error);
+                }
+                if (callback) {
+                    callback(id, value);
+                }
+            });
+        })
+    });
+}
+
+// function createThumbnails (arr) {
+//  var src, img, imageId, stampId, currentImageId, currentwidth, maxwidth, i, arrays, left, right;
+//  currentwidth = 0;
+//  maxwidth = 850;
+//  currentImageId = $('#currentImageId').val();
+//  arrays = getCenteredImageArrays(arr, currentImageId);
+//  left = arrays.left;
+//  right = arrays.right;
+//  $('.thumbnailNav').empty()
+//  if(arr && arr.length > 0 ) {
+//      for (i = 0; i < arr.length; i += 1) {
+//          src = arr[i].defaultImageSrc;
+//          imageId = arr[i].imageId;
+//          stampId = arr[i].stampId;
+//          img = $('<img/>');
+//          img.attr('id', imageId);
+//          img.attr('src', src);
+//          img.attr('stampId', stampId);
+//          if(imageId !== currentImageId){
+//              img.css('opacity', '1.0');
+//              img.click(function(evt){
+//                  var that = this;
+//                  upsertStamp(function (){
+//                      var  stampId = $(that).attr('stampId');
+//                      getStampHtml(stampId);
+//                  });                     
+//              });                 
+//          } else {
+//              img.css('opacity', '0.2');
+//          }
+//          $('.thumbnailNav').append(img);
+//          currentwidth += img.width();
+//          if(currentwidth > maxwidth){
+//              img.hide();
+//          }
+//      };
+//  }
+// }
+
+function createThumbnails (arr) {
+    console.log("createThumbnails");
+    var src, img, imageId, stampId, currentImageId, currentwidth, maxwidth, i, that;
+    currentwidth = 0;
+    maxwidth = 0;
+    currentImageId = $('#currentImageId').val();
+    $('.thumbnailNav').empty()
+    if(arr && arr.length > 0 ) {
+        for (i = 0; i < arr.length; i += 1) {
+            src = arr[i].defaultImageSrc;
+            imageId = arr[i].imageId;
+            stampId = arr[i].stampId;
+            img = $('<img/>');
+            img.attr('id', imageId);
+            img.attr('src', src);
+            img.attr('stampId', stampId);
+            if(imageId !== currentImageId){
+                img.css('opacity', '1.0');
+                img.click(function(evt){
+                    that = this;
+                    upsertStamp(function (){
+                        stampId = $(that).attr('stampId');
+                        getStampHtml(stampId);
+                    });                     
+                });                 
+            } else {
+                img.css('opacity', '0.2');
+            }
+            $('.thumbnailNav').append(img);
+            maxwidth += img.width();
+        };
+        var result = getCenteredImageArrays(arr, currentImageId);
+        var currentImage = result.currentImage;
+        var left = result.left;
+        var right = result.right;
+
+        var images = $('.thumbnailNav > img');
+        for (var i = 0; i < images.length; i++) {
+            var image = $(images[i]);
+            if(maxwidth > 890){
+                maxwidth -= image.width();
+                image.hide();
+            }
+        };
+    }
+}
+
+
+
+
+// setLoginControls(user);
+// $('#goToAdmin').click(function(){
+//     document.location = "/admin";
+// });
+//usernameInput = $("#usernameInput");
+// function setActiveMenu() {
+//     var url;
+//     url = window.location.pathname;
+//     $('#menu').children('li').removeClass();
+//     $('#menu').find('a[href="' + url + '"]').parent().addClass('active');    
+// }
+// // function setLinks () {
+// //     controller.setLinks();
+// //     setActiveMenu();
+// // }
+// function showLogin () {
+//     usernameInput.val('');
+//     $('.login').slideDown("normal");
+//     usernameInput.focus();
+//     return false;
+// }  
+// function hideLogin() {
+//     $('.login').slideUp("normal");  
+// }
+// function setWelcome(){
+//     var text;
+//     $("#welcome").hide();
+//     text = username.length > 0 ? "welcome " + username :  "";
+//     $("#welcome").text(text);
+//     $("#welcome").show('slow');
+// }
+// function setLoginControls(user) {
+//     $('#loginMenu').click(showLogin); 
+//     $('#logoutMenu').click(function () {
+//         controller.logout(doLogout);
+//     }); 
+//     $('body').click(hideLogin);
+//     usernameInput.click(function() {
+//         return false;
+//     });
+//     $('#loginButton').click(function(){
+//         controller.login(usernameInput.val(), doLogin);
+//         return false;
+//     });
+//     if(username.length > 0){
+//         $('#logoutMenu').show();
+//         $('#loginMenu').hide();
+//         hideLogin();
+//         setWelcome();
+//         return;       
+//     } 
+//     $('#loginMenu').show();
+//     $('#logoutMenu').hide();
+//     setWelcome();
+// }
+// function doLogin(user) {
+//     setLoginControls(user);
+//     if(user){
+//         usernameInput.removeClass('hover');
+//         controller.home();
+//         return;
+//     }
+//     usernameInput.focus();
+//     usernameInput.addClass('hover');
+// }
+// function doLogout(user) {
+//     setLoginControls(user);
+//     controller.home();
+// }
+
+var postFunction = function (url, data, callback) {
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: data,
+            success: function (user) {
+                if (callback) {
+                    callback(user);
+                }
+            }
+        });
+    },
+    MainLayout = require('./modules/layouts').MainLayout;
+require('./modules/logincontrol');
+require('./modules/menus');
+require('./modules/routers');
+require('./modules/urls');
+new MainLayout().initialize(window, postFunction);
