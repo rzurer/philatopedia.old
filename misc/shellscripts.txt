@@ -1,0 +1,13 @@
+Fix mongo
+
+$ sudo status mongodb. 
+$ cd /var/lib/mongodb/
+$ sudo rm /var/lib/mongodb/mongod.lock
+$ sudo -u mongodb mongod -f /etc/mongodb.conf --repair
+$ sudo start mongodb
+$ sudo status mongodb
+$ mongo test 
+
+Rename files
+
+rename 's/JPEG$/jpg/' *
