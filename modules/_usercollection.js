@@ -170,7 +170,6 @@ exports.privateMembers = {
 		this.listings.hide();
 		this.setSearchControls();
 		this.setAutoCompletes();		
-		this.search.filterStampListings(function (html) { that.cleanup(html);
-		});
+		this.search.filterStampListings(function (html) { that.cleanup(html);});
 	}
 };

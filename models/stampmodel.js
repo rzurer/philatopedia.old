@@ -175,17 +175,14 @@ stampmodel = {
 	deleteStamp : function (id, callback) {
 		this.Stamp.findById(id, function (err, found) {
 			if (found) {
-				if (callback) {
-					callback({success : true});
-				}
-				// found.remove(function (err) {
-				// 	if (err) {
-				// 		throw err;
-				// 	}
-				// 	if (callback) {
-				// 		callback({success : true});
-				// 	}
-				// });
+				found.remove(function (err) {
+					if (err) {
+						throw err;
+					}
+					if (callback) {
+						callback({success : true});
+					}
+				});
 				return;
 			}
 			if (callback) {
