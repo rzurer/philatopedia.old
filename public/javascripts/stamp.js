@@ -119,7 +119,7 @@ var removeImage = function () {
 			stamp = data.stamp;
 			imageCarousel.setStamp(stamp);
 			imageCarousel.setImageToDefault();
-			removeImgSeekId(1, data.imgSeekId);
+			//removeImgSeekId(1, data.imgSeekId);
 		}
 	});
 };
@@ -457,12 +457,15 @@ var setCurrencyName = function () {
 	}
 };
 var initializeStamp = function () {
+	$(window).bind('load', function () {
+		setTimeout(displayThumbnails, 100);
+	});
+	$(window).bind('beforeunload', upsertStamp);
 	addStampTags(stamp.tags);
 	addCategoryTags(stamp.categories);
 	addCollectionTags(stamp.collections);
 	displaySearchCriteria();
-	$(window).bind('beforeunload', upsertStamp);
-	//displayThumbnails();
+	// displayThumbnails();
 	initialize();
 };
 var initialize = function () {
@@ -472,9 +475,6 @@ var initialize = function () {
 	setImageCarousel(stamp);
 	setAutoCompletes();
 	setIssueDatePicker();
-	$(window).bind('load', function () {
-		setTimeout(displayThumbnails, 50);
-	});
 	assignPopupEvents();
 	getCountryCurrencies();
 	$('#issuedBy').focus();

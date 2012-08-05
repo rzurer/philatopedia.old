@@ -1,5 +1,11 @@
-actions blown away on search
+/usr/local/lib/node_modules/imagemagick/imagemagick.js:96
+            x = v[2].split(/x/);
+ Cannot call method 'split' of undefined
 
+collectionss and tags autocompletes are broken on detail
+remove tag on detail ==> Can't set headers after they are sent. stampmodel.js:234: - couldn't reproduce
+limit size of big image.
+default image is broken again
 
 timeoutI want country search on list
 menu logout login hide show flickers

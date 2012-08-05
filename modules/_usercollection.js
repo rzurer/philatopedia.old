@@ -101,13 +101,16 @@ exports.privateMembers = {
 		that.router.submitToSandbox(stampId, that.isValid, callback);
 	},
 	goToStamp : function () {
-		that.router.goToStamp(that.getStampId(this));
+		var stampId;
+		stampId = that.getStampId(this);
+		that.router.goToStamp(stampId);
 	},
 	deleteStamp : function () {
 		var stampId, target, deleteStampAction, deletedStampContainer, removeContainers, delayedRemoveContainers;
 		target = this;
 		stampId = that.getStampIdForAction(target);
 		that.router.deleteStamp(stampId, function (data) {
+			console.log(data);
 			if (data.success) {
 				deletedStampContainer = that.getStampContainer(target);
 				deleteStampAction = that.getDeleteStampAction(target);
@@ -167,7 +170,6 @@ exports.privateMembers = {
 		});
 	},
 	ready : function () {
-		this.listings.hide();
 		this.setSearchControls();
 		this.setAutoCompletes();		
 		this.search.filterStampListings(function (html) { that.cleanup(html);});

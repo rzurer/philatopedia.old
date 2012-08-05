@@ -54,6 +54,7 @@
 				query.tags.splice(query.tags.indexOf(tag), 1);
 				placeInLocalStorage('collectionOrTagsQuery', query);
 				displaySearchCriteria();
+				console.log("here we are");
 			}
 		}
 		getTagCount(tag, callback);

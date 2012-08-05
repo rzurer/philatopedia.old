@@ -205,7 +205,7 @@ stampmodel = {
 			found = that.copyStamp(found, stamp);
 			found.save(function (err) {
 				if (err) { throw err; }
-				that.addImgSeekIds(found._id);
+				//that.addImgSeekIds(found._id);
 				if (callback) { callback(found); }
 			});
 		});

@@ -67,6 +67,7 @@ function initialize(app, fs, model) {
         }
         if (wanttags) {
           model.stamp.getStampsByTags(userId, tags, callback);
+          return;
         }
         model.stamp.getAllStamps(userId, callback);
     }
@@ -287,7 +288,6 @@ function initialize(app, fs, model) {
         dbId = 1;
         model.stamp.removeStampImage(dbId, stampId, currentImageId, function (result) {
             archiveImageFile(result.imageUrl, function (){
-                console.log(result.imgSeekId);
                 res.send(result);                          
            });
        });
