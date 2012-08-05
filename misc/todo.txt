@@ -1,4 +1,11 @@
-I want country search on list
+Search does not apply on refresh
+actions blown away on search
+
+
+
+
+
+timeoutI want country search on list
 menu logout login hide show flickers
 autofill from matching image
 back button issues
