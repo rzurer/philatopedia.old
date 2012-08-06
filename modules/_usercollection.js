@@ -110,7 +110,6 @@ exports.privateMembers = {
 		target = this;
 		stampId = that.getStampIdForAction(target);
 		that.router.deleteStamp(stampId, function (data) {
-			console.log(data);
 			if (data.success) {
 				deletedStampContainer = that.getStampContainer(target);
 				deleteStampAction = that.getDeleteStampAction(target);

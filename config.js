@@ -1,7 +1,7 @@
 'use strict';
-function configure(app, express) {
+function configure(app, express, flash, browserify) {
     app.configure(function () {
-        var pub, flash = require('connect-flash');;
+        var pub, bundle;
         pub = __dirname + '/public';
         app.set('views', __dirname + '/views');
         app.set('view engine', 'jade');
@@ -19,8 +19,7 @@ function configure(app, express) {
             next();
         });
         app.use(express.static(pub));
-        var browserify = require('browserify');
-        var bundle = browserify(__dirname + '/client.js');
+        bundle = browserify(__dirname + '/client.js');
         app.use(bundle);
     });
     app.configure('development', function () {

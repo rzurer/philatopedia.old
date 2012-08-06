@@ -1,18 +1,19 @@
 'use strict';
-function initialize(app, fs, model) {
+function initialize(app, fs, model, imagemagick) {
     var imageHelper;
     imageHelper = require('./imageHelper');
+    imageHelper.initialize(imagemagick);
     function createStampIdDefaultImageSrcArray(stamps) {
         var stamp, displayProperties, displayProperty, imageInfo, arr, i, j, k;
         arr = [];
         for (i = 0; i < stamps.length; i += 1) {
             stamp = stamps[i];
             displayProperties = stamp.displayProperties;
-            if(displayProperties){
+            if (displayProperties) {
                 for (j = 0; j < displayProperties.length; j += 1) {
                     displayProperty = displayProperties[j];
                     if (displayProperty.name === 'defaultimage') {
-                        if(stamp.imageInfos){
+                        if (stamp.imageInfos) {
                             for (k = 0; k < stamp.imageInfos.length; k += 1) {
                                 imageInfo = stamp.imageInfos[k];
                                 if (String(imageInfo._id) === displayProperty.value) {
@@ -26,17 +27,17 @@ function initialize(app, fs, model) {
         }
         return arr;
     }
-    function createStampIdDefaultImageIdImageSrcArray (stamps) {
+    function createStampIdDefaultImageIdImageSrcArray(stamps) {
         var stamp, displayProperties, displayProperty, imageInfo, arr, i, j, k;
         arr = [];
         for (i = 0; i < stamps.length; i += 1) {
             stamp = stamps[i];
             displayProperties = stamp.displayProperties;
-            if(displayProperties){
+            if (displayProperties) {
                 for (j = 0; j < displayProperties.length; j += 1) {
                     displayProperty = displayProperties[j];
                     if (displayProperty.name === 'defaultimage') {
-                        if(stamp.imageInfos){
+                        if (stamp.imageInfos) {
                             for (k = 0; k < stamp.imageInfos.length; k += 1) {
                                 imageInfo = stamp.imageInfos[k];
                                 if (String(imageInfo._id) === displayProperty.value) {
@@ -50,57 +51,61 @@ function initialize(app, fs, model) {
         }
         return arr;
     }
-    function getStamps (req, callback) {
-        var collection, tags, wantcollection, wanttags, callback, userId;
+    function getStamps(req, callback) {
+        var collection, tags, wantcollection, wanttags, userId;
         userId = req.session.user._id;
         collection = req.param('collection');
         tags = req.param('tags');
-        wantcollection = collection && collection.length && collection.length > 0 ? 1 :0 ;
-        wanttags = tags && tags.length && tags.length > 0 ? 1 :0 ;
+        wantcollection = collection && collection.length && collection.length > 0 ? 1 : 0;
+        wanttags = tags && tags.length && tags.length > 0 ? 1 : 0;
         if (wantcollection && wanttags) {
             model.stamp.getStampsByCollectionAndTags(userId, collection, tags, callback);
             return;
         }
         if (wantcollection) {
             model.stamp.getStampsByCollection(userId, collection, callback);
-           return;
+            return;
         }
         if (wanttags) {
-          model.stamp.getStampsByTags(userId, tags, callback);
-          return;
+            model.stamp.getStampsByTags(userId, tags, callback);
+            return;
         }
         model.stamp.getAllStamps(userId, callback);
     }
-    function loadUser(req, res, next){
-        if(req.session.user){
+    function loadUser(req, res, next) {
+        if (req.session.user) {
             next();
         } else {
             res.redirect('/');
-        }      
-    } 
-    function loadAdminUser(req, res, next){
-        if(req.session.user && req.session.user.isAdmin){
-            next();
-        } else {
-            res.redirect('/');
-        }      
-    } 
-    function getUser(req){
-       return req.session.user ? req.session.user : {};
+        }
     }
-    function archiveImageFile(imageUrl, callback){
+    function loadAdminUser(req, res, next) {
+        if (req.session.user && req.session.user.isAdmin) {
+            next();
+        } else {
+            res.redirect('/');
+        }
+    }
+    function getUser(req) {
+        return req.session.user || {};
+    }
+    function archiveImageFile(imageUrl, callback) {
         var filename, archiveFilename, fileStats, tempPath, archivePath;
         tempPath = 'public/temp/';
         archivePath = 'public/imagearchive/';
         filename = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
         archiveFilename = 'orig_' + filename;
         fs.unlink(tempPath + filename, function (err) {
-           if (err) throw err;
+            if (err) {
+                throw err;
+            }
             fs.rename(tempPath + archiveFilename, archivePath + archiveFilename, function (err) {
-                if (err) throw err;
+                if (err) {
+                    throw err;
+                }
                 callback();
-            });    
-        });          
+            });
+        });
     }
     app.get('/', function (req, res) {
         res.render('index', {user: getUser(req)});
@@ -108,7 +113,7 @@ function initialize(app, fs, model) {
     app.get('/currencies', loadUser, function (req, res) {
         res.render('currencies', {user:  getUser(req)});
     });
-    app.get('/stamps/usercollection', loadUser ,  function (req, res) {
+    app.get('/stamps/usercollection', loadUser, function (req, res) {
         var callback, arr;
         callback = function (stamps) {
             arr = createStampIdDefaultImageSrcArray(stamps);
@@ -117,11 +122,11 @@ function initialize(app, fs, model) {
         getStamps(req, callback);
     });
     app.get('/stamps/sandbox', loadUser, function (req, res) {
-       model.referencestamp.getAllSandboxStamps(function (sandboxstamps) {
+        model.referencestamp.getAllSandboxStamps(function (sandboxstamps) {
             var arr;
             arr = createStampIdDefaultImageSrcArray(sandboxstamps);
             res.render('stamps/sandbox', {sandboxstamps : sandboxstamps, arr : arr, user: getUser(req)});
-        })        
+        });
     });
     app.get('/stamps/new', loadUser, function (req, res) {
         var stamp, user;
@@ -150,42 +155,42 @@ function initialize(app, fs, model) {
             model.user.getAllUsers(function (users) {
                 res.render('admin', {newUser: newUser, catalog: catalog, catalogs : catalogs, users : users, user: getUser(req)});
             });
-        });                  
+        });
     });
     app.get('/stamps/:key/:value', loadUser, function (req, res) {
         var key, value, arr;
         key =  req.param('key');
         value =  req.param('value');
-        model.stamp.getStampsByKeyAndValue(key, value, function(stamps){
+        model.stamp.getStampsByKeyAndValue(key, value, function (stamps) {
             arr = createStampIdDefaultImageSrcArray(stamps);
             res.render('stamps/usercollection', {stamps : stamps, arr : arr, user: getUser(req)});
-        })
+        });
     });
     app.get('/stamps/albumpage', loadUser, function (req, res) {
-        res.render('stamps/albumpage',{user: getUser(req)});
+        res.render('stamps/albumpage', {user: getUser(req)});
     });
     app.get('/upload', loadUser, function (req, res) {
-       res.render('stamps/upload');
+        res.render('stamps/upload');
     });
     app.get('/test', loadAdminUser,  function (req, res) {
-        res.render('test',{user: getUser(req)});
+        res.render('test', {user: getUser(req)});
     });
     app.post('/getUser', function (req, res) {
-        res.send(req.session.user);    
+        res.send(req.session.user);
     });
     app.post('/login', function (req, res) {
-       var username;
-       req.session.user = null;
-       username = req.param('username');
-       model.user.getUser(username, function(user){
+        var username;
+        req.session.user = null;
+        username = req.param('username');
+        model.user.getUser(username, function (user) {
             req.session.user = user;
-            res.send(req.session.user);    
-       })
+            res.send(req.session.user);
+        });
     });
     app.post('/logout', function (req, res) {
-       req.session.user = null;
-       res.send(req.session.user);    
-    });   
+        req.session.user = null;
+        res.send(req.session.user);
+    });
     app.post('/stamps', function (req, res) {
         var id, stamp, userId;
         userId = req.session.user._id;
@@ -207,9 +212,9 @@ function initialize(app, fs, model) {
     app.post('/filterStampListings', function (req, res) {
         var getStampsCallback;
         getStampsCallback = function (stamps) {
-          res.render("stamps/_stamplisting", {stamps : stamps}, function(err, html) {
-            res.send(html);
-          }); 
+            res.render("stamps/_stamplisting", {stamps : stamps}, function (err, html) {
+                res.send(html);
+            });
         };
         getStamps(req, getStampsCallback);
     });
@@ -221,15 +226,15 @@ function initialize(app, fs, model) {
             res.send(array);
         };
         getStamps(req, callback);
-    }); 
+    });
     app.post('/submitToSandbox', function (req, res) {
-       var stamp = req.param('stamp');
+        var stamp = req.param('stamp');
         model.referencestamp.submitToSandbox(stamp, function () {
             res.send({message: "success"});
         });
     });
     app.post('/upsertStamp', function (req, res) {
-        var stamp = req.param('stamp');   
+        var stamp = req.param('stamp');
         model.stamp.upsertStamp(stamp._id, stamp, function (data) {
             res.send(data);
         });
@@ -237,8 +242,8 @@ function initialize(app, fs, model) {
     app.post('/deleteStamp', function (req, res) {
         var id;
         id = req.param('id');
-        model.stamp.deleteStamp(id, function (data){
-            res.send(data);         
+        model.stamp.deleteStamp(id, function (data) {
+            res.send(data);
         });
     });
     app.post('/identify', function (req, res) {
@@ -267,30 +272,29 @@ function initialize(app, fs, model) {
             res.send({tempPath : tempPath, height: height, width: width});
         });
     });
-    function removeImageFromImgSeek(dbId, imgSeekId, callback){
+    function removeImageFromImgSeek(dbId, imgSeekId, callback) {
         model.stamp.removeImageFromImgSeek(dbId, imgSeekId, function (result) {
-            callback('removed image # '+ result);
-        })        
+            callback('removed image # ' + result);
+        });
     }
     app.post('/removeImgSeekId', function (req, res) {
         var dbId, imgSeekId;
         dbId = req.param('dbId');
         imgSeekId = req.param('imgSeekId');
-        removeImageFromImgSeek(dbId, imgSeekId, function(removed){
-            res.send({removed: removed});                          
-        })
+        removeImageFromImgSeek(dbId, imgSeekId, function (removed) {
+            res.send({removed: removed});
+        });
     });
-    
     app.post('/removeStampImage', function (req, res) {
         var stampId, currentImageId, result, dbId;
         stampId = req.param('stampId');
         currentImageId = req.param('currentImageId');
         dbId = 1;
         model.stamp.removeStampImage(dbId, stampId, currentImageId, function (result) {
-            archiveImageFile(result.imageUrl, function (){
-                res.send(result);                          
-           });
-       });
+            archiveImageFile(result.imageUrl, function () {
+                res.send(result);
+            });
+        });
     });
     // app.post('/removeImageFile', function (req, res) {
     //     var filename, fileStats, tempPath;
@@ -396,14 +400,14 @@ function initialize(app, fs, model) {
         model.country.updateCurrencies(id, currencies, function () {
             res.send("currencies updated");
         });
-    });   
+    });
     app.post('/getCountryCurrencies', function (req, res) {
         var countryName;
         countryName = req.param('countryName');
         model.country.getCountryCurrencies(countryName, function (currencies) {
-            res.send({currencies :currencies});
+            res.send({currencies : currencies});
         });
-    });   
+    });
     app.post('/saveCountries', function (req, res) {
         var countries;
         countries = req.param('countries');
@@ -433,20 +437,19 @@ function initialize(app, fs, model) {
             res.send({tags: tags});
         });
     });
-    app.post('/getTagCount',function (req, res) {
+    app.post('/getTagCount', function (req, res) {
         var tag;
-        tag = req.param('tag');       
-        model.stamp.getTagCount(tag, function(data){
+        tag = req.param('tag');
+        model.stamp.getTagCount(tag, function (data) {
             res.send(data);
-        })
-        
+        });
     });
     app.post('/getCollectionCount', function (req, res) {
         var collection;
         collection = req.param('collection');
-        model.stamp.getCollectionCount(collection, function(data){
+        model.stamp.getCollectionCount(collection, function (data) {
             res.send(data);
-        })       
+        });
     });
     app.post('/getDistinctCollections', function (req, res) {
         model.stamp.getDistinctCollections(function (collections) {
@@ -461,8 +464,7 @@ function initialize(app, fs, model) {
         });
     });
     app.post('/getImagesByImgSeekId', function (req, res) {
-        var ids
-        ids= req.param('ids');
+        var ids = req.param('ids');
         model.stamp.getImagesByImgSeekId(ids, function (value) {
             res.send(value);
         });
