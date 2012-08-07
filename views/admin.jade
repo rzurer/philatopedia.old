@@ -9,7 +9,8 @@ block content
 			button(id='upsertCatalogButton', onclick='upsertCatalog()') Save Catalog
 		.admin-catalog-list
 			h4 Catalogs
-			#catalogs!= partial('stamps/_catalog', catalogs)
+			#catalogs
+				include stamps/_catalog
 		.admin-user
 			label User Name: 
 			input#username.styled(type='text')
@@ -18,7 +19,8 @@ block content
 			button(id='upsertUserButton', onclick='upsertUser()') Save User
 		.admin-user-list
 			h4 Users
-			#users!= partial('stamps/_user', users)
+			#users
+				include stamps/_user
 		.admin-currency
 			button(onclick='document.location="/currencies"') Currencies
 		.admin-imgseek

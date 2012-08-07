@@ -34,6 +34,17 @@ mongodb://nodejitsu:9149931d667e323b3c0b16653335f61b@alex.mongohq.com:10021/node
 
 nodejitsu:9149931d667e323b3c0b16653335f61b@alex.mongohq.com:10021
 
+$ mongo subdomain.mongohq.com:100027/somedatabase -u nodejitsu -p pass
+mongoose.connect('mongodb://nodejitsu:pass@subdomain.mongohq.com:10057/somedatabase');
+
+zurer@ubuntu:~/projects/philatopedia$ mongo -u nodejitsu -p 9149931d667e323b3c0b16653335f61b alex.mongohq.com:10021/nodejitsudb229917654737
+MongoDB shell version: 2.0.4
+connecting to: alex.mongohq.com:10021/nodejitsudb229917654737
+> show collections
+system.indexes
+system.users
+> 
+
 
 
 zurer@ubuntu:~/projects/philatopedia$ mongo -u nodejitsu -p 9149931d667e323b3c0b16653335f61b alex.mongohq.com:10021/nodejitsudb229917654737
@@ -56,6 +67,9 @@ system.users
 //             console.log('exec error: ' + error);getStampContainer
 //         }
 //     });
+
+git push origin master
+
 
 
 collectionss and tags autocompletes are broken on detail
@@ -116,3 +130,47 @@ Defining a primary key for a stamp
 		If the issue year is not the same
 	The stamps are probably not the same
 		If no image is greater than a ??% match
+
+knox@0.1.0 /usr/local/lib/node_modules/knox current=0.0.11
+
+graceful-fs@1.1.10 /usr/local/lib/node_modules/jitsu/node_modules/npm/node_modules/graceful-fs current=1.1.8
+graceful-fs@1.1.10 /usr/local/lib/node_modules/jitsu/node_modules/npm/node_modules/fstream/node_modules/graceful-fs current=1.1.8
+graceful-fs@1.1.10 /usr/local/lib/node_modules/jitsu/node_modules/require-analyzer/node_modules/npm/node_modules/graceful-fs current=1.1.5
+
+minimatch@0.2.5 /usr/local/lib/node_modules/jitsu/node_modules/npm/node_modules/minimatch current=0.2.2
+minimatch@0.2.5 /usr/local/lib/node_modules/jitsu/node_modules/require-analyzer/node_modules/npm/node_modules/minimatch current=0.1.5
+
+rimraf@2.0.2 /usr/local/lib/node_modules/jitsu/node_modules/npm/node_modules/rimraf current=2.0.1
+rimraf@2.0.2 /usr/local/lib/node_modules/jitsu/node_modules/require-analyzer/node_modules/npm/node_modules/rimraf current=2.0.1
+rimraf@2.0.2 /usr/local/lib/node_modules/jitsu/node_modules/npm/node_modules/fstream/node_modules/rimraf current=2.0.1
+
+request@2.9.203 /usr/local/lib/node_modules/jitsu/node_modules/flatiron/node_modules/broadway/node_modules/winston/node_modules/request current=2.9.100
+request@2.9.203 /usr/local/lib/node_modules/jitsu/node_modules/flatiron/node_modules/prompt/node_modules/winston/node_modules/request current=2.9.100
+request@2.9.203 /usr/local/lib/node_modules/jitsu/node_modules/wizard/node_modules/prompt/node_modules/winston/node_modules/request current=2.9.100
+request@2.9.203 /usr/local/lib/node_modules/jitsu/node_modules/require-analyzer/node_modules/winston/node_modules/loggly/node_modules/request current=2.9.100
+request@2.9.203 /usr/local/lib/node_modules/jitsu/node_modules/require-analyzer/node_modules/npm/node_modules/request current=2.9.153
+
+block-stream@0.0.6 /usr/local/lib/node_modules/jitsu/node_modules/npm/node_modules/block-stream current=0.0.5
+block-stream@0.0.6 /usr/local/lib/node_modules/jitsu/node_modules/npm/node_modules/tar/node_modules/block-stream current=0.0.5
+block-stream@0.0.6 /usr/local/lib/node_modules/jitsu/node_modules/require-analyzer/node_modules/npm/node_modules/block-stream current=0.0.5
+
+mkdirp@0.3.3 /usr/local/lib/node_modules/jitsu/node_modules/npm/node_modules/mkdirp current=0.3.0
+mkdirp@0.3.3 /usr/local/lib/node_modules/jitsu/node_modules/npm/node_modules/fstream/node_modules/mkdirp current=0.3.0
+mkdirp@0.3.3 /usr/local/lib/node_modules/jitsu/node_modules/require-analyzer/node_modules/npm/node_modules/mkdirp current=0.3.0
+
+semver@1.0.14 /usr/local/lib/node_modules/jitsu/node_modules/npm/node_modules/semver current=1.0.13
+semver@1.0.14 /usr/local/lib/node_modules/jitsu/node_modules/require-analyzer/node_modules/semver current=1.0.13
+semver@1.0.14 /usr/local/lib/node_modules/jitsu/node_modules/require-analyzer/node_modules/npm/node_modules/semver current=1.0.13
+
+node-gyp@0.3.11 /usr/local/lib/node_modules/jitsu/node_modules/npm/node_modules/node-gyp current=0.3.9
+
+read@0.1.1 /usr/local/lib/node_modules/jitsu/node_modules/npm/node_modules/read current=0.0.2
+read@0.1.1 /usr/local/lib/node_modules/jitsu/node_modules/require-analyzer/node_modules/npm/node_modules/read current=0.0.1
+
+lru-cache@1.1.1 /usr/local/lib/node_modules/jitsu/node_modules/npm/node_modules/lru-cache current=1.0.5
+lru-cache@1.1.1 /usr/local/lib/node_modules/jitsu/node_modules/require-analyzer/node_modules/npm/node_modules/lru-cache current=1.0.5
+
+fstream-npm@0.1.1 /usr/local/lib/node_modules/jitsu/node_modules/npm/node_modules/fstream-npm current=0.0.4
+fstream@0.1.18 /usr/local/lib/node_modules/jitsu/node_modules/require-analyzer/node_modules/npm/node_modules/fstream current=0.1.12
+
+tar@0.1.13 /usr/local/lib/node_modules/jitsu/node_modules/require-analyzer/node_modules/npm/node_modules/tar current=0.1.12

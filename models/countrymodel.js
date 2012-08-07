@@ -1,5 +1,6 @@
 "use strict";
-var countrymodel, CurrencySchema, CountrySchema;
+var countrymodel, CurrencySchema, CountrySchema, that;
+that = this;
 function getCountryName(country) {
 	return country.name;
 }
@@ -27,7 +28,7 @@ countrymodel = {
 		}
 		countries.forEach(function (element) {
 			var country;
-			country = new this.Country({name : element});
+			country = new that.Country({name : element});
 			country.save(function (err) {
 				if (err) {throw err; }
 			});

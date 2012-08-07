@@ -147,7 +147,7 @@ function initialize(app, fs, model, imagemagick) {
             });
         });
     });
-    app.get('/admin', loadAdminUser, function (req, res) {
+    app.get('/admin', function (req, res) { //loadAdminUser, 
         var catalog, newUser;
         catalog = new model.catalog.Catalog();
         newUser = new model.user.User();

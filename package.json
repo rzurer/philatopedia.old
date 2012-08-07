@@ -1,0 +1,20 @@
+{
+  "name": "philatopedia",
+  "subdomain": "bzurer.philatopedia",
+  "scripts": {
+    "start": "app.js"
+  },
+  "version": "0.0.0-4",
+  "engines": {
+    "node": "0.6.x"
+  },
+  "dependencies": {
+    "express": "*",
+    "jade": "*",
+    "mongoose": "*",
+    "imagemagick": "*",
+    "xmlrpc": "*",
+    "connect-flash": "*",
+    "browserify": "*"
+  }
+}
