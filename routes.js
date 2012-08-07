@@ -1,7 +1,7 @@
 'use strict';
 function initialize(app, fs, model, imagemagick) {
     var imageHelper;
-    imageHelper = require('./imageHelper');
+    imageHelper = require('./modules/imageHelper');
     imageHelper.initialize(imagemagick);
     function createStampIdDefaultImageSrcArray(stamps) {
         var stamp, displayProperties, displayProperty, imageInfo, arr, i, j, k;

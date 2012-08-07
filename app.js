@@ -1,5 +1,5 @@
 'use strict';
-var local = false,
+var local = true,
     application,
     express = require('express'),//3.0.0rc2
     fs = require('fs'),

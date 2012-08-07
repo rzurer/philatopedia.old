@@ -1,84 +1,8 @@
-/usr/local/lib/node_modules/imagemagick/imagemagick.js:96
-            x = v[2].split(/x/);
- Cannot call method 'split' of undefined
 
- Welcome to the Public Beta! 
-  
-Your Nodejitsu account is activated and ready to go! 
-  
-username: bzurer 
-  
-To confirm your account, install the latest jitsu: 
-  
-        sudo npm install jitsu -g 
-  
-and then run: 
-  
-        jitsu users confirm bzurer 0d9fe722-064e-45b0-9f5b-bad7461f340d 
-  
-This will allow you to deploy applications with: 
-  
-        jitsu deploy 
-  
-If you have any questions or support issues, please feel free to reach out to us at support@nodejitsu.com or join #nodejitsu on irc.freenode.net! 
-
-mongodb://nodejitsu:9149931d667e323b3c0b16653335f61b@alex.mongohq.com:10021/nodejitsudb229917654737
-
-
- user: 'nodejitsu',
-       pass: '9149931d667e323b3c0b16653335f61b',
-       name: 'nodejitsudb229917654737',
-       host: 'alex.mongohq.com',
-       port: '10021',
-
-
-nodejitsu:9149931d667e323b3c0b16653335f61b@alex.mongohq.com:10021
-
-$ mongo subdomain.mongohq.com:100027/somedatabase -u nodejitsu -p pass
-mongoose.connect('mongodb://nodejitsu:pass@subdomain.mongohq.com:10057/somedatabase');
-
-zurer@ubuntu:~/projects/philatopedia$ mongo -u nodejitsu -p 9149931d667e323b3c0b16653335f61b alex.mongohq.com:10021/nodejitsudb229917654737
-MongoDB shell version: 2.0.4
-connecting to: alex.mongohq.com:10021/nodejitsudb229917654737
-> show collections
-system.indexes
-system.users
-> 
-
-
-
-zurer@ubuntu:~/projects/philatopedia$ mongo -u nodejitsu -p 9149931d667e323b3c0b16653335f61b alex.mongohq.com:10021/nodejitsudb229917654737
-MongoDB shell version: 2.0.4
-connecting to: alex.mongohq.com:10021/nodejitsudb229917654737
-> show dbs
-Sun Aug  5 17:33:32 uncaught exception: listDatabases failed:{ "errmsg" : "need to login", "ok" : 0 }
-> show collections
-system.indexes
-system.users
-> 
-
-//image seek child process
-// var exec = require('child_process').exec,
-//     child = exec('iskdaemon.py',
-//     function (error, stdout, stderr) {setTimeout
-//         console.log('stdout: ' + stdout);
-//         console.log('stderr: ' + stderr);
-//         if (error !== null) {
-//             console.log('exec error: ' + error);getStampContainer
-//         }
-//     });
-
-git push origin master
-
-
-
-collectionss and tags autocompletes are broken on detail
-remove tag on detail ==> Can't set headers after they are sent. stampmodel.js:234: - couldn't reproduce
 limit size of big image.
 default image is broken again
 
-timeoutI want country search on list
-menu logout login hide show flickers
+I want country search on list
 autofill from matching image
 back button issues
 Cannot read property '_id' of null
