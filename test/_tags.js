@@ -6,20 +6,17 @@ var sut = require('../modules/_tags').internals,
 	controls,
 	func = function () {},
 	setup = function () {
-		Array.prototype.each = [].forEach;
 		controls = {
 			template : {clone : function () { return { removeClass : func, addClass : func, children : function () {return {text : func, click : func}; }, appendTo : func }; }},
 			localTagsContainer : {css : func},
-			localTaglabels : [{text : function () {return 'a'; }}, {text : function () {return 'b'; }}, {text : function () {return 'c'; }}]
+			getLocalTaglabels : function (tagValues) {
+				return [{innerText :'a'}, {innerText :'b'}, {innerText :'c'}]
+			}
 		};
 		sut.initialize(controls);
-	},
-	teardown = function () {
-		delete Array.prototype.each;
 	};
 describe('LocalTagsInternals', function () {
 	beforeEach(setup);
-	afterEach(teardown);
 	describe('#createTagFromTemplate', function () {
 		it("should create new tag from template", function () {
 			var spy = sinon.spy(controls.template, "clone");

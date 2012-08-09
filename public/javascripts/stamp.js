@@ -385,7 +385,7 @@ var setImageCarousel = function () {
 		imageCarousel.addImageInfo(img);
 	});
 	$("#defaultimage").change(function (evt) {
-		getDefaultImage();
+		setDefaultImage();
 	});
 	imageCarousel.setImageToDefault();
 	imageCarousel.setDefaultImageCheckbox();

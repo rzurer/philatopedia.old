@@ -93,7 +93,7 @@ var picklists = {
 	getTags: function() {
 		var tags;
 		this.getDistinctTags(function(data) {
-			tags = data;
+			tags = data.tags;
 		})
 		return tags;
 	},
@@ -116,7 +116,7 @@ var picklists = {
 	getCollections: function() {
 		var collections;
 		this.getDistinctCollections(function(data) {
-			collections = data;
+			collections = data.collections;
 		})
 		return collections;
 	},

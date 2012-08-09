@@ -11,3 +11,5 @@ $ mongo test
 Rename files
 
 rename 's/JPEG$/jpg/' *
+
+git push origin master

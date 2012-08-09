@@ -1,0 +1,1 @@
+_tags getLocalTagsValues each ==> forEach

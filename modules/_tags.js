@@ -19,7 +19,7 @@ exports.internals = {
 		tag.appendTo(container);
 	},
 	getLocalTagsValues : function (tagValues) {
-		controls.getLocalTaglabels().each(function (index, element) {
+		controls.getLocalTaglabels().forEach(function (element) {
 			tagValues.push(element.innerText);
 		});
 		return tagValues;
