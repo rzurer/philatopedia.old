@@ -1,7 +1,0 @@
- user: 'nodejitsu',
-       pass: '9149931d667e323b3c0b16653335f61b',
-       name: 'nodejitsudb229917654737',
-       host: 'alex.mongohq.com',
-       port: '10021',
- jitsu users confirm bzurer 0d9fe722-064e-45b0-9f5b-bad7461f340d 
- jitsu deploy 

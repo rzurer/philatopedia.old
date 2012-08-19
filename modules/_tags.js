@@ -3,9 +3,9 @@ var controls = {}, that;
 exports.internals = {
 	initialize : function (tagControls) {
 		that = this;
-		controls.template = tagControls.template;//.taglabeltemplate
-		controls.localTagsContainer = tagControls.localTagsContainer;//.localTaglabels
-		controls.getLocalTaglabels = tagControls.getLocalTaglabels;//'.localTaglabels > .localTaglabel label'
+		controls.template = tagControls.template;
+		controls.localTagsContainer = tagControls.localTagsContainer;
+		controls.getLocalTaglabels = tagControls.getLocalTaglabels;
 	},
 	createTagFromTemplate : function (classname) {
 		var tag = controls.template.clone();
@@ -19,7 +19,8 @@ exports.internals = {
 		tag.appendTo(container);
 	},
 	getLocalTagsValues : function (tagValues) {
-		controls.getLocalTaglabels().forEach(function (element) {
+		var labels = controls.getLocalTaglabels();
+		labels.each(function (index, element) {
 			tagValues.push(element.innerText);
 		});
 		return tagValues;

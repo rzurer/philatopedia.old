@@ -18,7 +18,6 @@ model.initialize(mongoose, xmlrpc, url);
 config.configure(app, express, flash, browserify);
 routes.initialize(app, fs, model, imagemagick);
 application = app.listen(3000);
-if(local) {
-    console.log("url: " + url);
+if (local) {
     console.log('Express service listening on port %d, environment: %s', application.address().port, app.settings.env);   
 }

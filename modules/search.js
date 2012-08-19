@@ -15,8 +15,7 @@ exports.search = {
 		methods.initializeControls(searchControls);
 	},
 	filterStampListings : function (callback) {
-		var query, filterStampListingsCallback;
-		query = common.getFromLocalStorage('collectionOrTagsQuery');
+		var query = common.getFromLocalStorage('collectionOrTagsQuery');
 		if (!query) {
 			query = methods.createQuery();
 		}

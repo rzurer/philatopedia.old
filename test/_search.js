@@ -2,6 +2,7 @@
 /*global  describe, beforeEach, it, afterEach*/
 var assert = require('assert'),
 	sinon = require('sinon'),
+	$ = require('jquery'),
 	sut = require('../modules/_search').privateMembers,
 	tags = require('../modules/tags').tags,
 	tagsInternals = require('../modules/_tags').internals,
@@ -11,11 +12,13 @@ var assert = require('assert'),
 	localStorage,
 	func = function () {},
 	setup = function () {
-		Array.prototype.each = [].forEach;
 		tagControls = {
-			localTaglabels : [{text : function () {return 'birds'; }}, {text : function () {return 'bees'; }}]
+			getLocalTaglabels : function (tagValues) {
+				return $([{innerText : 'birds'}, {innerText : 'bees'}]);
+			}
 		};
-		tags.initialize(tagControls, tagsInternals);
+		tags.initialize(tagsInternals);
+		tags.initializeControls(tagControls);
 		controls = {
 			collectionsource : {val : function () {return 'animals and insects'; }}
 		};
@@ -23,13 +26,9 @@ var assert = require('assert'),
 		common.initialize(localStorage);
 		sut.initialize(tags, common);
 		sut.initializeControls(controls);
-	},
-	teardown = function () {
-		delete Array.prototype.each;
 	};
 describe('SearchInternals', function () {
 	beforeEach(setup);
-	afterEach(teardown);
 	describe('#createQuery', function () {
 		it("should get collection from collection entry control) ", function () {
 			var spy;

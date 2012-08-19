@@ -2,6 +2,7 @@
 "use strict";
 var sut = require('../modules/search').search,
 	common  = require('../modules/common').Common,
+	$ = require('jquery'),
 	internals = require('../modules/_search').privateMembers,
 	router = require('../modules/routers').SearchRouter,
 	urls = require('../modules/urls').Urls,
@@ -17,11 +18,15 @@ var sut = require('../modules/search').search,
 	window = {},
 	postFunction = function () {return 'posted'; },
 	setup = function () {
-		Array.prototype.each = [].forEach;
 		query = {collection : "gb", tags : ['a', 'b', 'c']},
 		localStorage = {removeItem : func, collectionOrTagsQuery : query},
-		tagControls = {localTaglabels : []};
-		tags.initialize(tagControls, tagInternals);
+		tagControls = {
+			getLocalTaglabels : function (tagValues) {
+				return $([{innerText : 'birds'}, {innerText : 'bees'}]);
+			}
+		};
+		tags.initialize(tagInternals);
+		tags.initializeControls(tagControls);
 		common.initialize(localStorage);
 		router.initialize(urls, postFunction);
 		controls = {
@@ -31,13 +36,9 @@ var sut = require('../modules/search').search,
 		};
 		sut.initialize(internals, common, router, tags);
 		sut.initializeControls(controls);
-	},
-	teardown = function () {
-		delete Array.prototype.each;
 	};
 describe('SearchEngine', function () {
 	beforeEach(setup);
-	afterEach(teardown);
 	describe('#createQueryAndSearch', function () {
 		it("should create search criteria", function () {
 			var spy;
@@ -107,14 +108,14 @@ describe('SearchEngine', function () {
 				router.filterStampListings.restore();
 			});
 			it("should display the new search criteria", function () {
-				var routerSpy, internalsSpy;
-				routerSpy = sinon.spy(router, 'filterStampListings');
-				internalsSpy = sinon.spy(internals, 'displaySearchCriteria');
+				var spy, stub;
+				spy = sinon.spy(router, 'filterStampListings');
+				stub = sinon.stub(common, 'getFromLocalStorage');
+				stub.returns(query);
 				sut.filterStampListings(func);
-				routerSpy.args[0][1]();
-				assert(internalsSpy.withArgs(func).calledOnce);
+				sinon.assert.calledWith(spy, query, func)
 				router.filterStampListings.restore();
-				internals.displaySearchCriteria.restore();
+			    common.getFromLocalStorage.restore();
 			});
 		});
 	});

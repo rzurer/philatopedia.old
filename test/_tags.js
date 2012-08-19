@@ -1,6 +1,7 @@
 /*global  describe, it, beforeEach, afterEach*/
 "use strict";
 var sut = require('../modules/_tags').internals,
+	$ = require('jquery'),
 	assert = require('assert'),
 	sinon = require('sinon'),
 	controls,
@@ -10,13 +11,17 @@ var sut = require('../modules/_tags').internals,
 			template : {clone : function () { return { removeClass : func, addClass : func, children : function () {return {text : func, click : func}; }, appendTo : func }; }},
 			localTagsContainer : {css : func},
 			getLocalTaglabels : function (tagValues) {
-				return [{innerText :'a'}, {innerText :'b'}, {innerText :'c'}]
-			}
+				return $([{innerText : 'a'}, {innerText : 'b'}, {innerText : 'c'}]);
+			},
 		};
 		sut.initialize(controls);
+	},
+	teardown = function () {
+		controls = null;
 	};
 describe('LocalTagsInternals', function () {
 	beforeEach(setup);
+	afterEach(teardown);
 	describe('#createTagFromTemplate', function () {
 		it("should create new tag from template", function () {
 			var spy = sinon.spy(controls.template, "clone");

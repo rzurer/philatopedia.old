@@ -7,14 +7,14 @@ exports.tags = {
 		methods = internals;
 	},
 	initializeControls : function (tagControls) {
-		controls.tagsource = tagControls.tagsource;//'.tagsource'
-		controls.getLocalTags = tagControls.getLocalTags;//'.localTaglabels > div'
-		controls.addLocalTagControl = tagControls.addLocalTagControl;//'#addTag'
+		controls.tagsource = tagControls.tagsource;
+		controls.getLocalTags = tagControls.getLocalTags;
+		controls.addLocalTagControl = tagControls.addLocalTagControl;
 		methods.initialize(tagControls);
 	},
 	deleteLocalTag  : function () {
 		var parent;
-		parent = this.parentNode; //tag.parent();
+		parent = this.parentNode;
 		parent.parentNode.removeChild(parent);
 		methods.showHideLocalTagsBorder();
 	},
