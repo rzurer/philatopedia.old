@@ -59,7 +59,7 @@ exports.StampRouter = {
         stampRouterPostFunction = PostFunction;
     },
     getStamp : function (stampId, callback) {
-       stampRouterPostFunction(urls.getStamp, { id: stampId}, callback);
+       stampRouterPostFunction(urls.getStamp, { id: stampId }, callback);
     },
     submitToSandbox : function (stampId, isValid, callback) {
         this.getStamp(stampId, function (stamp) {

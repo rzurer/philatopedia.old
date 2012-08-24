@@ -5,18 +5,22 @@ var assert = require('assert'),
 	sut = require('../modules/usercollection').UserCollection,
     internals = require('../modules/_usercollection').privateMembers,
     setup = function () {
+    	var tags = {initializeControls : function () {}},
+			search = {initializeControls : function () {}};
 		sut.initialize(internals);
+		internals.initialize(null, tags, search)
     };
 describe('UserCollection', function () {
 	beforeEach(setup);
 	describe('#initializeControls', function () {
 		it("should initialize internal controls", function () {
 			var controls, spy;
-			controls = {value : 1};
 			spy = sinon.spy(internals, "initializeControls");
+    		controls = {tagControls : {}};
 			sut.initializeControls(controls);
-			assert(spy.withArgs(controls).calledOnce);
 			internals.initializeControls.restore();
+			
+			assert(spy.withArgs(controls).calledOnce);
 		});
 	});
 	describe('#reader', function () {

@@ -5,6 +5,7 @@ var mainLayoutRouter = require('../modules/routers').MainLayoutRouter,
 	searchRouter = require('../modules/routers').SearchRouter,
 	stampRouter = require('../modules/routers').StampRouter,
 	urls = require('../modules/urls').Urls,
+	sinon = require('sinon'),
 	assert = require('assert'),
 	window = {},
 	mainLayoutRouter,
@@ -119,66 +120,79 @@ describe('Routers', function () {
 	});
 	describe('StampRouter', function () {
 		describe('#submitToSandbox', function () {
-			var isValid;
+			it("should get stamp", function () {
+				var spy, stampId;
+				stampId = 42;
+				spy = sinon.spy(stampRouter, 'getStamp');
+				stampRouter.submitToSandbox(stampId, null,  null);
+				sinon.assert.calledWith(spy, stampId);
+				stampRouter.getStamp.restore();
+			});
 			describe('when stamp is valid', function () {
 				it("should post with expected arguments", function () {
-					var expected, stamp;
-					stamp = {id : 1};
-					expected = {stamp : stamp};
+					var stub, stamp, isValid, stampId, expected;
+					stub = sinon.stub(stampRouter, 'getStamp');
+					stampId = 42;
+					stamp = {stamp : stampId};
 					isValid = function (stamp) {
-						return true;
+					 	return true;
 					};
-					stampRouter.submitToSandbox(stamp, isValid,  callback);
+					stub.yields(stampId);
+					stampRouter.submitToSandbox(stampId, isValid,  callback);
 					assert.strictEqual(urlArg, urls.submitToSandbox);
-					assert.deepEqual(dataArg, expected);
+					assert.deepEqual(dataArg, stamp);
 					assert.strictEqual(callbackArg, callback);
+					stampRouter.getStamp.restore();
 				});
 			});
 			describe('when stamp is not valid', function () {
 				it("should not post", function () {
-					var expected, stamp;
-					stamp = {id : 1};
-					expected = {stamp : stamp};
+					var stub, stamp, isValid, stampId, expected;
+					stub = sinon.stub(stampRouter, 'getStamp');
+					stampId = 42;
+					stamp = {stamp : stampId};
 					isValid = function (stamp) {
-						return false;
+					 	return false;
 					};
-					stampRouter.submitToSandbox(stamp, isValid,  callback);
+					stub.yields(stampId);
+					stampRouter.submitToSandbox(stampId, isValid,  callback);
 					assert.strictEqual(urlArg, null);
 					assert.deepEqual(dataArg, null);
 					assert.strictEqual(callbackArg, null);
+					stampRouter.getStamp.restore();
 				});
+			});
+		});
+		describe('#goToStamp', function () {
+			it("should set to window.location to urls usercollection", function () {
+				var id = 42;
+				stampRouter.goToStamp(id);
+				assert.strictEqual(window.location, urls.goToStamp(42));
+			});
+		});
+		describe('#getStamp', function () {
+			it("should post with expected arguments", function () {
+				var id, expected;
+				id = 42;
+				expected = {id : id};
+				stampRouter.getStamp(id, callback);
+				assert.strictEqual(urlArg, urls.getStamp);
+				assert.deepEqual(dataArg, expected);
+				assert.strictEqual(callbackArg, callback);
+			});
+		});
+		describe('#deleteStamp', function () {
+			it("should post with expected arguments", function () {
+				var id, expected;
+				id = 42;
+				expected = {id : id};
+				stampRouter.deleteStamp(id, callback);
+				assert.strictEqual(urlArg, urls.deleteStamp);
+				assert.deepEqual(dataArg, expected);
+				assert.strictEqual(callbackArg, callback);
 			});
 		});
 	});
 
-	describe('#goToStamp', function () {
-		it("should set to window.location to urls usercollection", function () {
-			var stamp = {id : 42};
-			stampRouter.goToStamp(stamp);
-			assert.strictEqual(window.location, urls.goToStamp(42));
-		});
-	});
-	describe('#getStamp', function () {
-		it("should post with expected arguments", function () {
-			var id, expected;
-			id = 42;
-			expected = {id : id};
-			stampRouter.getStamp(id, callback);
-			assert.strictEqual(urlArg, urls.getStamp);
-			assert.deepEqual(dataArg, expected);
-			assert.strictEqual(callbackArg, callback);
-		});
-	});
-	describe('#deleteStamp', function () {
-		it("should post with expected arguments", function () {
-			var id, expected;
-			id = 42;
-			expected = {id : id};
-			stampRouter.deleteStamp(id, callback);
-			assert.strictEqual(urlArg, urls.deleteStamp);
-			assert.deepEqual(dataArg, expected);
-			assert.strictEqual(callbackArg, callback);
-		});
-	});
 });
 

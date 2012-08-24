@@ -1,8 +1,7 @@
 "use strict";
-var controls = {}, that;
+var controls = {};
 exports.internals = {
 	initialize : function (tagControls) {
-		that = this;
 		controls.template = tagControls.template;
 		controls.localTagsContainer = tagControls.localTagsContainer;
 		controls.getLocalTaglabels = tagControls.getLocalTaglabels;

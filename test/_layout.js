@@ -55,6 +55,8 @@ describe('_layout', function () {
                 username = "ben the rat";
                 spy = sinon.spy(loginControl, "setLoginControls");
                 sut.setLoginControls(username);
+                loginControl.setLoginControls.restore();
+
                 assert(spy.withArgs(username).calledOnce);
             });
         });
@@ -64,6 +66,8 @@ describe('_layout', function () {
                 loginControls = {};
                 spy = sinon.spy(sut.loginControl, "initialize");
                 sut.initializeLoginControl(loginControls, sut.mainLayoutRouter);
+                sut.loginControl.initialize.restore();
+
                 assert(spy.withArgs(loginControls, sut.mainLayoutRouter).calledOnce);
             });
             it("should set ClickEvents for loginControl", function () {
@@ -71,6 +75,8 @@ describe('_layout', function () {
                 loginControls = {};
                 spy = sinon.spy(sut.loginControl, "setClickEvents");
                 sut.initializeLoginControl(loginControls, sut.mainLayoutRouter);
+                sut.loginControl.setClickEvents.restore();
+
                 assert(spy.calledOnce);
             });
         });
@@ -80,6 +86,8 @@ describe('_layout', function () {
                 spy = sinon.spy(sut.mainMenu, "initialize");
                 menuControls = {};
                 sut.initializeMainMenu(menuControls, sut.urls);
+                sut.mainMenu.initialize.restore();
+
                 assert(spy.withArgs(menuControls, sut.urls).calledOnce);
             });
         });
@@ -89,6 +97,8 @@ describe('_layout', function () {
                 currentUrl = "google";
                 spy = sinon.spy(sut.mainMenu, "setActiveMenu");
                 sut.setActiveMenu(currentUrl);
+                sut.mainMenu.setActiveMenu.restore();
+
                 assert(spy.withArgs(currentUrl).calledOnce);
             });
         });
@@ -98,6 +108,8 @@ describe('_layout', function () {
                 loginControls = {};
                 spy = sinon.spy(sut, "initializeLoginControl");
                 sut.ready(loginControls, menuControls, username, currentUrl);
+                sut.initializeLoginControl.restore();
+                
                 assert(spy.withArgs(loginControls).calledOnce);
             });
             it("should initialize mainMenu", function () {
@@ -105,6 +117,8 @@ describe('_layout', function () {
                 menuControls = {};
                 spy = sinon.spy(sut, "initializeMainMenu");
                 sut.ready(loginControls, menuControls, username, currentUrl);
+                sut.initializeMainMenu.restore();
+                
                 assert(spy.withArgs(menuControls).calledOnce);
             });
             it("should set LoginControls", function () {
@@ -112,6 +126,8 @@ describe('_layout', function () {
                 menuControls = {};
                 spy = sinon.spy(sut, "setLoginControls");
                 sut.ready(loginControls, menuControls, username, currentUrl);
+                sut.setLoginControls.restore();
+                
                 assert(spy.withArgs(username).calledOnce);
             });
             it("should set ActiveMenu", function () {
@@ -119,7 +135,9 @@ describe('_layout', function () {
                 currentUrl = "google";
                 spy = sinon.spy(sut, "setActiveMenu");
                 sut.ready(loginControls, menuControls, username, currentUrl);
-                assert(spy.withArgs(currentUrl).calledOnce);
+                sut.setActiveMenu.restore();
+                
+               assert(spy.withArgs(currentUrl).calledOnce);
             });
         });
     });
