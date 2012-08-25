@@ -34,20 +34,24 @@ var Picklists = require('./modules/picklists').Picklists,
         window.mainlayout = mainLayout;
     },
     initializeUserCollection = function () {
-        var internals = require('./modules/_usercollection').privateMembers,
+        var internals = require('./modules/_usercollectionFunc'),
+            //internals = require('./modules/_usercollection').privateMembers,
             tags = require("./modules/tags").tags,
             tagInternals = require("./modules/_tags").internals,
             userCollection = require('./modules/usercollection').UserCollection,
             searchInternals = require('./modules/_search').privateMembers,
             search = require('./modules/search').search,
             stampRouter = require('./modules/routers').StampRouter,
-            searchRouter = require('./modules/routers').SearchRouter;
+            searchRouter = require('./modules/routers').SearchRouter,
+            methods;
         tags.initialize(tagInternals);
         search.initialize(searchInternals, Common, searchRouter, tags);
         stampRouter.initialize(Urls, postFunction);
         searchRouter.initialize(Urls, postFunction);
-        internals.initialize(Picklists, tags, search, Common, stampRouter);
-        userCollection.initialize(internals);
+        methods = internals.privateMembers(Picklists, tags, search, Common, stampRouter);
+        userCollection.initialize(methods);
+        //internals.initialize(Picklists, tags, search, Common, stampRouter);
+        //userCollection.initialize(internals);
         window.userCollection = userCollection;
     },
     initialize = function () {
