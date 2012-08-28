@@ -31,6 +31,33 @@ exports.Common = {
 			}
 		}
 	},
+	getObjectInfo: function (obj) {
+		var prop, result = [];
+		if (!obj) {
+			return result;
+		}
+		for (prop in obj) {
+			if (obj.hasOwnProperty(prop)) {
+				result.push({name : prop, value : obj[prop]});
+			}
+		}
+		return result;
+	},
+	getPropertyCount: function (obj) {
+		return this.getObjectInfo(obj).length;
+	},
+	propertiesExist: function (obj) {
+		var prop;
+		if (!obj) {
+			return false;
+		}
+		for (prop in obj) {
+			if (obj.hasOwnProperty(prop)) {
+				return true;
+			}
+		}
+		return false;
+	},
 	showToaster : function (parent, toaster, text, callback) {
 		var left, top, width;
 		top = parent.offset().top;

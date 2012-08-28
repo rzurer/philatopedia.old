@@ -4,7 +4,7 @@ block content
 	.stamplist
 	- if (sandboxstamps != null && sandboxstamps.length > 0)
 		.listings
-			!=partial('_sandboxstamplisting', sandboxstamps)
+			include _sandboxstamplisting
 	script
 		var	array;
 		array = !{JSON.stringify(arr)};
