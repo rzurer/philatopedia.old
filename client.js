@@ -1,11 +1,7 @@
 /*jslint browser: true*/
 /*global  window, localStorage, $*/
 "use strict";
-var Common = require('./modules/common').Common;
-Common.initialize(localStorage);
-var Picklists = require('./modules/picklists').Picklists,
-    Urls = require('./modules/urls').Urls,
-    postFunction = function (url, input, callback) {
+var postFunction = function (url, input, callback) {
         $.ajax({
             type: 'POST',
             url: url,
@@ -17,46 +13,31 @@ var Picklists = require('./modules/picklists').Picklists,
             }
         });
     },
-    initializePicklists = function () {
-        var picklistsRouter = require('./modules/routers').PicklistsRouter;
-        picklistsRouter.initialize(Urls, postFunction);
-        Picklists.initialize(picklistsRouter, Common);
-    },
-    initializeMainLayout = function () {
-        var internals = require("./modules/_layout").privateMembers,
-            loginControl = require('./modules/logincontrol'),
-            mainMenu = require('./modules/menus').MainMenu,
-            mainLayoutRouter = require('./modules/routers').MainLayoutRouter,
-            mainLayout = require('./modules/layout').MainLayout;
-        mainLayoutRouter.initialize(Urls, window, postFunction);
-        internals.initialize(Urls, loginControl, mainMenu, mainLayoutRouter);
-        mainLayout.initialize(internals);
-        window.mainlayout = mainLayout;
+    common =  require('../modules/common').common(localStorage),
+    urls = require('./modules/urls').urls,
+    picklistsRouter = require('./modules/routers').picklistsRouter(urls, postFunction),
+    picklists = require('./modules/picklists').picklists(common, picklistsRouter),
+    initializeLayout =  function () {
+        var mainLayoutRouter = require('./modules/routers').mainLayoutRouter(urls, window, postFunction),
+            loginControl = require('./modules/logincontrol').loginControl(mainLayoutRouter),
+            mainMenu = require('./modules/mainMenu').mainMenu(urls),
+            layout = require("./modules/layout").layout(loginControl, mainMenu);
+        window.mainlayout = layout;
     },
     initializeUserCollection = function () {
-        var internals = require('./modules/_usercollection'),
-            tags = require("./modules/tags").tags,
-            tagInternals = require("./modules/_tags").internals,
-            userCollection = require('./modules/usercollection').UserCollection,
-            searchInternals = require('./modules/_search').privateMembers,
-            search = require('./modules/search').search,
-            stampRouter = require('./modules/routers').StampRouter,
-            searchRouter = require('./modules/routers').SearchRouter,
-            methods;
-        tags.initialize(tagInternals);
-        search.initialize(searchInternals, Common, searchRouter, tags);
-        stampRouter.initialize(Urls, postFunction);
-        searchRouter.initialize(Urls, postFunction);
-        methods = internals.privateMembers(Picklists, tags, search, Common, stampRouter, $);
-        userCollection.initialize(methods);
-        window.userCollection = userCollection;
+        var _tags = require("./modules/_tags")._tags(),
+            tags = require("./modules/tags").tags(_tags),
+            _search = require('./modules/_search')._search(tags, common),
+            searchRouter = require('./modules/routers').searchRouter(urls, postFunction),
+            search = require('./modules/search').search(_search, common, searchRouter),
+            stampRouter = require('./modules/routers').stampRouter(urls, window, postFunction),
+            _usercollection = require('./modules/_usercollection')._usercollection(picklists, tags, search, common, stampRouter, $);
+        window.userCollection = require('./modules/usercollection').userCollection(_usercollection);
     },
     initialize = function () {
-        initializePicklists();
-        initializeMainLayout();
+        initializeLayout();
         initializeUserCollection();
     };
 initialize();
-
 
 

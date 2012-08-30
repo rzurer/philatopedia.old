@@ -1,5 +1,5 @@
 "use strict";
-exports.Urls = {
+exports.urls = {
 	home : '/',
 	sandbox : '/stamps/sandbox',
 	usercollection : '/stamps/usercollection',

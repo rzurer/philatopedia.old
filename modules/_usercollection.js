@@ -1,5 +1,5 @@
 "use strict";
-exports.privateMembers = function (picklists, tags, search, common, router, jquery) {
+exports._usercollection = function (picklists, tags, search, common, router, jquery) {
 	var uicontrols, result, $;
 	uicontrols = {};
 	$ = jquery;

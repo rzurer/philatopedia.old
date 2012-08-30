@@ -1,6 +1,6 @@
 /*global  describe, it*/
 "use strict";
-var sut = require('../modules/urls').Urls,
+var sut = require('../modules/urls').urls,
 	assert = require('assert');
 describe('Urls', function () {
     it("should contain expected urls", function () {
