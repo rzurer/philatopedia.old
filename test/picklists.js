@@ -1,11 +1,12 @@
-/*global  describe, it, beforeEach*/
+/*global  describe, it, beforeEach, afterEach*/
 "use strict";
 var localStorage = {},
+	data = {},
 	postFunction = function (url, obj, callback) {
-		if(callback) {
+		if (callback) {
 			callback(data);
 		}
-	}, 
+	},
 	assert = require('assert'),
 	sinon = require('sinon'),
 	common =  require('../modules/common').common(localStorage),
@@ -15,7 +16,6 @@ var localStorage = {},
 	window = {},
 	func = function () {},
 	func1 = function (arg) {},
-	data = {},
 	setup = function () {
 		localStorage = {};
 	},
@@ -34,11 +34,11 @@ describe('picklists', function () {
 			assert(spy.calledOnce);
 		});
 		it("should return tags", function () {
-			var  tags, actual, callback; 
+			var  tags, actual, callback;
 			tags = ["a", "b", "c"];
 			data = {tags : tags};
 			callback = function (obj) {
-				actual =  obj; 
+				actual =  obj;
 			};
 			sut.getTags(callback);
 
@@ -54,11 +54,11 @@ describe('picklists', function () {
 			assert(spy.calledOnce);
 		});
 		it("should return collections", function () {
-			var  collections, actual, callback; 
+			var  collections, actual, callback;
 			collections = ["a", "b", "c"];
 			data = {collections : collections};
 			callback = function (obj) {
-				actual =  obj; 
+				actual =  obj;
 			};
 			sut.getCollections(callback);
 
@@ -219,10 +219,10 @@ describe('picklists', function () {
 			countryNames = ['France', 'Belgium', 'Wallis &amp; Fortuna'];
 			parsedCountryNames = ['France', 'Belgium', 'Wallis & Fortuna'];
 			localStorage.countryNames = countryNames;
-			common.setStorage(localStorage)
+			common.setStorage(localStorage);
 		});
-		afterEach(function (){
-			common.setStorage(temp)			
+		afterEach(function () {
+			common.setStorage(temp);
 		});
 		it("should get country names", function () {
 			var spy;

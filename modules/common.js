@@ -4,7 +4,7 @@ exports.common = function (storage) {
 		getStorage : function () {
 			return storage;
 		},
-		setStorage : function (value){
+		setStorage : function (value) {
 			storage = value;
 		},
 		trim : function (source) {

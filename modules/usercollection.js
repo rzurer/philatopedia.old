@@ -6,6 +6,6 @@ exports.userCollection = function (methods) {
 		},
 		ready : function () {
 			methods.ready();
-		}		
+		}
 	};
 };

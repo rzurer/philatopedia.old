@@ -116,7 +116,7 @@ describe('SearchEngine', function () {
 				router.filterStampListings.restore();
 			    common.getFromLocalStorage.restore();
 
-				sinon.assert.calledWith(spy, query, func)
+				sinon.assert.calledWith(spy, query, func);
 			});
 		});
 	});

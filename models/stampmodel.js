@@ -107,15 +107,15 @@ stampmodel = {
 	getMostSimilarImages : function (id, callback) {
 		this.imgseek.getMostSimilarImages(id, callback);
 	},
-	getImagesByImgSeekId : function(ids, callback){
-		this.Stamp.find({ "imageInfos.imgSeekId" : {'$in': ids} }, {imageInfos: 1} , function (err, found) {
+	getImagesByImgSeekId : function (ids, callback) {
+		this.Stamp.find({ "imageInfos.imgSeekId" : {'$in': ids} }, {imageInfos: 1}, function (err, found) {
 			callback(found);
 		});
 	},
-	removeImageFromImgSeek : function(dbId, imgSeekId, callback){
-		this.imgseek.removeImage(dbId, imgSeekId, function (success){							
-			callback(success);					
-		});		
+	removeImageFromImgSeek : function (dbId, imgSeekId, callback) {
+		this.imgseek.removeImage(dbId, imgSeekId, function (success) {
+			callback(success);
+		});
 	},
 	removeStampImage : function (dbId, stampid, currentImageId, callback) {
 		var idx, imageUrl, imgSeekId, that;

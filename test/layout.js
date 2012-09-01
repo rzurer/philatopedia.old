@@ -4,12 +4,12 @@ var assert = require('assert'),
     sinon = require('sinon'),
     window = {},
     postFunction = {},
-    urls = require('../modules/urls').urls,    
+    urls = require('../modules/urls').urls,
     mainLayoutRouter = require('../modules/routers').mainLayoutRouter(urls, window, postFunction),
     loginControl = require('../modules/logincontrol').loginControl(mainLayoutRouter),
     mainMenu = require('../modules/mainMenu').mainMenu(urls),
     sut = require("../modules/layout").layout(loginControl, mainMenu),
-    func = function (){},
+    func = function () {},
     loginControls = {
         loginMenu : {click : func, hide : func},
         logoutMenu : {click : func, show : func},
@@ -26,11 +26,11 @@ var assert = require('assert'),
         addLink : {attr : func},
         signinLink : {attr : func},
         signoutLink : {attr : func},
-        menu : { 
-            children : function () { return { removeClass : func }},
-            find : function (){ return { parent : function () { return {addClass : func}; }}}
+        menu : {
+            children : function () { return { removeClass : func }; },
+            find : function () { return { parent : function () { return {addClass : func}; }}; }
         }
-    },    
+    },
     username = "amy winehouse",
     currentUrl = "www.google.com";
 describe('layout', function () {

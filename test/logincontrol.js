@@ -12,15 +12,15 @@ var urls = require('../modules/urls').urls,
     $ = require('jquery'),
 	assert = require('assert'),
 	sinon = require('sinon'),
-	createControl = function  () {
+	createControl = function () {
 		var label = $("<label/>");
-		label.unbind(); 
-		return label
+		label.unbind();
+		return label;
 	},
-	createInput = function  () {
+	createInput = function () {
 		var input = $("<input/>");
-		input.unbind(); 
-		return input
+		input.unbind();
+		return input;
 	},
 	controls,
 	setup = function () {
@@ -40,7 +40,7 @@ describe('logincontrol', function () {
 	describe('#setClickEvents', function () {
 		it("should set loginMenu click", function () {
 			var spy, arg;
-			spy = sinon.spy(controls.loginMenu, "click")
+			spy = sinon.spy(controls.loginMenu, "click");
 			sut.setClickEvents();
 			arg = spy.args[0][0];
 			controls.loginMenu.click.restore();
@@ -49,7 +49,7 @@ describe('logincontrol', function () {
 		});
 		it("should set logoutMenu click", function () {
 			var spy, arg;
-			spy = sinon.spy(controls.logoutMenu, "click")
+			spy = sinon.spy(controls.logoutMenu, "click");
 			sut.setClickEvents();
 			arg = spy.args[0][0];
 			controls.logoutMenu.click.restore();
@@ -58,7 +58,7 @@ describe('logincontrol', function () {
 		});
 		it("should set body click", function () {
 			var spy, arg;
-			spy = sinon.spy(controls.body, "click")
+			spy = sinon.spy(controls.body, "click");
 			sut.setClickEvents();
 			arg = spy.args[0][0];
 			controls.body.click.restore();
@@ -67,7 +67,7 @@ describe('logincontrol', function () {
 		});
 		it("should set usernameInput click", function () {
 			var spy, arg;
-			spy = sinon.spy(controls.usernameInput, "click")
+			spy = sinon.spy(controls.usernameInput, "click");
 			sut.setClickEvents();
 			arg = spy.args[0][0];
 			controls.usernameInput.click.restore();
@@ -76,7 +76,7 @@ describe('logincontrol', function () {
 		});
 		it("should set loginButton click", function () {
 			var spy, arg;
-			spy = sinon.spy(controls.loginButton, "click")
+			spy = sinon.spy(controls.loginButton, "click");
 			sut.setClickEvents();
 			arg = spy.args[0][0];
 			controls.loginButton.click.restore();
@@ -85,7 +85,7 @@ describe('logincontrol', function () {
 		});
 	});
 	describe('#private methods', function () {
-	 	beforeEach(function () {sut.setClickEvents(); });
+		beforeEach(function () {sut.setClickEvents(); });
 		describe('#loginMenu click', function () {
 			it("should show login container", function () {
 				var spy = sinon.spy(controls.logincontainer, "slideDown");
@@ -98,14 +98,14 @@ describe('logincontrol', function () {
 				var spy = sinon.spy(controls.usernameInput, "val");
 				controls.loginMenu.click();
 				controls.usernameInput.val.restore();
-				
+
 				assert(spy.withArgs("").calledOnce);
 			});
 			it("should focus username entry", function () {
 				var spy = sinon.spy(controls.usernameInput, "focus");
 				controls.loginMenu.click();
 				controls.usernameInput.focus.restore();
-				
+
 				assert(spy.calledOnce);
 			});
 		});
@@ -116,7 +116,7 @@ describe('logincontrol', function () {
 				controls.logoutMenu.click();
 				arg = spy.args[0][0];
 				router.logout.restore();
-				
+
 				assert.strictEqual('doSetLoginControls', arg.name);
 				sinon.assert.calledOnce(spy);
 			});
@@ -133,14 +133,14 @@ describe('logincontrol', function () {
 				var spy = sinon.spy(controls.logincontainer, "slideUp");
 				controls.body.click();
 				controls.logincontainer.slideUp.restore();
-				
+
 				sinon.assert.calledWith(spy, "normal");
 			});
 		});
 		describe('#username entry click', function () {
-			// it("should return false", function () {
-			// 	var value = controls.usernameInput.click();
-			// 	assert.equal(false, value);
+			//it("should return false", function () {
+			//	var value = controls.usernameInput.click();
+			//	assert.equal(false, value);
 			// });
 		});
 		describe('#login button click', function () {
@@ -182,7 +182,7 @@ describe('logincontrol', function () {
 				});
 				it("should navigate to home page", function () {
 					var spy, username;
-					controls.usernameInput.val("pjharvey");					
+					controls.usernameInput.val("pjharvey");
 					spy = sinon.spy(router, "home");
 					controls.loginButton.click();
 					router.home.restore();
@@ -192,7 +192,7 @@ describe('logincontrol', function () {
 			});
 			describe('when username is empty', function () {
 				it("should add red border around user entry", function () {
-				var spy = sinon.spy(controls.usernameInput, "addClass");
+					var spy = sinon.spy(controls.usernameInput, "addClass");
 					controls.loginButton.click();
 					controls.usernameInput.addClass.restore();
 

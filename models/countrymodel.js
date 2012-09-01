@@ -1,6 +1,6 @@
 "use strict";
 var countrymodel, CurrencySchema, CountrySchema, that;
-that = this;
+that = this; //TODO: Cannot read property 'arity' of undefined
 function getCountryName(country) {
 	return country.name;
 }

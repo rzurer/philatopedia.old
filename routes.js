@@ -485,6 +485,7 @@ function initialize(app, fs, model, imagemagick) {
                                 throw err;
                             }
                             res.send('image uploaded');
+                            //TODO: Don't make functions within a loop.
                         });
                     }
                 }

@@ -4,7 +4,7 @@ function copyReferenceStamp(to, from) {
 	to.issuedBy = from.issuedBy;
 	if (from.issueYear && from.issueYear !== 'null') {
 		to.issueYear  =  from.issueYear;
-	}	
+	}
 	to.issueDate  = from.issueDate;
 	to.series = from.series;
 	to.faceValue = from.faceValue;

@@ -13,5 +13,5 @@ exports._search = function (tags, common) {
 			common.placeInLocalStorage('collectionOrTagsQuery', query);
 			return query;
 		}
-	}
+	};
 };

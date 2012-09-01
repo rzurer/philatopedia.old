@@ -31,10 +31,10 @@ describe('LocalTags', function () {
 	describe('#deleteLocalTags', function () {
 		//this test cannot be made to pass for some unknown reason
 		// it("should remove all local tags", function () {
-		// 	var spy = sinon.spy(controls, "getLocalTags");
-		// 	sut.deleteLocalTags();
-		// 	sinon.assert.called(spy);
-		// 	controls.getLocalTags.restore();
+		//	var spy = sinon.spy(controls, "getLocalTags");
+		//	sut.deleteLocalTags();
+		//	sinon.assert.called(spy);
+		//	controls.getLocalTags.restore();
 		// });
 		it("should adjust tags container border", function () {
 			var spy = sinon.spy(internals, "showHideLocalTagsBorder");
@@ -45,7 +45,7 @@ describe('LocalTags', function () {
 	});
 	describe('#deleteLocalTag', function () {
 		beforeEach(function () {
-			sut.parentNode =  {parentNode :{removeChild : func} }
+			sut.parentNode =  {parentNode : {removeChild : func} };
 		});
 		afterEach(function () {
 			delete sut.parentnode;

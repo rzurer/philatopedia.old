@@ -49,8 +49,8 @@ exports.loginControl = function (router) {
         uicontrols.usernameInput.focus();
         return false;
     }
-    function returnFalse() { 
-        return false; 
+    function returnFalse() {
+        return false;
     }
     return {
         initializeControls : function (controls) {

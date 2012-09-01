@@ -3,6 +3,7 @@
 var assert = require('assert'),
 	sinon = require('sinon'),
 	$ = require('jquery'),
+	func = function () {},
 	localStorage = {removeItem : func, collectionOrTagsQuery : {}, getLocalTagsValues : func},
     common =  require('../modules/common').common(localStorage),
     _tags = require("../modules/_tags")._tags(),
@@ -11,7 +12,6 @@ var assert = require('assert'),
 	controls,
 	tagControls,
 	localStorage,
-	func = function () {},
 	setup = function () {
 		tagControls = {
 			getLocalTaglabels : function (tagValues) {
