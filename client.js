@@ -13,7 +13,7 @@ var postFunction = function (url, input, callback) {
             }
         });
     },
-    common =  require('../modules/common').common(localStorage),
+    common =  require('./modules/common').common(localStorage),
     urls = require('./modules/urls').urls,
     picklistsRouter = require('./modules/routers').picklistsRouter(urls, postFunction),
     picklists = require('./modules/picklists').picklists(common, picklistsRouter),

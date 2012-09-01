@@ -1,6 +1,12 @@
 "use strict";
 exports.common = function (storage) {
 	return {
+		getStorage : function () {
+			return storage;
+		},
+		setStorage : function (value){
+			storage = value;
+		},
 		trim : function (source) {
 			if (!source || !source.length || source.length === 0) {
 				return source;

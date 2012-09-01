@@ -14,7 +14,7 @@ exports.mainLayoutRouter = function (urls, window, postFunction) {
             window.location = urls.add;
         },
         login : function (username, callback) {
-            postFunction(urls.login, { username: username }, callback);
+          postFunction(urls.login, { username: username }, callback);
         },
         logout : function (callback) {
             postFunction(urls.logout, {}, callback);

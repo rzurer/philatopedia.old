@@ -12,8 +12,9 @@ exports.mainMenu = function (urls) {
             controls.signoutLink.attr('href', urls.poundsign);
         },
         setActiveMenu : function (url) {
+            var child;
             menu.children('li').removeClass();
-            var child = menu.find('a[href="' + url + '"]');
+            child = menu.find('a[href="' + url + '"]');
             child.parent().addClass('active');
         }
     };
