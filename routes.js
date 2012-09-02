@@ -134,7 +134,7 @@ function initialize(app, fs, model, imagemagick) {
         stamp = new model.stamp.Stamp();
         stamp.userId = user._id;
         model.catalog.getAllCatalogs(function (catalogs) {
-            res.render('stamps/detail', {stamp: stamp, cataloglistings : catalogs, user: user});
+            res.render('stamps/stamp', {stamp: stamp, cataloglistings : catalogs, user: user});
         });
     });
     app.get('/stamps', loadUser, function (req, res) {
@@ -143,7 +143,7 @@ function initialize(app, fs, model, imagemagick) {
         id = req.param('id');
         stamp = model.stamp.getStamp(userId, id, function (stamp) {
             model.catalog.getAllCatalogs(function (catalogs) {
-                res.render('stamps/detail', {stamp: stamp, cataloglistings : catalogs, user: getUser(req)});
+                res.render('stamps/stamp', {stamp: stamp, cataloglistings : catalogs, user: getUser(req)});
             });
         });
     });
@@ -197,7 +197,7 @@ function initialize(app, fs, model, imagemagick) {
         id = req.param('id');
         stamp = model.stamp.getStamp(userId, id, function (stamp) {
             model.catalog.getAllCatalogs(function (catalogs) {
-                res.render('stamps/_stamp', {stamp: stamp, cataloglistings : catalogs});
+                res.render('stamps/stamp', {stamp: stamp, cataloglistings : catalogs});
             });
         });
     });
