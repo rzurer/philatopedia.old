@@ -2,8 +2,7 @@
 "use strict";
 var initializeUsercollection = function (stringifiedArray, window, userCollection) {
 	$(function () {
-		var controls;
-		controls = {
+		var controls = {
 			tagControls : {
 				tagsource :  $('#tagsource'),
 				addLocalTagControl :  $('#addLocalTag'),
@@ -30,7 +29,7 @@ var initializeUsercollection = function (stringifiedArray, window, userCollectio
 			clearSearchControl :  $('#clearsearchdetail'),
 			doSearchControl :  $('#doSearch'),
 			toaster :  $('#toaster'),
-			window :  $(window),
+			//window :  $(window),
 			nostampImage :  '/images/nostamp.png',
 			getSubmitToSandboxActions :  function () {
 				return $('.stampitem-actions > .submitToSandbox');

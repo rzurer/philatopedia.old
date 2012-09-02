@@ -16,5 +16,6 @@ exports.urls = {
 	deleteStamp : '/deleteStamp',
 	goToStamp : function (id) {
 		return '/stamps/?id=' + id;
-	}
+	},
+	splashSrc : "/images/StampCollectionPelicanLake1960.jpg"
 };

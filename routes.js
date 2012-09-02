@@ -108,7 +108,7 @@ function initialize(app, fs, model, imagemagick) {
         });
     }
     app.get('/', function (req, res) {
-        res.render('index', {user: getUser(req)});
+        res.render('home', {user: getUser(req)});
     });
     app.get('/currencies', loadUser, function (req, res) {
         res.render('currencies', {user:  getUser(req)});

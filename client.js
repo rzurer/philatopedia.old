@@ -14,12 +14,13 @@ var postFunction = function (url, input, callback) {
         });
     },
     common =  require('./modules/common').common(localStorage),
+    constants = require('./modules/constants').constants,
     urls = require('./modules/urls').urls,
     picklistsRouter = require('./modules/routers').picklistsRouter(urls, postFunction),
+    mainLayoutRouter = require('./modules/routers').mainLayoutRouter(urls, window, postFunction),
     picklists = require('./modules/picklists').picklists(common, picklistsRouter),
     initializeLayout =  function () {
-        var mainLayoutRouter = require('./modules/routers').mainLayoutRouter(urls, window, postFunction),
-            loginControl = require('./modules/logincontrol').loginControl(mainLayoutRouter),
+        var loginControl = require('./modules/logincontrol').loginControl(mainLayoutRouter),
             mainMenu = require('./modules/mainMenu').mainMenu(urls),
             layout = require("./modules/layout").layout(loginControl, mainMenu);
         window.mainlayout = layout;
@@ -34,8 +35,12 @@ var postFunction = function (url, input, callback) {
             _usercollection = require('./modules/_usercollection')._usercollection(picklists, tags, search, common, stampRouter, $);
         window.userCollection = require('./modules/usercollection').userCollection(_usercollection);
     },
+    initializeHome = function () {
+        window.home = require('./modules/home').home(urls, constants, mainLayoutRouter);
+    },
     initialize = function () {
         initializeLayout();
+        initializeHome();
         initializeUserCollection();
     };
 initialize();
