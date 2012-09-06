@@ -7,6 +7,7 @@ var urls = require('../modules/urls').urls,
 			callback(input.username);
 		}
 	},
+	func = function (){},
 	router = require('../modules/routers').mainLayoutRouter(urls, window, postFunction),
     sut = require('../modules/logincontrol').loginControl(router),
     $ = require('jquery'),
@@ -35,7 +36,7 @@ var urls = require('../modules/urls').urls,
         };
 		sut.initializeControls(controls);
 	};
-describe('logincontrol', function () {
+describe('logincontrol_module', function () {
 	beforeEach(setup);
 	describe('#setClickEvents', function () {
 		it("should set loginMenu click", function () {
@@ -85,7 +86,9 @@ describe('logincontrol', function () {
 		});
 	});
 	describe('#private methods', function () {
-		beforeEach(function () {sut.setClickEvents(); });
+		beforeEach(function () {
+			sut.setClickEvents(); 
+		});
 		describe('#loginMenu click', function () {
 			it("should show login container", function () {
 				var spy = sinon.spy(controls.logincontainer, "slideDown");
@@ -137,12 +140,13 @@ describe('logincontrol', function () {
 				sinon.assert.calledWith(spy, "normal");
 			});
 		});
-		describe('#username entry click', function () {
-			//it("should return false", function () {
-			//	var value = controls.usernameInput.click();
-			//	assert.equal(false, value);
-			// });
-		});
+		// describe('#username entry click', function () {
+		// 	it("should return false", function () {
+		// 		var value;
+		// 		value = controls.usernameInput.click();
+		// 		console.log(value['0']._listeners.click.false[0]());
+		// 	});
+		// });
 		describe('#login button click', function () {
 			it("should get username entry value", function () {
 				var spy = sinon.spy(controls.usernameInput, "val");
@@ -260,7 +264,7 @@ describe('logincontrol', function () {
 		});
 		describe('when username is empty', function () {
 			var username;
-			beforeEach(function () {
+			beforeEach(function () {				
 				username = "";
 			});
 			it("should show login menu", function () {
@@ -270,16 +274,27 @@ describe('logincontrol', function () {
 				assert(spy.calledOnce);
 			});
 			it("should hide logout menu", function () {
-				var spy = sinon.spy(controls.logoutMenu, "hide");
+				var spy, tempLogoutMenu;
+				tempLogoutMenu = controls.logoutMenu;
+				controls.logoutMenu = {hide : func}
+				spy = sinon.spy(controls.logoutMenu, "hide");
 				sut.setLoginControls(username);
+
+				controls.logoutMenu.hide.restore();
+				controls.logoutMenu = tempLogoutMenu;
 
 				assert(spy.calledOnce);
 			});
 
 			it("should hide welcome", function () {
-				var spy = sinon.spy(controls.welcome, "hide");
+				var spy, tempWelcome;
+				tempWelcome = controls.welcome;
+				controls.welcome = {hide : func, text : func, show : func}
+				spy = sinon.spy(controls.welcome, "hide");
 				sut.setLoginControls(username);
+
 				controls.welcome.hide.restore();
+				controls.welcome = tempWelcome;
 
 				assert(spy.calledOnce);
 			});

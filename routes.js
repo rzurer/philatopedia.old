@@ -97,7 +97,7 @@ function initialize(app, fs, model, imagemagick) {
         archiveFilename = 'orig_' + filename;
         fs.unlink(tempPath + filename, function (err) {
             if (err) {
-                throw err;
+                throw err; //old throws here
             }
             fs.rename(tempPath + archiveFilename, archivePath + archiveFilename, function (err) {
                 if (err) {
@@ -197,7 +197,7 @@ function initialize(app, fs, model, imagemagick) {
         id = req.param('id');
         stamp = model.stamp.getStamp(userId, id, function (stamp) {
             model.catalog.getAllCatalogs(function (catalogs) {
-                res.render('stamps/stamp', {stamp: stamp, cataloglistings : catalogs});
+                res.render('stamps/stamp', {stamp: stamp, cataloglistings : catalogs, user: getUser(req)});
             });
         });
     });

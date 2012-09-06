@@ -3,7 +3,7 @@
 initializeEvents, getDefaultImage, Slider, Identifiers, addStampTags, addCategoryTags, addCollectionTags, displaySearchCriteria,
 initialize*/
 'use strict';
-var stamp, cataloglistings, sliders, imageCarousel, identifiers, popupStatus, noimagesrc;
+var sliders, imageCarousel, identifiers, popupStatus, noimagesrc; //stamp, cataloglistings, 
 noimagesrc = '/images/dropimagehere.png';
 var updateStamp = function (obj) {
 	stamp[obj.name] = obj.value;
@@ -108,6 +108,8 @@ var removeImage = function () {
 	var currentImageId, stampId;
 	currentImageId = imageCarousel.getCurrentImageId();
 	stampId = stamp._id;
+	console.log('currentImageId ', currentImageId);
+	console.log('stampId ', stampId);
 	$.ajax({
 		type: 'POST',
 		url: '/removeStampImage',
@@ -456,7 +458,7 @@ var setCurrencyName = function () {
 		}
 	}
 };
-var initializeStamp = function () {
+var doInitializeStamp = function () {
 	$(window).bind('load', function () {
 		setTimeout(displayThumbnails, 100);
 	});

@@ -32,7 +32,7 @@ var controls,
 		};
 		sut.initializeControls(controls);
 	};
-describe('SearchEngine', function () {
+describe('search_module', function () {
 	beforeEach(setup);
 	describe('#createQueryAndSearch', function () {
 		it("should create search criteria", function () {

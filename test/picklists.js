@@ -22,7 +22,7 @@ var localStorage = {},
 	teardown = function () {
 		localStorage = {};
 	};
-describe('picklists', function () {
+describe('picklists_module', function () {
 	beforeEach(setup);
 	describe('#getDistinctTags', function () {
 		it("should get tags from router", function () {

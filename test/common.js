@@ -19,7 +19,7 @@ var collections = {},
 		toaster = {addClass : func, css : func, text : func, show : func, hide: func, delay : function () {return this; }};
 		text = 'done';
 	};
-describe('common', function () {
+describe('common_module', function () {
 	describe('findFirst', function () {
 		it("should find the first element in an array where the named property equals the passed in value", function () {
 			var ford = {make : "Ford", color : "blue", vin: "4da4trafc87a"},

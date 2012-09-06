@@ -24,7 +24,7 @@ var assert = require('assert'),
 		};
 		sut.initializeControls(controls);
 	};
-describe('SearchInternals', function () {
+describe('_search_module', function () {
 	beforeEach(setup);
 	describe('#createQuery', function () {
 		it("should get collection from collection entry control) ", function () {

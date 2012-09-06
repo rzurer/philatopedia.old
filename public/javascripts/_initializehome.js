@@ -1,10 +1,10 @@
 /*globals  $*/
 "use strict";
-var initializeHome = function (home, user) {
+var initializeHome = function (user) {
 	$(function () {
 		var splash, userIsLoggedIn;
 		splash =  $('#homeImage');
 		userIsLoggedIn = user && user.username;
-		home.ready(splash, userIsLoggedIn);
+		window.home.ready(splash, userIsLoggedIn);
 	});
 };

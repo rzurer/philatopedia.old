@@ -19,8 +19,9 @@ var assert = require('assert'),
     searchInternals = require('../modules/_search')._search(tags, common),
     searchRouter = require('../modules/routers').searchRouter(urls, postFunction),
     search = require('../modules/search').search(searchInternals, common, searchRouter),
-    stampRouter = require('../modules/routers').stampRouter(urls, window, postFunction),       
-    sut = require('../modules/_usercollection')._usercollection(picklists, tags, search, common, stampRouter, $),
+    stampRouter = require('../modules/routers').stampRouter(urls, window, postFunction),
+    collectionCommon = require('../modules/_collectionCommon')._collectionCommon(urls, common, $),
+    sut = require('../modules/_usercollection')._usercollection(collectionCommon, urls, picklists, tags, search, common, stampRouter, $),
     controls,
     info,
     func = function () {},
@@ -28,23 +29,6 @@ var assert = require('assert'),
         return $('<label/>');
     },
     labelFunc = function () {return getLabel(); },
-    label1 = getLabel().text('a rose is a rose is a rose is a rose is a rose'),
-    label2 = getLabel(),
-    label3 = getLabel().text('tulip'),
-    label4 = getLabel().text('geranium'),
-    stampLabels =  $([label1, label2, label3, label4]),
-    getStampLabels =  function () {
-        return stampLabels;
-    },
-    stampImages =  [
-        {stampId : 1},
-        {stampId : 2},
-        {stampId : 3},
-        {stampId : 4}
-    ],
-    getStampImage =  function (stampId) {
-        return common.findFirst(stampImages, 'stampId', stampId);
-    },
     autocompleteTarget = $('<input/>'),
     tagControls = {
         tagsource : autocompleteTarget,
@@ -62,32 +46,49 @@ var assert = require('assert'),
         clearsearch : getLabel()
     },
     collectionsource = autocompleteTarget,
-    images = [
+    listings = getLabel(),
+    toaster = getLabel(),
+    stampImages =  [
+        {stampId : 1},
+        {stampId : 2},
+        {stampId : 3},
+        {stampId : 4}
+    ],
+    getStampImages =  function () {
+        return stampImages;
+    },
+    getStampImage =  function (stampId) {
+        return $(common.findFirst(stampImages, 'stampId', stampId));
+    },
+    label1 = getLabel().text('a rose is a rose is a rose is a rose is a rose'),
+    label2 = getLabel(),
+    label3 = getLabel().text('tulip'),
+    label4 = getLabel().text('geranium'),
+    stampLabels =  $([label1, label2, label3, label4]),
+    getStampLabels =  function () {
+        return stampLabels;
+    },
+    commonControls = {
+        getStampImages : getStampImages,
+        getStampImage : getStampImage,
+        getStampLabels : getStampLabels
+    },
+    imageInfos = [
         {stampId : 1, defaultImageSrc : 'rose'},
         {stampId : 2, defaultImageSrc : ''},
         {stampId : 3, defaultImageSrc : 'tulip'},
         {stampId : 4, defaultImageSrc : 'geranium'}
     ],
-    getStampImages =  function () {
-        return stampImages;
-    },
-    nostampImage = "nostampImage",
-    listings = getLabel(),
-    toaster = getLabel(),
     setup = function () {
         autocompleteTarget.autocomplete = func;
         controls = {
             tagControls : tagControls,
+            commonControls : commonControls,
             searchControls : searchControls,
             collectionsource : collectionsource,
-            array : images,
-            nostampImage : nostampImage,
-            getStampImages : getStampImages,
-            getStampImage : getStampImage,
-            getStampLabels : getStampLabels,
             listings : listings,
             getSubmitToSandboxActions : labelFunc,
-            getSubmitToSandboxAction : getLabel(),
+            getSubmitToSandboxAction : labelFunc,
             getStampIdForAction : function (obj) {return 1; },
             getDeleteStampActions : labelFunc,
             getStampListings : labelFunc,
@@ -95,21 +96,14 @@ var assert = require('assert'),
             doSearchControl : getLabel(),
             toaster : toaster
         };
-        // common.initialize(localStorage);
-        // searchRouter.initialize(urls, postFunction);
-        // picklistsRouter.initialize(urls, postFunction);
-        // stampRouter.initialize(urls, postFunction);
-        // picklists.initialize(picklistsRouter, common);
-        // tags.initialize(tagInternals);
-        // search.initialize(searchInternals, common, searchRouter, tags);
         search.initializeControls(searchControls);
-        //sut = internals.privateMembers(picklists, tags, search, common, stampRouter, $);
+        collectionCommon.initializeControls(commonControls, imageInfos);
     };
-describe('_usercollection', function () {
+describe('_usercollection_module', function () {
     beforeEach(setup);
 	describe("initializeControls", function () {
 		it("should assign controls", function () {
-            info = sut.initializeControls(controls);
+            info = sut.initializeControls(controls, imageInfos);
             assert.equal(common.getPropertyCount(controls), info.length);
 		});
         it("should initialize tag controls", function () {
@@ -131,7 +125,7 @@ describe('_usercollection', function () {
 	});
     describe('methods', function () {
         beforeEach(function () {
-            info = sut.initializeControls(controls);
+            info = sut.initializeControls(controls, imageInfos);
         });
         describe("setAutoCompletes", function () {
             it("should set tags autocomplete", function () {
@@ -169,24 +163,6 @@ describe('_usercollection', function () {
                 sinon.assert.calledWith(spy, null);
             });
         });
-        describe("setImages", function () {
-            it("should should assign src of each stamp image", function () {
-                sut.setImages();
-
-                assert.strictEqual(images[0].defaultImageSrc, stampImages[0].src);
-                assert.strictEqual(controls.nostampImage,  stampImages[1].src);
-                assert.strictEqual(images[2].defaultImageSrc, stampImages[2].src);
-                assert.strictEqual(images[3].defaultImageSrc, stampImages[3].src);
-            });
-        });
-        describe("truncate", function () {
-            it("should truncate labels", function () {
-                sut.truncate();
-
-                assert.equal("a rose is a rose is a rose is a rose is a rose", stampLabels[0].attr('title'));
-                assert.equal("a rose is a rose is a ros ...", stampLabels[0].text());
-            });
-        });
         describe("cleanup", function () {
             it("should hide listings", function () {
                 var spy;
@@ -207,9 +183,9 @@ describe('_usercollection', function () {
             });
             it("should set images", function () {
                 var spy;
-                spy = sinon.spy(sut, 'setImages');
+                spy = sinon.spy(collectionCommon, 'setImages');
                 sut.cleanup();
-                sut.setImages.restore();
+                collectionCommon.setImages.restore();
 
                 sinon.assert.calledOnce(spy);
             });
@@ -239,9 +215,9 @@ describe('_usercollection', function () {
             });
             it("should truncate text labels", function () {
                 var spy;
-                spy = sinon.spy(sut, 'truncate');
+                spy = sinon.spy(collectionCommon, 'truncate');
                 sut.cleanup();
-                sut.truncate.restore();
+                collectionCommon.truncate.restore();
 
                 sinon.assert.calledOnce(spy);
             });
@@ -312,23 +288,15 @@ describe('_usercollection', function () {
         });
         describe("submitToSandbox", function () {
             it("should get the stamp id", function () {
-                // var spy;
-                // spy = sinon.spy(controls, 'getStampIdForAction'); 
-                // sut.submitToSandbox(this);
-                // controls.getStampIdForAction.restore();
+                var spy;
+                spy = sinon.spy(controls, 'getStampIdForAction'); 
+                sut.submitToSandbox(this);
+                controls.getStampIdForAction.restore();
 
-                // sinon.assert.calledWith(spy, sut);                
+                sinon.assert.calledWith(spy, sut);                
             });
         });
     });
 });
 
-/*      submitToSandbox : function () {
-            var stampId, callback, target;
-            stampId = uicontrols.getStampIdForAction(this);
-            target = uicontrols.getSubmitToSandboxAction(this);
-            callback = function () {
-                common.showToaster(target, uicontrols.toaster, "copied");
-            };
-            router.submitToSandbox(stampId, result.isValid, callback);
-        },*/
+/*  is this tested completely? */

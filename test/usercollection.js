@@ -38,6 +38,7 @@ var assert = require('assert'),
         clearSearchControl : {click : func },
         doSearchControl : {click : func }
     },
+    imageInfos = [],
     common =  require('../modules/common').common(localStorage),
     urls = require('../modules/urls').urls,
     picklistsRouter = require('../modules/routers').picklistsRouter(urls, postFunction),
@@ -48,29 +49,34 @@ var assert = require('assert'),
     searchRouter = require('../modules/routers').searchRouter(urls, postFunction),
     search = require('../modules/search').search(searchInternals, common, searchRouter),
     stampRouter = require('../modules/routers').stampRouter(urls, window, postFunction),
-    methods = require('../modules/_usercollection')._usercollection(picklists, tags, search, common, stampRouter, $),
+    collectionCommon = require('../modules/_collectionCommon')._collectionCommon(urls, common, $),
+    methods = require('../modules/_usercollection')._usercollection(collectionCommon, urls, picklists, tags, search, common, stampRouter, $),
     sut = require('../modules/usercollection').userCollection(methods);
-describe('UserCollection', function () {
-	//beforeEach(setup);
+
+describe('userCollection_module', function () {
 	describe('#initializeControls', function () {
 		it("should initialize internal controls", function () {
 			var spy;
 			spy = sinon.spy(methods, "initializeControls");
-			sut.initializeControls(controls);
+			sut.initializeControls(controls, imageInfos);
 			methods.initializeControls.restore();
 			sinon.assert.calledWith(spy, controls);
 		});
 	});
 	describe('#ready', function () {
 		it("should call internal ready", function () {
-			var spy, getCollectionsStub, getTagsStub;
+			var spy, getCollectionsStub, getTagsStub, setImagesStub, truncateStub;
 			spy = sinon.spy(methods, "ready");
 			getCollectionsStub = sinon.stub(picklists, 'getCollections');
 			getCollectionsStub.returns([]);
 			getTagsStub = sinon.stub(picklists, 'getTags');
-			getTagsStub.returns([]);
+            getTagsStub.returns([]);
+            setImagesStub = sinon.stub(collectionCommon, 'setImages');
+            truncateStub = sinon.stub(collectionCommon, 'truncate');
 			sut.ready();
 			methods.ready.restore();
+            collectionCommon.setImages.restore();
+            collectionCommon.truncate.restore();
 			picklists.getCollections.restore();
 			picklists.getTags.restore();
 

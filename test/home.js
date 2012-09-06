@@ -12,7 +12,7 @@ var assert = require('assert'),
     splash = $('<img/>'),
     loggedOutTitle = 'logged out',
     loggedInTitle = 'logged in';
-describe('home_ready', function () {
+describe('home_module', function () {
     it("should set splash image src", function () {
         sut.ready(splash);
 

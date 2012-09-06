@@ -48,7 +48,7 @@ var assert = require('assert'),
         };
         sut.initializeControls(controls);
     };
-describe('MainMenu', function () {
+describe('mainMenu_module', function () {
     beforeEach(setup);
     describe('#initialize', function () {
         it("should set assign urls to links", function () {

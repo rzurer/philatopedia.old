@@ -13,31 +13,31 @@ block content
 				input#issueYear.styled(type='text', name='issueYear', maxlength=4, value=stamp.issueYear || '')
 			.monthday
 				label Date: 
-				input.styled(type='text', id='issueDate', name='issueDate', value=stamp.issueDate || '', onblur="updateStamp(this);")
+				input.styled.updateStamp(type='text', id='issueDate', name='issueDate', value=stamp.issueDate || '')
 			.series
 				label Series:
-				input.styled(type='text', name='series', value=stamp.series || '', onblur="updateStamp(this);")
+				input.styled.updateStamp(type='text', name='series', value=stamp.series || '')
 		.slider-container
 			.catalog
 				label Catalog:
 				input#defaultcatalog(type='checkbox')	
 			.prv
-				img(src='/images/previous.png', onclick='javascript:sliders[0].goToPrev()')
+				img.goToPreviousCatalog(src='/images/previous.png')
 			.slider
 				ul#catalogSlider
 					include _cataloglisting
 			.nxt
-				img(src='/images/next.png', onclick='javascript:sliders[0].goToNext()')
+				img.goToNextCatalog(src='/images/next.png')
 			.slidercontrols
 				label Cat # :
-				input#catalognumber.styled.catalognumber(type='text', onblur="addOrUpdateIdentifier();")
+				input#catalognumber.styled.catalognumber.addOrUpdateIdentifier(type='text')
 				input#currentCatalogId(type='hidden')
 			.watermark
 				label Wmk:
-				input#wmk.styled(type='text', onblur="addOrUpdateIdentifier();")
+				input#wmk.styled.addOrUpdateIdentifier(type='text')
 			.design
 				label Design:
-				input.styled(type='text', name='design', value=stamp.design || '',onblur="updateStamp(this);")
+				input.styled.updateStamp(type='text', name='design', value=stamp.design || '')
 		.left
 			#imageContainer.largeimage
 				img#dropImage
@@ -45,89 +45,80 @@ block content
 			input#defaultimage(type='checkbox', title='This image will diplay on album pages')				
 			.imagecaption
 				label Caption:
-				input.styled(id='imagecaption', type='text', onblur="imageCarousel.setImageCaption(this);")
+				input.styled.setImageCaption(id='imagecaption', type='text')
 			.imagenav
-				input#navFirst(type='image', src='/images/first.png', onclick='imageCarousel.navigateTo("first");')
-				input#navPrevious(type='image', src='/images/previous.png',onclick='imageCarousel.navigateTo("previous");')
-				input#navNext(type='image', src='/images/next.png',onclick='imageCarousel.navigateTo("next");')
-				input#navLast(type='image', src='/images/last.png',onclick='imageCarousel.navigateTo("last");')
-				input#navRemove.removeImage(type='image', src='/images/remove.png',onclick='removeImage()')
+				input#navFirst(type='image', src='/images/first.png')
+				input#navPrevious(type='image', src='/images/previous.png')
+				input#navNext(type='image', src='/images/next.png')
+				input#navLast(type='image', src='/images/last.png')
+				input#navRemove.removeImage(type='image', src='/images/remove.png')
 		.centerrail
 			input#_id(type='hidden', name='_id', value=stamp._id || '')
 			.currency
 				.facevalue
 					label Face Value:
-					input.styled(type='text', name='faceValue', value=stamp.faceValue || '', onblur="updateStamp(this);")
+					input.styled.updateStamp(type='text', name='faceValue', value=stamp.faceValue || '')
 				.currencySymbol
-					input#currencySymbol.styled(type='text', value=stamp.currency.length > 0 ? stamp.currency[0].symbol : '', onblur="setCurrencySymbol();")
+					input#currencySymbol.styled(type='text', value=stamp.currency.length > 0 ? stamp.currency[0].symbol : '')
 				.currencyName
 					label Currency:
-					input#currency.styled(type='text', value=stamp.currency.length > 0 ? stamp.currency[0].name : '', onblur="setCurrencyName();")
+					input#currency.styled(type='text', value=stamp.currency.length > 0 ? stamp.currency[0].name : '')
 			.colors
 				label Colors:
-				input#colors.styled(type='text', name='color', value=stamp.color || '', onblur="updateStamp(this);")
+				input#colors.styled.updateStamp(type='text', name='color', value=stamp.color || '')
 			.paperprintingperf	
 				.paper
 					label Paper:
-					input#paper.styled(type='text', name='paper', value=stamp.paper || '', onblur="updateStamp(this);")			
+					input#paper.styled.updateStamp(type='text', name='paper', value=stamp.paper || '')			
 				.printingMethod
 					label Printing:
-					input#printingMethod.styled(type='text', name='printingMethod', value=stamp.printingMethod || '', onblur="updateStamp(this);")			
+					input#printingMethod.styled.updateStamp(type='text', name='printingMethod', value=stamp.printingMethod || '')			
 				.papercolor
 					label Paper Color:
-					input.styled(type='text', name='paperColor',  value=stamp.paperColor || '', onblur="updateStamp(this);")			
+					input.styled.updateStamp(type='text', name='paperColor',  value=stamp.paperColor || '')			
 				.perf
 					label Perf:
-					input.styled(type='text', name='perf', value=stamp.perf || '', onblur="updateStamp(this);")
+					input.styled.updateStamp(type='text', name='perf', value=stamp.perf || '')
 			.conditionandcomments
 				.condition
 					label Condition:
 					input#condition.styled(type='text', name='condition', placeholder='mint/used', value=stamp.condition || '')
 					input#centering.centering.styled(type='text', name='centering', placeholder='grade', value=stamp.centering || '')
 					input#gumstate.gumstate.styled(type='text',  name='gumstate',  placeholder='gum', value=stamp.gumstate || '')
-					input#conditioncomments.styled(type='text', name='conditioncomments',  placeholder='comments', value=stamp.conditioncomments || '', onblur="updateStamp(this);")
+					input#conditioncomments.styled.updateStamp(type='text', name='conditioncomments',  placeholder='comments', value=stamp.conditioncomments || '')
 				.comments
 					label Comments:
-					textarea.styled(name='comments',rows= 8, value=stamp.comments || '', onblur="updateStamp(this);")#{stamp.comments}		
+					textarea.styled.updateStamp(name='comments',rows= 8, value=stamp.comments || '')#{stamp.comments}		
 		.separator
 		.categorylabeltemplate
 			label
-			img(src='/images/grayx.png', onclick='deleteCategory(this)')
+			img(src='/images/grayx.png') 
 		.categories
 			label Categories:
 			input#categorysource.styled(type='text')
-			input#addCategory(type='image', src='/images/arrow_right.png', onclick="addCategory()")
+			input#addCategory(type='image', src='/images/arrow_right.png')
 			.categorylabels
 		.collectionlabeltemplate
 			label
-			img(src='/images/grayx.png', onclick='deleteCollection(this)')
+			img(src='/images/grayx.png')
 		.collections
 			label Collections:
-			input#collectionsource.styled(type='text', onblur='leaveCollection(this)')
-			input#addCollection(type='image', src='/images/arrow_right.png', onclick="addCollection()")
+			input#collectionsource.styled(type='text')
+			input#addCollection(type='image', src='/images/arrow_right.png')
 			.collectionlabels
 		.taglabeltemplate
 			label
-			img(src='/images/grayx.png', onclick='deleteTag(this, upsertStamp)')
+			img(src='/images/grayx.png')
 		.tags
 			label Tags:
-			input#tagsource.styled(type='text', onblur='leaveTag(this)')
-			input#addTag(type='image', src='/images/arrow_right.png', onclick="addTag()")
+			input#tagsource.styled(type='text')
+			input#addTag(type='image', src='/images/arrow_right.png')
 			.taglabels
 	#popupImage
 		a#popupImageClose x
 		img#fullSizeImage
 	#backgroundPopup	
 	script
-		'use strict';
-		$(function() {
-			stamp = !{JSON.stringify(stamp)};
-			cataloglistings = !{JSON.stringify(cataloglistings)};
-			$('#clearsearchdetail').click(function () {
-				clearSearch();
-				showHideClearSearch($('#clearsearchdetail'));
-				displayThumbnails();
-			});
-			showHideClearSearch($('#clearsearchdetail'));
-			initializeStamp();
-		});
+		stamp = !{JSON.stringify(stamp)};
+		cataloglistings = !{JSON.stringify(cataloglistings)};
+		initializeStamp();

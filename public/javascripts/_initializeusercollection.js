@@ -1,6 +1,6 @@
-/*globals  $*/
+/*globals  $, window*/
 "use strict";
-var initializeUsercollection = function (stringifiedArray, window, userCollection) {
+var initializeUsercollection = function (imageInfos) {
 	$(function () {
 		var controls = {
 			tagControls : {
@@ -24,13 +24,10 @@ var initializeUsercollection = function (stringifiedArray, window, userCollectio
 				tagsvalue : $('#tagsvalue'),
 				clearsearch : $('#clearsearchdetail')
 			},
-			array : stringifiedArray,
 			collectionsource : $('#collectionsource'),
 			clearSearchControl :  $('#clearsearchdetail'),
 			doSearchControl :  $('#doSearch'),
 			toaster :  $('#toaster'),
-			//window :  $(window),
-			nostampImage :  '/images/nostamp.png',
 			getSubmitToSandboxActions :  function () {
 				return $('.stampitem-actions > .submitToSandbox');
 			},
@@ -46,12 +43,6 @@ var initializeUsercollection = function (stringifiedArray, window, userCollectio
 			getStampContainer :  function (target) {
 				return $(target).closest('div').prev('div.stampitem');
 			},
-			getStampImages : function () {
-				return $('.stampitem > .stampitem-image > img');
-			},
-			getStampLabels : function () {
-				return $('.normal');
-			},
 			listings : $('.listings'),
 			getStampListings : function () {
 				return $('.stampitem');
@@ -62,11 +53,19 @@ var initializeUsercollection = function (stringifiedArray, window, userCollectio
 			getStampIdForAction :  function (target) {
 				return $(target).closest('div').prev('div.stampitem').attr('id');
 			},
-			getStampImage : function (stampId) {
-				return $('.stampitem[id="' + stampId + '"] > .stampitem-image > img');
+			commonControls : {
+				getStampImages : function () {
+					return $('.stampitem > .stampitem-image > img');
+				},
+				getStampImage : function (stampId) {
+					return $('.stampitem[id="' + stampId + '"] > .stampitem-image > img');
+				},
+				getStampLabels : function () {
+					return $('.normal');
+				}
 			}
 		};
-		userCollection.initializeControls(controls);
-		userCollection.ready();
+		window.userCollection.initializeControls(controls, imageInfos);
+		window.userCollection.ready();
 	});
 };

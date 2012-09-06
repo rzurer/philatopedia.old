@@ -32,8 +32,5 @@ body
     .content
         block content
 script
-    var user = !{JSON.stringify(user)},
-        username = user && user.username ? user.username : '',
-        currentUrl = window.location.pathname;
-    initializelayout(mainlayout, username, currentUrl);
+    initializelayout(!{JSON.stringify(user)});
    

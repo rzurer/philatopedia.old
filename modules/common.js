@@ -1,6 +1,7 @@
 "use strict";
 exports.common = function (storage) {
-	return {
+	var result;
+	result = {
 		getStorage : function () {
 			return storage;
 		},
@@ -35,10 +36,10 @@ exports.common = function (storage) {
 			return result;
 		},
 		getPropertyCount: function (obj) {
-			return this.getObjectInfo(obj).length;
+			return result.getObjectInfo(obj).length;
 		},
 		propertiesExist: function (obj) {
-			return this.getPropertyCount(obj) > 0;
+			return result.getPropertyCount(obj) > 0;
 		},
 		showToaster : function (parent, toaster, text, callback) { //tested
 			var left, top, width;
@@ -73,9 +74,9 @@ exports.common = function (storage) {
 		},
 		getFromOrPlaceInLocalStorage : function (name, createFunction) {
 			if (!storage[name]) {
-				this.placeInLocalStorage(name, createFunction());
+				result.placeInLocalStorage(name, createFunction());
 			}
-			return this.getFromLocalStorage(name);
+			return result.getFromLocalStorage(name);
 		},
 		scrutinize : function (obj, silent) {
 			var property, text;
@@ -89,6 +90,8 @@ exports.common = function (storage) {
 				console.log(text);
 			}
 			return text;
-		}
+		},
+
 	};
+	return result;
 };

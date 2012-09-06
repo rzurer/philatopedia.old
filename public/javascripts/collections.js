@@ -1,15 +1,31 @@
 function addCollectionTag(collection) {
+	var cloned, image;
 	cloned = $('.collectionlabeltemplate').clone();
+	image = cloned.children('img');
 	cloned.removeClass('collectionlabeltemplate').addClass('collectionlabel')
 	cloned.children('label').text(collection);
 	cloned.appendTo('.collectionlabels');
+	image.click(function() {deleteCollection(this);})
+
 }
 
+function deleteCategory(obj) {
+	var source;
+	source = $(obj).prev().text();
+	$(obj).parent().remove();
+	stamp.categories = jQuery.grep(stamp.categories, function(value) {
+		return value != source;
+	});
+	upsertStamp();
+}
 function addCategoryTag(category) {
+	var cloned, image;
 	cloned = $('.categorylabeltemplate').clone();
-	cloned.removeClass('categorylabeltemplate').addClass('taglabel')
+	image = cloned.children('img');
+	cloned.removeClass('categorylabeltemplate').addClass('taglabel');
 	cloned.children('label').text(category);
 	cloned.appendTo('.categorylabels');
+	image.click(function() {deleteCategory(this);})
 }
 
 function addCategoryTags(categories) {
@@ -63,17 +79,6 @@ function addCategory() {
 		$('#categorysource').val('').focus();	
 	});
 }
-
-function deleteCategory(obj) {
-	var source;
-	source = $(obj).prev().text();
-	$(obj).parent().remove();
-	stamp.categories = jQuery.grep(stamp.categories, function(value) {
-		return value != source;
-	});
-	upsertStamp();
-}
-
 function addCollection() {
 	var collection, cloned;
 	collection = $('#collectionsource').val().trim();

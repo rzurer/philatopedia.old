@@ -32,7 +32,8 @@ var postFunction = function (url, input, callback) {
             searchRouter = require('./modules/routers').searchRouter(urls, postFunction),
             search = require('./modules/search').search(_search, common, searchRouter),
             stampRouter = require('./modules/routers').stampRouter(urls, window, postFunction),
-            _usercollection = require('./modules/_usercollection')._usercollection(picklists, tags, search, common, stampRouter, $);
+            _collectionCommon = require('./modules/_collectionCommon')._collectionCommon(urls, common, $),
+            _usercollection = require('./modules/_usercollection')._usercollection(_collectionCommon, urls, picklists, tags, search, common, stampRouter, $);
         window.userCollection = require('./modules/usercollection').userCollection(_usercollection);
     },
     initializeHome = function () {

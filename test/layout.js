@@ -33,7 +33,7 @@ var assert = require('assert'),
     },
     username = "amy winehouse",
     currentUrl = "www.google.com";
-describe('layout', function () {
+describe('layout_module', function () {
     describe('ready', function () {
         it("should initialize login controls", function () {
             var spy = sinon.spy(loginControl, "initializeControls");

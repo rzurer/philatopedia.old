@@ -1,9 +1,20 @@
 /*global  $,  stamp, upsertStamp, picklists, removeTagFromQuery*/
 "use strict";
+function deleteTag(obj) {
+	var tag;
+	tag = $(obj).prev().text();
+	$(obj).parent().remove();
+	stamp.tags.splice(stamp.tags.indexOf(tag), 1);
+	upsertStamp(function () {
+		picklists.setTagsAutocomplete(true);
+		removeTagFromQuery(tag);
+	});
+}
 function addStampTag(tag) {
 	var cloned = $('.taglabeltemplate').clone();
 	cloned.removeClass('taglabeltemplate').addClass('taglabel');
 	cloned.children('label').text(tag);
+	cloned.children('img').click(function () {deleteTag(this)});
 	cloned.appendTo('.taglabels');
 }
 function addlocalStampTag(tag) {
@@ -33,17 +44,6 @@ function addTag() {
 	upsertStamp(function () {
 		picklists.setTagsAutocomplete(true);
 		$('#tagsource').val('').focus();
-	});
-}
-
-function deleteTag(obj, callback) {
-	var tag;
-	tag = $(obj).prev().text();
-	$(obj).parent().remove();
-	stamp.tags.splice(stamp.tags.indexOf(tag), 1);
-	upsertStamp(function () {
-		picklists.setTagsAutocomplete(true);
-		removeTagFromQuery(tag);
 	});
 }
 

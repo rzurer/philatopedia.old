@@ -1,11 +1,12 @@
 "use strict";
-exports._usercollection = function (picklists, tags, search, common, router, jquery) {
+exports._usercollection = function (collectionCommon, urls, picklists, tags, search, common, router, jquery) {
 	var uicontrols, result, $;
 	uicontrols = {};
 	$ = jquery;
 	result =  {
-		initializeControls : function (controls) {
+		initializeControls : function (controls, imageInfos) {
 			uicontrols = controls;
+			collectionCommon.initializeControls(controls.commonControls, imageInfos);
 			tags.initializeControls(controls.tagControls);
 			search.initializeControls(controls.searchControls);
 			return common.getObjectInfo(uicontrols);
@@ -19,48 +20,14 @@ exports._usercollection = function (picklists, tags, search, common, router, jqu
 			uicontrols.collectionsource.val(null);
 			uicontrols.tagControls.tagsource.val(null);
 		},
-		setImages : function () {
-			var i, k, imageElement, stampId, defaultImageSrc, stampImage, stampImages, src;
-			for (i = 0; i < uicontrols.array.length; i += 1) {
-				imageElement = uicontrols.array[i];
-				stampId = imageElement.stampId;
-				defaultImageSrc = imageElement.defaultImageSrc;
-				stampImage = $(uicontrols.getStampImage(stampId));
-				if (defaultImageSrc && defaultImageSrc.length === 0) {
-					stampImage.attr('src', uicontrols.nostampImage);
-				} else {
-					stampImage.attr('src', defaultImageSrc);
-				}
-			}
-			stampImages = uicontrols.getStampImages();
-			for (k = 0; k < stampImages.length; k += 1) {
-				imageElement = $(stampImages[k]);
-				src = imageElement.attr('src');
-				if (!imageElement || src.length === 0) {
-					imageElement.attr('src', uicontrols.nostampImage);
-				}
-			}
-		},
-		truncate : function () {
-			var value, truncated, labels;
-			labels = uicontrols.getStampLabels();
-			labels.each(function () {
-				if ($(this).text().length > 30) {
-					value = $(this).text();
-					truncated = value.substring(0, 25) + " ...";
-					$(this).attr('title', value);
-					$(this).text(truncated);
-				}
-			});
-		},
 		cleanup : function (html) {
 			uicontrols.listings.hide();
 			uicontrols.listings.html(html);
-			this.setImages();
+			collectionCommon.setImages();
 			tags.deleteLocalTags();
 			this.clearSearchEntries();
 			search.displaySearchCriteria();
-			this.truncate();
+			collectionCommon.truncate();
 			this.assignEventHandlers();
 			uicontrols.listings.show();
 		},

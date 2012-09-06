@@ -6,25 +6,4 @@ block content
 		.listings
 			include _sandboxstamplisting
 	script
-		var	array;
-		array = !{JSON.stringify(arr)};
-		function setImages(){
-			var i, stampId, defaultImageSrc, img;
-			for (i = 0; i < array.length; i++) {
-				stampId = array[i].stampId;
-				defaultImageSrc = array[i].defaultImageSrc;
-				img = $('.stampitem[id="'+stampId+'"] > div > img');
-				img.attr('src', defaultImageSrc);
-			};
-			$('.stampitem > div > img').each(function(){
-				if(this.src.length === 0){
-					this.src = '/images/nostamp.png';
-				}	
-			});				
-		}
-		$(function(){
-			setImages();
-			$(window).load(function(){
-				setTimeout('truncate();;', 50);
-			});
-		});
+		initializeSandbox(!{JSON.stringify(arr)});

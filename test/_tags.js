@@ -19,7 +19,7 @@ var sut = require("../modules/_tags")._tags(),
 	teardown = function () {
 		controls = null;
 	};
-describe('LocalTagsInternals', function () {
+describe('_tags_module', function () {
 	beforeEach(setup);
 	afterEach(teardown);
 	describe('#createTagFromTemplate', function () {

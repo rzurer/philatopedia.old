@@ -66,3 +66,4 @@ exports.stampRouter = function (urls, window, postFunction) {
         }
     };
 };
+

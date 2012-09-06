@@ -22,7 +22,7 @@ var sinon = require('sinon'),
 		dataArg = null;
 		callbackArg = null;
 	};
-describe('Routers', function () {
+describe('routers_module', function () {
 	beforeEach(setup);
 	describe('MainLayoutRouter', function () {
 		describe('#home', function () {
@@ -188,6 +188,5 @@ describe('Routers', function () {
 			});
 		});
 	});
-
 });
 

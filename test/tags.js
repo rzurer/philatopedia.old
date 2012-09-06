@@ -25,7 +25,7 @@ var internals = require("../modules/_tags")._tags(),
 	teardown = function () {
 		controls = null;
 	};
-describe('LocalTags', function () {
+describe('tags_module', function () {
 	beforeEach(setup);
 	afterEach(teardown);
 	describe('#deleteLocalTags', function () {

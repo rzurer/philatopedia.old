@@ -14,8 +14,17 @@ exports.urls = {
 	submitToSandbox : '/submitToSandbox',
 	getStamp : '/getStamp',
 	deleteStamp : '/deleteStamp',
+	splashSrc : "/images/StampCollectionPelicanLake1960.jpg",
+	noimagesrc : '/images/dropimagehere.png',
+	nostampimage : '/images/nostamp.png',
+	getUser : '/getUser',
 	goToStamp : function (id) {
 		return '/stamps/?id=' + id;
 	},
-	splashSrc : "/images/StampCollectionPelicanLake1960.jpg"
+	getFullSizeImageUrl : function (src) {
+		if (src === this.noimagesrc) {
+			return this.noimagesrc;
+		}
+		return '/temp/orig_' + src.substr(src.lastIndexOf('/') + 1);
+	}
 };
