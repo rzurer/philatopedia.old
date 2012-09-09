@@ -197,7 +197,7 @@ function initialize(app, fs, model, imagemagick) {
         id = req.param('id');
         stamp = model.stamp.getStamp(userId, id, function (stamp) {
             model.catalog.getAllCatalogs(function (catalogs) {
-                res.render('stamps/stamp', {stamp: stamp, cataloglistings : catalogs, user: getUser(req)});
+                res.render('stamps/_stamp', {stamp: stamp, cataloglistings : catalogs, user: getUser(req)});
             });
         });
     });

@@ -54,26 +54,35 @@ exports._usercollection = function (collectionCommon, urls, picklists, tags, sea
 			stampId = uicontrols.getStampId(this);
 			router.goToStamp(stampId);
 		},
+		delayedRemoveContainers : function (target) {
+			var toaster = uicontrols.toaster, 
+				deletedStampContainer = uicontrols.getStampContainer(target),
+				deleteStampAction = uicontrols.getDeleteStampAction(target),
+				removeContainers =  function () {
+					deletedStampContainer.remove();
+					deleteStampAction.remove();
+				};
+			setTimeout(removeContainers, 1200);
+		},
+		doDeleteStamp : function (target) {
+			var deletedStampContainer = uicontrols.getStampContainer(target),
+			toaster = uicontrols.toaster, 
+				callback = function () {
+					result.delayedRemoveContainers(target);
+				};
+			common.showToaster(deletedStampContainer, toaster, "deleting ...", callback);
+		},
 		deleteStamp : function () {
-			var stampId, target, deleteStampAction, deletedStampContainer, removeContainers, delayedRemoveContainers;
+			var stampId, target;
 			target = this;
 			stampId = uicontrols.getStampIdForAction(target);
 			router.deleteStamp(stampId, function (data) {
 				if (data.success) {
-					deletedStampContainer = uicontrols.getStampContainer(target);
-					deleteStampAction = uicontrols.getDeleteStampAction(target);
-					removeContainers =  function () {
-						deletedStampContainer.remove();
-						deleteStampAction.remove();
-					};
-					delayedRemoveContainers = function () {
-						setTimeout(removeContainers, 1200);
-					};
-					common.showToaster(deleteStampAction, uicontrols.toaster, "deleting ...", delayedRemoveContainers);
+					result.doDeleteStamp(target);
 				}
 			});
 		},
-		assignEventHandlers : function (argument) {
+		assignEventHandlers : function () {
 		    uicontrols.getSubmitToSandboxActions().click(this.submitToSandbox);
 			uicontrols.getDeleteStampActions().click(this.deleteStamp);
 			uicontrols.getStampListings().click(this.goToStamp);
@@ -132,7 +141,6 @@ exports._usercollection = function (collectionCommon, urls, picklists, tags, sea
 				result.cleanup(html);
 			};
 			search.filterStampListings(callback);
-
 		}
 	};
 	return result;

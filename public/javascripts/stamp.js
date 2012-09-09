@@ -459,15 +459,12 @@ var setCurrencyName = function () {
 	}
 };
 var doInitializeStamp = function () {
-	$(window).bind('load', function () {
-		setTimeout(displayThumbnails, 100);
-	});
 	$(window).bind('beforeunload', upsertStamp);
 	addStampTags(stamp.tags);
 	addCategoryTags(stamp.categories);
 	addCollectionTags(stamp.collections);
 	displaySearchCriteria();
-	// displayThumbnails();
+	displayThumbnails();
 	initialize();
 };
 var initialize = function () {

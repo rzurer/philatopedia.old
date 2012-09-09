@@ -3,7 +3,8 @@
 var assert = require('assert'),
     sinon = require('sinon'),
     $ = require('jquery'),
-    localStorage = {collectionOrTagsQuery : {collection: 'foo'}},
+    func = function () {},
+    localStorage = {collectionOrTagsQuery : {collection: 'foo'}, removeItem : func},
     postFunction = function (url, data, callback) {
         if (callback) {
             callback(data);
@@ -24,16 +25,16 @@ var assert = require('assert'),
     sut = require('../modules/_usercollection')._usercollection(collectionCommon, urls, picklists, tags, search, common, stampRouter, $),
     controls,
     info,
-    func = function () {},
+    label = $('<label/>'),
     getLabel = function (argument) {
         return $('<label/>');
     },
-    labelFunc = function () {return getLabel(); },
+    labelFunc = function () {return label; },
     autocompleteTarget = $('<input/>'),
     tagControls = {
         tagsource : autocompleteTarget,
         getLocalTags : function () {return {remove : func}; },
-        addLocalTagControl : getLabel(),
+        addLocalTagControl : labelFunc(),
         getLocalTaglabels : function () {return {each : func}; },
         localTagsContainer :  {css : func},
     },
@@ -79,6 +80,7 @@ var assert = require('assert'),
         {stampId : 3, defaultImageSrc : 'tulip'},
         {stampId : 4, defaultImageSrc : 'geranium'}
     ],
+    stampId = 42,
     setup = function () {
         autocompleteTarget.autocomplete = func;
         controls = {
@@ -87,13 +89,16 @@ var assert = require('assert'),
             searchControls : searchControls,
             collectionsource : collectionsource,
             listings : listings,
+            getStampId : function () {return 42; },
             getSubmitToSandboxActions : labelFunc,
             getSubmitToSandboxAction : labelFunc,
-            getStampIdForAction : function (obj) {return 1; },
+            getStampContainer : labelFunc,
+            getStampIdForAction : function (obj) {return stampId; },
             getDeleteStampActions : labelFunc,
+            getDeleteStampAction : labelFunc,
             getStampListings : labelFunc,
-            clearSearchControl : getLabel(),
-            doSearchControl : getLabel(),
+            clearSearchControl : labelFunc(),
+            doSearchControl : labelFunc(),
             toaster : toaster
         };
         search.initializeControls(searchControls);
@@ -289,14 +294,204 @@ describe('_usercollection_module', function () {
         describe("submitToSandbox", function () {
             it("should get the stamp id", function () {
                 var spy;
-                spy = sinon.spy(controls, 'getStampIdForAction'); 
+                spy = sinon.spy(controls, 'getStampIdForAction');
                 sut.submitToSandbox(this);
                 controls.getStampIdForAction.restore();
 
-                sinon.assert.calledWith(spy, sut);                
+                sinon.assert.calledWith(spy, sut);
             });
+        });
+        describe("goToStamp", function () {
+            it("should get the stamp id", function () {
+                var spy;
+                spy = sinon.spy(stampRouter, 'goToStamp');
+                sut.goToStamp();
+                stampRouter.goToStamp.restore();
+
+                sinon.assert.calledWith(spy, stampId);
+            });
+        });
+        describe("deleteStamp", function () {
+            it("should get the stamp id", function () {
+                var spy;
+                spy = sinon.spy(controls, 'getStampIdForAction');
+                sut.deleteStamp();
+                controls.getStampIdForAction.restore();
+
+                sinon.assert.calledOnce(spy);
+            });
+            it("should call router deleteStamp", function () {
+                var spy;
+                spy = sinon.spy(stampRouter, 'deleteStamp');
+                sut.deleteStamp();
+                stampRouter.deleteStamp.restore();
+
+                sinon.assert.calledWith(spy, stampId);
+            });
+            it("when delete is successful should call doDeleteStamp", function () {
+                var spy, stub;
+                spy = sinon.spy(sut, 'doDeleteStamp');
+                stub = sinon.stub(stampRouter, "deleteStamp");
+                stub.yields({success :  true});
+                sut.deleteStamp();
+                stampRouter.deleteStamp.restore();
+                sut.doDeleteStamp.restore();
+
+                sinon.assert.calledOnce(spy);
+            });
+            it("when delete is successful should not call doDeleteStamp", function () {
+                var spy, stub;
+                spy = sinon.spy(sut, 'doDeleteStamp');
+                stub = sinon.stub(stampRouter, "deleteStamp");
+                stub.yields({success :  false});
+                sut.deleteStamp();
+                stampRouter.deleteStamp.restore();
+                sut.doDeleteStamp.restore();
+
+                assert.strictEqual(spy.callCount, 0);
+            });
+        });
+        describe("doDeleteStamp", function () {
+            it("should get the stamp container control", function () {
+                var spy, target;
+                target = getLabel();
+                spy = sinon.spy(controls, 'getStampContainer');
+                sut.doDeleteStamp(target);
+                controls.getStampContainer.restore();
+
+                sinon.assert.calledWith(spy, target);
+            });
+            it("should get the delete stamp action control", function () {
+                var spy, target;
+                target = getLabel();
+                spy = sinon.spy(controls, 'getDeleteStampAction');
+                sut.doDeleteStamp(target);
+                controls.getDeleteStampAction.restore();
+
+                sinon.assert.calledWith(spy, target);
+            });
+            it("should show toaster", function () {
+                var spy = sinon.spy(common, 'showToaster'),
+                    target = getLabel();
+                sut.doDeleteStamp(target);
+                common.showToaster.restore();
+
+                sinon.assert.calledOnce(spy);
+            });
+        });
+        describe("assignEventHandlers", function () {
+            var getDistinctTagsStub, getDistinctCollectionsStub;
+            beforeEach(function () {
+                getDistinctTagsStub = sinon.stub(picklistsRouter, 'getDistinctTags').yields({tags: []});
+                getDistinctCollectionsStub = sinon.stub(picklistsRouter, 'getDistinctCollections').yields({collections: []});
+            });
+            afterEach(function () {
+                getDistinctTagsStub.restore();
+                getDistinctCollectionsStub.restore();
+            });
+            it("should set getSubmitToSandboxActions click to submitToSandbox", function () {
+                var spy;
+                spy = sinon.spy(sut, 'submitToSandbox');
+                sut.assignEventHandlers();
+                sut.submitToSandbox.restore();
+                label.click();
+                label.unbind('click');
+
+                sinon.assert.calledOnce(spy);
+            });
+             it("should set getDeleteStampActions click to deleteStamp", function () {
+                var spy;
+                spy = sinon.spy(sut, 'deleteStamp');
+                sut.assignEventHandlers();
+                sut.deleteStamp.restore();
+                label.click();
+                label.unbind('click');
+
+                sinon.assert.calledOnce(spy);
+            });
+            it("should set getStampListings click to goToStamp", function () {
+                var spy;
+                spy = sinon.spy(sut, 'goToStamp');
+                sut.assignEventHandlers();
+                sut.goToStamp.restore();
+                label.click();
+                label.unbind('click');
+
+                sinon.assert.calledOnce(spy);
+            });
+            it("should set clearSearchControl click to clearSearch", function () {
+                var spy;
+                controls.clearSearchControl = label;
+                spy = sinon.spy(sut, 'clearSearch');
+                sut.assignEventHandlers();
+                sut.clearSearch.restore();
+                label.click();
+                label.unbind('click');
+
+                sinon.assert.calledOnce(spy);
+            });
+            it("should set tagControls.tagsource blur to leaveTag", function () {
+                var spy;
+                spy = sinon.spy(sut, 'leaveTag');
+                sut.assignEventHandlers();
+                sut.leaveTag.restore();
+                autocompleteTarget.blur();
+                autocompleteTarget.unbind('click');
+
+                sinon.assert.calledOnce(spy);
+            });
+            it("should se tagControls.addLocalTagControl click to addLocalTag", function () {
+                var spy;
+                spy = sinon.spy(sut, 'addLocalTag');
+                sut.assignEventHandlers();
+                sut.addLocalTag.restore();
+                label.click();
+
+                sinon.assert.calledOnce(spy);
+            });
+            it("should set doSearchControl click to createQueryAndSearch", function () {
+                var spy, stub1, stub2;
+                spy = sinon.spy(sut, 'createQueryAndSearch');
+                sut.assignEventHandlers();
+                label.click();
+
+                sut.createQueryAndSearch.restore();
+
+                sinon.assert.calledOnce(spy);
+            });
+        });
+        describe('setSearchControls', function () {
+
+        });
+        describe('createQueryAndSearch', function () {
+
+        });
+        describe('clearSearch', function () {
+
+        });
+        describe('leaveTag', function () {
+
+        });
+        describe('addLocalTag', function () {
+
+        });
+        describe('ready', function () {
+
         });
     });
 });
 
-/*  is this tested completely? */
+/*          setSearchControls : function () {
+            var collectionsCallback = function (collections) {
+                    if (collections.length === 0) {
+                        uicontrols.collectionsource.attr("disabled", "disabled");
+                    }
+                },
+                tagsCallback = function (tags) {
+                    if (tags.length === 0) {
+                        uicontrols.tagControls.tagsource.attr("disabled", "disabled");
+                    }
+                };
+            picklists.getCollections(collectionsCallback);
+            picklists.getTags(tagsCallback);
+        },*/
