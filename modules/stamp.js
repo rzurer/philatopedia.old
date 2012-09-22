@@ -12,9 +12,6 @@ exports.stamp = function (urls, router, popup, stamp) {
 			var src = uicontrols.dropImage.attr('src');
 			return urls.getFullSizeImageUrl(src);
 		},
-		identify : function () {
-
-		},
 		dropImageClick : function () {
 			var url, src;
 			src = result.getFullSizeImageUrl();
@@ -23,10 +20,33 @@ exports.stamp = function (urls, router, popup, stamp) {
 			}
 			uicontrols.fullSizeImage.attr('src', src);
 			url = uicontrols.fullSizeImage.get(0).src;
-			result.identify(url, popup.showPopup);
+			router.identify(url, popup.showPopup);
 		},
-		assignEventHandlers : function () {
+		assignPopupEvents : function () {
 			uicontrols.dropImage.click(result.dropImageClick);
+		},
+		getTotalImageWidth : function (arr) {
+			var totalImageWidth = 0;
+			arr.forEach(function (element) {
+				totalImageWidth += element.width();
+			});
+			return totalImageWidth;
+		},
+		canSaveStamp : function (stamp) {
+			if (!stamp) {
+				throw "stamp should not be undefined";
+			}
+			if (!stamp.issuedBy || stamp.issuedBy === 'null') {
+				return false;
+			}
+			return true;
+		},
+		getStampHtml : function (id) {
+			var callback = function (data) {
+				history.pushState( {id: id}, '', '/stamps/?id=' + id);
+				$('.stampcontainer').html(data);
+			};
+			router.getStampHtml(id, callback);
 		}
 	};
 	return result;

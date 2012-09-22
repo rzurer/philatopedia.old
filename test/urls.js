@@ -21,6 +21,8 @@ describe('urls_module', function () {
         assert.strictEqual(sut.getUser, '/getUser');
         assert.strictEqual(sut.noimagesrc, '/images/dropimagehere.png');
         assert.strictEqual(sut.nostampimage, '/images/nostamp.png');
+        assert.strictEqual(sut.identify, '/identify');
+        assert.strictEqual(sut.getStampHtml, '/stamps');
     });
     describe('goToStamp', function () {
         it("should return expected url", function () {

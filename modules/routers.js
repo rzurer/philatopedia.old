@@ -63,7 +63,12 @@ exports.stampRouter = function (urls, window, postFunction) {
         },
         deleteStamp : function (id, callback) {
             postFunction(urls.deleteStamp, { id: id}, callback);
+        },
+        identify : function (url, callback) {
+            postFunction(urls.identify, { url: url }, callback);
+        },
+        getStampHtml : function (id, callback) {
+            postFunction(urls.getStampHtml, { id: id }, callback);
         }
     };
 };
-

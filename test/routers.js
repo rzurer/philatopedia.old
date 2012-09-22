@@ -187,6 +187,17 @@ describe('routers_module', function () {
 				assert.strictEqual(callbackArg, callback);
 			});
 		});
+		describe('#identify', function () {
+			it("should post with expected arguments", function () {
+				var url, expected;
+				url = "foo";
+				expected = {url : url};
+				stampRouter.identify(url, callback);
+				assert.strictEqual(urlArg, urls.identify);
+				assert.deepEqual(dataArg, expected);
+				assert.strictEqual(callbackArg, callback);
+			});
+		});
 	});
 });
 

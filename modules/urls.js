@@ -18,6 +18,8 @@ exports.urls = {
 	noimagesrc : '/images/dropimagehere.png',
 	nostampimage : '/images/nostamp.png',
 	getUser : '/getUser',
+	identify : '/identify',
+	getStampHtml : '/stamps',
 	goToStamp : function (id) {
 		return '/stamps/?id=' + id;
 	},

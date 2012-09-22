@@ -132,7 +132,7 @@ var getTotalImageWidth = function (arr) {
 	});
 	return totalImageWidth;
 };
-var getCurrentImageIndex = function (arr, currentImageId) {
+var getCurrentImageIndex = function (arr, currentImageId) { //not used?
 	var currentImageIndex = -1;
 	arr.forEach(function (element, index) {
 		if (element.imageId === currentImageId) {
