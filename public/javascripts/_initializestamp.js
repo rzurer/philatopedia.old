@@ -3,50 +3,50 @@
 var initializeStamp = function () {
 	$(function () {
 		$('#clearsearchdetail').click(function () {
-			clearSearch();
-			showHideClearSearch($('#clearsearchdetail'));
-			displayThumbnails();
+			clearSearch();//search
+			showHideClearSearch($('#clearsearchdetail'));//search?
+			displayThumbnails();//stamp
 		});
 		$('.updateStamp').blur(function () {
-			updateStamp(this); 
+			updateStamp(this); //stamp
 		});
 		$('.goToPreviousCatalog').click(function () {
-			sliders[0].goToPrev();
+			sliders[0].goToPrev();//sliders
 		});
 		$('.goToNextCatalog').click(function () {
-			sliders[0].goToNext();
+			sliders[0].goToNext();//sliders
 		});
 		$('.addOrUpdateIdentifier').blur(addOrUpdateIdentifier);
 		$('.setImageCaption').blur(function () {
-			imageCarousel.setImageCaption(this);
+			imageCarousel.setImageCaption(this);//imageCarousel
 		});
 		$('#navFirst').click(function () {
-			imageCarousel.navigateTo("first");
+			imageCarousel.navigateTo("first");//imageCarousel
 		});
 		$('#navPrevious').click(function () {
-			imageCarousel.navigateTo("previous");
+			imageCarousel.navigateTo("previous");//imageCarousel
 		});
 		$('#navNext').click(function () {
-			imageCarousel.navigateTo("next");
+			imageCarousel.navigateTo("next");//imageCarousel
 		});
 		$('#navLast').click(function () {
-			imageCarousel.navigateTo("last");
+			imageCarousel.navigateTo("last");//imageCarousel
 		});
-		$('#navRemove').click(removeImage); //broken
-		$('#currencySymbol').blur(setCurrencySymbol);
-		$('#currency').blur(setCurrencyName);
-		$('#addCategory').click(addCategory);
-		$('#addCollection').click(addCollection);
+		$('#navRemove').click(removeImage); //broken refactor to use s3
+		$('#currencySymbol').blur(setCurrencySymbol);//stamp
+		$('#currency').blur(setCurrencyName);//stamp
+		$('#addCategory').click(addCategory);//collections
+		$('#addCollection').click(addCollection);//collections
 		$("#collectionsource").blur(function () {
-			leaveCollection(this);
+			leaveCollection(this);//collections
 		});
 		$("#tagsource").blur(function () {
-			leaveTag(this);
+			leaveTag(this);//tags
 		});
-		$('#addTag').click(addTag);
-		$('.thumbnailNavPrevious > img').click(previousThumbnail);
-		$('.thumbnailNavNext > img').click(nextThumbnail);
-		showHideClearSearch($('#clearsearchdetail'));
-		doInitializeStamp();
+		$('#addTag').click(addTag);//tags
+		$('.thumbnailNavPrevious > img').click(previousThumbnail);//stamp
+		$('.thumbnailNavNext > img').click(nextThumbnail);//stamp
+		//showHideClearSearch($('#clearsearchdetail'));//search?
+		doInitializeStamp();//stamp
 	});
 };

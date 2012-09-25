@@ -12,11 +12,10 @@ describe('s3Helper_module', function () {
 		buffer = 'now is the time for all good men to come to the aid of their party';
 		userId = 'bob';
 		writeCallback = function (req, res) {
-			assert.strictEqual(200, res.statusCode)
+			assert.strictEqual(200, res.statusCode);
 			assert.strictEqual(req.url, "https://philatopedia.s3.amazonaws.com/bob/now_is_the_time.txt");
-			console.log("message");
 			done();
-		} ;
+		};
 		sut.saveUserFile(userId, filename, writeCallback);
 	});
 });

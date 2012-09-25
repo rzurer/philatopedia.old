@@ -1,4 +1,4 @@
-/*global  describe, it, beforeEach*/
+/*globals  describe, it, beforeEach*/
 "use strict";
 var urls = require('../modules/urls').urls,
 	window = {},
@@ -7,7 +7,7 @@ var urls = require('../modules/urls').urls,
 			callback(input.username);
 		}
 	},
-	func = function (){},
+	func = function () {},
 	router = require('../modules/routers').mainLayoutRouter(urls, window, postFunction),
     sut = require('../modules/logincontrol').loginControl(router),
     $ = require('jquery'),
@@ -87,7 +87,7 @@ describe('logincontrol_module', function () {
 	});
 	describe('#private methods', function () {
 		beforeEach(function () {
-			sut.setClickEvents(); 
+			sut.setClickEvents();
 		});
 		describe('#loginMenu click', function () {
 			it("should show login container", function () {
@@ -140,13 +140,13 @@ describe('logincontrol_module', function () {
 				sinon.assert.calledWith(spy, "normal");
 			});
 		});
-		// describe('#username entry click', function () {
-		// 	it("should return false", function () {
-		// 		var value;
-		// 		value = controls.usernameInput.click();
-		// 		console.log(value['0']._listeners.click.false[0]());
-		// 	});
-		// });
+		//describe('#username entry click', function () {
+		//	it("should return false", function () {
+		//		var value;
+		//		value = controls.usernameInput.click();
+		//		console.log(value['0']._listeners.click.false[0]());
+		//	});
+		//});
 		describe('#login button click', function () {
 			it("should get username entry value", function () {
 				var spy = sinon.spy(controls.usernameInput, "val");
@@ -264,7 +264,7 @@ describe('logincontrol_module', function () {
 		});
 		describe('when username is empty', function () {
 			var username;
-			beforeEach(function () {				
+			beforeEach(function () {
 				username = "";
 			});
 			it("should show login menu", function () {
@@ -276,7 +276,7 @@ describe('logincontrol_module', function () {
 			it("should hide logout menu", function () {
 				var spy, tempLogoutMenu;
 				tempLogoutMenu = controls.logoutMenu;
-				controls.logoutMenu = {hide : func}
+				controls.logoutMenu = {hide : func};
 				spy = sinon.spy(controls.logoutMenu, "hide");
 				sut.setLoginControls(username);
 
@@ -289,7 +289,7 @@ describe('logincontrol_module', function () {
 			it("should hide welcome", function () {
 				var spy, tempWelcome;
 				tempWelcome = controls.welcome;
-				controls.welcome = {hide : func, text : func, show : func}
+				controls.welcome = {hide : func, text : func, show : func};
 				spy = sinon.spy(controls.welcome, "hide");
 				sut.setLoginControls(username);
 

@@ -1,9 +1,11 @@
+/*globals  history*/
 "use strict";
-exports.stamp = function (urls, router, popup, stamp) {
+exports.stamp = function (urls, router, popup, search, stamp) {
 	var result, uicontrols;
 	result = {
 		initializeControls : function (controls) {
 			uicontrols = controls;
+			search.initializeControls(controls.searchControls);
 		},
 		updateStamp : function (obj) {
 			stamp[obj.name] = obj.value;
@@ -25,13 +27,6 @@ exports.stamp = function (urls, router, popup, stamp) {
 		assignPopupEvents : function () {
 			uicontrols.dropImage.click(result.dropImageClick);
 		},
-		getTotalImageWidth : function (arr) {
-			var totalImageWidth = 0;
-			arr.forEach(function (element) {
-				totalImageWidth += element.width();
-			});
-			return totalImageWidth;
-		},
 		canSaveStamp : function (stamp) {
 			if (!stamp) {
 				throw "stamp should not be undefined";
@@ -43,14 +38,30 @@ exports.stamp = function (urls, router, popup, stamp) {
 		},
 		getStampHtml : function (id) {
 			var callback = function (data) {
-				history.pushState( {id: id}, '', '/stamps/?id=' + id);
-				$('.stampcontainer').html(data);
+				history.pushState({id: id}, '', '/stamps/?id=' + id);
+				uicontrols.stampcontainer.html(data);
 			};
 			router.getStampHtml(id, callback);
-		}
+		},
+		createUpsertCallback : function (callback) {
+			return function (data) {
+				stamp = data;
+				if (callback) {
+					callback();
+				}
+			};
+		},
+		upsertStamp : function (callback) {
+			var upsertCallback;
+			if (!result.canSaveStamp(stamp)) {
+				return;
+			}
+			upsertCallback = result.createUpsertCallback(callback);
+			router.upsertStamp(stamp, upsertCallback);
+		},
+
 	};
 	return result;
 };
-
 
 

@@ -1,4 +1,4 @@
- /*jslint browser: true*/
+/*jslint browser: true*/
 /*global  $, getFromLocalStorage, placeInLocalStorage, picklists, NavigationButtons, ImageCarousel, PropertyManager,
 initializeEvents, getDefaultImage, Slider, Identifiers, addStampTags, addCategoryTags, addCollectionTags, displaySearchCriteria,
 initialize*/
@@ -460,21 +460,21 @@ var setCurrencyName = function () {
 };
 var doInitializeStamp = function () {
 	$(window).bind('beforeunload', upsertStamp);
-	addStampTags(stamp.tags);
-	addCategoryTags(stamp.categories);
-	addCollectionTags(stamp.collections);
-	displaySearchCriteria();
-	displayThumbnails();
-	initialize();
+	addStampTags(stamp.tags);//tags
+	addCategoryTags(stamp.categories);//collections
+	addCollectionTags(stamp.collections);//collections
+	displaySearchCriteria();//modules/search
+	displayThumbnails();//stamp ==> imageCarousel
+	initialize();//stamp
 };
 var initialize = function () {
 	popupStatus = 0;
 	sliders = [];
-	setCatalogsSlider();
-	setImageCarousel(stamp);
-	setAutoCompletes();
-	setIssueDatePicker();
-	assignPopupEvents();
-	getCountryCurrencies();
+	setCatalogsSlider();//stamp
+	setImageCarousel(stamp);//stamp
+	setAutoCompletes();//stamp
+	setIssueDatePicker();//stamp
+	assignPopupEvents();//stamp
+	getCountryCurrencies();//stamp
 	$('#issuedBy').focus();
 };

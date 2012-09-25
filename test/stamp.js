@@ -1,18 +1,29 @@
 /*global  describe, beforeEach, afterEach, it*/
 "use strict";
-var sinon = require('sinon'),
+var localStorage = {},
+    window = {},
+    func = function () {},
+    postFunction = function (url, data, callback) {
+        if (callback) {
+            callback(data);
+        }
+    },
+	stamp = {},
+	controls,
+	sinon = require('sinon'),
 	assert = require('assert'),
 	$ = require('jquery'),
-    urls = require('../modules/urls').urls,
-    func = function () {},
-    window = {},
-    router = require('../modules/routers').stampRouter(urls, window, func),
-	stamp,
-	controls,
-	sut,
-	popup,
+	common =  require('../modules/common').common(localStorage),
+	popup = require('../modules/popup').popup(),
+	urls = require('../modules/urls').urls,
+	router = require('../modules/routers').stampRouter(urls, window, func),
+	tagInternals = require("../modules/_tags")._tags(),
+	tags = require("../modules/tags").tags(tagInternals),
+	searchInternals = require('../modules/_search')._search(tags, common),
+	searchRouter = require('../modules/routers').searchRouter(urls, postFunction),
+	search = require('../modules/search').search(searchInternals, common, searchRouter),
+	sut = require('../modules/stamp').stamp(urls, router, popup, search, stamp),
 	setup = function () {
-		stamp = {};
 		controls = {
 			dropImage : $('<img/>'),
 			backgroundPopup : $('<div/>'),
@@ -20,30 +31,32 @@ var sinon = require('sinon'),
 			body : $('<body/>'),
 			fullSizeImage : $('<div/>')
 		};
-		popup = require('../modules/popup').popup();
 		popup.initializeControls(controls);
-		sut = require('../modules/stamp').stamp(urls, router, popup, stamp);
 		sut.initializeControls(controls);
 	};
 describe('stamp_module', function () {
 	beforeEach(setup);
-	it("updateStamp should set stamp property value", function () {
-		var obj = {name : 'foo', value : 'baz'};
-		sut.updateStamp(obj);
-		assert.strictEqual(stamp.foo, 'baz');
-		obj = {name : 'bip', value : 'bop'};
-		sut.updateStamp(obj);
-		assert.strictEqual(stamp.foo, 'baz');
-		assert.strictEqual(stamp.bip, 'bop');
+	describe('updateStamp', function () {
+		it("should set stamp property value", function () {
+			var obj = {name : 'foo', value : 'baz'};
+			sut.updateStamp(obj);
+			assert.strictEqual(stamp.foo, 'baz');
+			obj = {name : 'bip', value : 'bop'};
+			sut.updateStamp(obj);
+			assert.strictEqual(stamp.foo, 'baz');
+			assert.strictEqual(stamp.bip, 'bop');
+		});
 	});
-	it("getFullSizeImageUrl should get full size image path of dropImage src", function () {
-		var spy = sinon.spy(urls, 'getFullSizeImageUrl'),
-			src = 'foo';
-		controls.dropImage.attr('src', src);
-		sut.getFullSizeImageUrl();
-		urls.getFullSizeImageUrl.restore();
+	describe('getFullSizeImageUrl', function () {
+		it("should get full size image path of dropImage src", function () {
+			var spy = sinon.spy(urls, 'getFullSizeImageUrl'),
+				src = 'foo';
+			controls.dropImage.attr('src', src);
+			sut.getFullSizeImageUrl();
+			urls.getFullSizeImageUrl.restore();
 
-		sinon.assert.calledWith(spy, src);
+			sinon.assert.calledWith(spy, src);
+		});
 	});
 	describe('dropImageClick', function () {
 		it("should call router identify", function () {
@@ -86,24 +99,16 @@ describe('stamp_module', function () {
 			sinon.assert.calledWith(spy, 'src', src);
 		});
 	});
-	it("assignPopupEvents should assign dropImage click event", function () {
-		var spy;
-		spy = sinon.spy(sut, 'dropImageClick');
-		sut.assignPopupEvents();
-		controls.dropImage.click();
-		sut.dropImageClick.restore();
+	describe('assignPopupEvents', function () {
+		it("should assign dropImage click event", function () {
+			var spy;
+			spy = sinon.spy(sut, 'dropImageClick');
+			sut.assignPopupEvents();
+			controls.dropImage.click();
+			sut.dropImageClick.restore();
 
-		sinon.assert.calledOnce(spy);
-	});
-	it("getTotalImageWidth should return sum of images width", function () {
-		var arr, getImage, actual, width;
-		width = 10;
-		getImage = function () {
-			return { width : function () { return width; }};
-		};
-		arr = [ getImage(), getImage(), getImage(), getImage()];
-		actual = sut.getTotalImageWidth(arr);
-		assert.strictEqual(actual, arr.length * width);
+			sinon.assert.calledOnce(spy);
+		});
 	});
 	describe('canSaveStamp', function () {
 		it("when stamp is undefined should throw", function () {
@@ -127,10 +132,43 @@ describe('stamp_module', function () {
 			assert.strictEqual(canSave, false);
 		});
 		it("when stamp.issuedBy is defined should return true", function () {
-			var stamp = {issuedBy : "Great Britain"};
-			var canSave = sut.canSaveStamp(stamp);
+			var stamp, canSave;
+			stamp = {issuedBy : "Great Britain"};
+			canSave = sut.canSaveStamp(stamp);
 			assert.strictEqual(canSave, true);
 		});
 	});
+	describe('upsertStamp', function () {
+		describe('when can save stamp is false', function () {
+			it("should not call router upsert stamp", function () {
+				var spy, stub;
+				spy = sinon.spy(router, 'upsertStamp');
+				stub = sinon.stub(sut, 'canSaveStamp').returns(false);
+				sut.upsertStamp(stamp, func);
 
+				router.upsertStamp.restore();
+				sut.canSaveStamp.restore();
+
+				sinon.assert.notCalled(spy);
+
+			});
+		});
+		describe('when can save stamp is true', function () {
+			it("should call router upsert stamp", function () {
+				var spy, stub, upsertCallbackStub;
+				spy = sinon.spy(router, 'upsertStamp');
+				stub = sinon.stub(sut, 'canSaveStamp').returns(true);
+				upsertCallbackStub = sinon.stub(sut, 'createUpsertCallback').returns(func);
+
+				sut.upsertStamp(stamp, func);
+
+				router.upsertStamp.restore();
+				sut.canSaveStamp.restore();
+				sut.createUpsertCallback.restore();
+
+				sinon.assert.calledWith(spy, stamp, func);
+
+			});
+		});
+	});
 });

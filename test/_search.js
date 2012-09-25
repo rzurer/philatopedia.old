@@ -48,4 +48,33 @@ describe('_search_module', function () {
 			assert.deepEqual(['birds', 'bees'], query.tags);
 		});
 	});
+	describe('#getQueryInfo', function () {
+		it("should try to get search criteria from local storage", function () {
+			var spy;
+			spy = sinon.spy(common, 'getFromLocalStorage');
+			sut.getQueryInfo();
+			assert(spy.calledOnce);
+			common.getFromLocalStorage.restore();
+		});
+		describe('when query is undefined', function () {
+			it("should return expected", function () {
+				var stub, actual;
+				stub = sinon.stub(common, 'getFromLocalStorage').returns();
+				actual = sut.getQueryInfo();
+				common.getFromLocalStorage.restore();
+				assert.deepEqual(actual, { hasTags : false, hasCollection: false });
+			});
+		});
+		describe('when query is defined', function () {
+			it("should return expected", function () {
+				var stub, actual, query, expected;
+				query = { tags : ['arks', 'covenants'], collection: 'bible stories' };
+				expected = { hasTags : true, hasCollection: true, query : query};
+				stub = sinon.stub(common, 'getFromLocalStorage').returns(query);
+				actual = sut.getQueryInfo();
+				common.getFromLocalStorage.restore();
+				assert.deepEqual(actual, expected);
+			});
+		});
+	});
 });

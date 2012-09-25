@@ -399,7 +399,7 @@ describe('_usercollection_module', function () {
 
                 sinon.assert.calledOnce(spy);
             });
-             it("should set getDeleteStampActions click to deleteStamp", function () {
+            it("should set getDeleteStampActions click to deleteStamp", function () {
                 var spy;
                 spy = sinon.spy(sut, 'deleteStamp');
                 sut.assignEventHandlers();

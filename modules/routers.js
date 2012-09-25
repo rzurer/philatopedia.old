@@ -37,11 +37,20 @@ exports.picklistsRouter = function (urls, postFunction) {
 exports.searchRouter = function (urls, postFunction) {
     return {
         filterStampListings : function (query, callback) {
+            var data;
             if (!query) {
                 return;
             }
-            var data = { collection: query.collection, tags: query.tags};
+            data = { collection: query.collection, tags: query.tags };
             postFunction(urls.filterStampListings, data, callback);
+        },
+        getStampIdDefaultImageIdImageSrcArray : function (query, callback) {
+            var data;
+            if (!query) {
+                return;
+            }
+            data = { collection: query.collection, tags: query.tags };
+            postFunction(urls.getStampIdDefaultImageIdImageSrcArray, data, callback);
         }
     };
 };
@@ -69,6 +78,9 @@ exports.stampRouter = function (urls, window, postFunction) {
         },
         getStampHtml : function (id, callback) {
             postFunction(urls.getStampHtml, { id: id }, callback);
+        },
+        upsertStamp : function (stamp, callback) {
+            postFunction(urls.upsertStamp, { stamp: stamp }, callback);
         }
     };
 };

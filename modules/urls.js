@@ -20,6 +20,8 @@ exports.urls = {
 	getUser : '/getUser',
 	identify : '/identify',
 	getStampHtml : '/stamps',
+	getStampIdDefaultImageIdImageSrcArray : '/getStampIdDefaultImageIdImageSrcArray',
+	upsertStamp : '/upsertStamp',
 	goToStamp : function (id) {
 		return '/stamps/?id=' + id;
 	},

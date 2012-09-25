@@ -23,6 +23,8 @@ describe('urls_module', function () {
         assert.strictEqual(sut.nostampimage, '/images/nostamp.png');
         assert.strictEqual(sut.identify, '/identify');
         assert.strictEqual(sut.getStampHtml, '/stamps');
+        assert.strictEqual(sut.getStampIdDefaultImageIdImageSrcArray, '/getStampIdDefaultImageIdImageSrcArray');
+        assert.strictEqual(sut.upsertStamp, '/upsertStamp');
     });
     describe('goToStamp', function () {
         it("should return expected url", function () {

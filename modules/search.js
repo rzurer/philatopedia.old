@@ -22,24 +22,20 @@ exports.search = function (methods, common, router) {
 			this.filterStampListings(callback);
 		},
 		displaySearchCriteria : function () {
-			var query, collection, tags, hasCollection, hasTags, searchcriteriaDisplay, tagsDisplay, shouldShow;
-			query = common.getFromLocalStorage('collectionOrTagsQuery');
-			collection = query.collection;
-			tags = query.tags;
-			hasCollection = collection && collection.length > 0;
-			hasTags = tags && tags.length > 0;
-			searchcriteriaDisplay = !hasCollection && !hasTags ? 'All' : '';
+			var searchcriteriaDisplay, tagsDisplay, queryInfo;
+			queryInfo = methods.getQueryInfo();
+			searchcriteriaDisplay = !queryInfo.hasCollection && !queryInfo.hasTags ? 'All' : '';
 			controls.searchcriteria.text('Search Criteria: ' + searchcriteriaDisplay);
-			if (hasCollection) {
+			if (queryInfo.hasCollection) {
 				controls.collectioncriteria.text('Collection: ');
-				controls.collectionvalue.text(collection);
+				controls.collectionvalue.text(queryInfo.query.collection);
 			} else {
 				controls.collectioncriteria.text('');
 				controls.collectionvalue.text('');
 			}
-			if (hasTags) {
+			if (queryInfo.hasTags) {
 				tagsDisplay = '';
-				tags.forEach(function (element) {
+				queryInfo.query.tags.forEach(function (element) {
 					tagsDisplay += element + ', ';
 				});
 				tagsDisplay = tagsDisplay.substring(0, tagsDisplay.lastIndexOf(','));
@@ -49,11 +45,16 @@ exports.search = function (methods, common, router) {
 				controls.tagscriteria.text('');
 				controls.tagsvalue.text('');
 			}
-			if (hasCollection || hasTags) {
-				controls.clearsearch.show();
-				return;
-			}
-			controls.clearsearch.hide();
+			controls.clearsearch.toggle(queryInfo.hasCollection || queryInfo.hasTags);
+		},
+		showHideClearSearch : function () {
+			var queryInfo = methods.getQueryInfo();
+			controls.clearsearch.toggle(queryInfo.hasCollection || queryInfo.hasTags);
+		},
+		getStampIdDefaultImageIdImageSrcArray : function (callback) {
+			var query = common.getFromLocalStorage('collectionOrTagsQuery');
+			router.getStampIdDefaultImageIdImageSrcArray(query, callback);
 		}
 	};
 };
+

@@ -1,5 +1,5 @@
-"use strict";
 /*global  describe, beforeEach, it, afterEach*/
+"use strict";
 var assert = require('assert'),
     sinon = require('sinon'),
     $ = require('jquery'),

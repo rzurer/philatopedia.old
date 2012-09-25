@@ -55,7 +55,7 @@ exports._usercollection = function (collectionCommon, urls, picklists, tags, sea
 			router.goToStamp(stampId);
 		},
 		delayedRemoveContainers : function (target) {
-			var toaster = uicontrols.toaster, 
+			var toaster = uicontrols.toaster,
 				deletedStampContainer = uicontrols.getStampContainer(target),
 				deleteStampAction = uicontrols.getDeleteStampAction(target),
 				removeContainers =  function () {
@@ -66,7 +66,7 @@ exports._usercollection = function (collectionCommon, urls, picklists, tags, sea
 		},
 		doDeleteStamp : function (target) {
 			var deletedStampContainer = uicontrols.getStampContainer(target),
-			toaster = uicontrols.toaster, 
+				toaster = uicontrols.toaster,
 				callback = function () {
 					result.delayedRemoveContainers(target);
 				};

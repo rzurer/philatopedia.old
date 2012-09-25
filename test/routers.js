@@ -112,6 +112,20 @@ describe('routers_module', function () {
 				assert.strictEqual(callbackArg, callback);
 			});
 		});
+		describe('#getStampIdDefaultImageIdImageSrcArray', function () {
+			it("should post with expected arguments", function () {
+				var data, query;
+				query = {collection : "foo", tags : "bar"};
+				data = {
+					collection: query.collection,
+					tags: query.tags
+				};
+				searchRouter.getStampIdDefaultImageIdImageSrcArray(query, callback);
+				assert.strictEqual(urlArg, urls.getStampIdDefaultImageIdImageSrcArray);
+				assert.deepEqual(dataArg, data);
+				assert.strictEqual(callbackArg, callback);
+			});
+		});
 	});
 	describe('StampRouter', function () {
 		describe('#submitToSandbox', function () {
@@ -194,6 +208,17 @@ describe('routers_module', function () {
 				expected = {url : url};
 				stampRouter.identify(url, callback);
 				assert.strictEqual(urlArg, urls.identify);
+				assert.deepEqual(dataArg, expected);
+				assert.strictEqual(callbackArg, callback);
+			});
+		});
+		describe('upsertStamp', function () {
+			it("should post with expected arguments", function () {
+				var stamp, expected;
+				stamp = {};
+				expected = {stamp : stamp};
+				stampRouter.upsertStamp(stamp, callback);
+				assert.strictEqual(urlArg, urls.upsertStamp);
 				assert.deepEqual(dataArg, expected);
 				assert.strictEqual(callbackArg, callback);
 			});

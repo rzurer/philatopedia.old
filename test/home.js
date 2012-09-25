@@ -44,7 +44,7 @@ describe('home_module', function () {
         it("should set splash image mouseover and  mouseout to add and remove dashed border and set cursor to pointer and auto", function () {
             sut.ready(splash, userIsLoggedIn);
             splash.mouseover();
-            
+
             assert.strictEqual("hoverImage", splash.attr('class'));
             assert.strictEqual("pointer", splash.css('cursor'));
 
