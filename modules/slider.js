@@ -1,58 +1,62 @@
 "use strict";
-exports.slider = function (slider, goToCallback) {
-	var currentindex = 0,
-		prev = slider.previousSibling,
-		next = slider.nextSibling,
-		ul = slider.children[0],
-		listItems = ul.children,
-		goTo =  function (index) {
-			if (index < 0 || index > listItems.length - 1) {
-				return;
+exports.slider = function (common) {
+	var list, items, prev, next, currentindex, goToCallback,
+		initializeControls = function (controls) {
+			list = controls.ul;
+			items = controls.listItems;
+			prev = controls.prev;
+			next = controls.next;
+		},
+		getItemCount = function () {
+			return items.length;
+		},
+		getItemClientWidth = function () {
+			return getItemCount() === 0 ? 0 : items[0].clientWidth;
+		},
+		goToItem = function () {
+			list.css('left', '-' + (100 * currentindex) + '%');
+		},
+		setListWidth = function () {
+			var width =  (getItemClientWidth() * getItemCount()) + 'px';
+			list.css('width', width);
+		},
+		goTo = function () {
+			var goToPrev = function () {
+					currentindex -= 1;
+					goTo();
+				},
+				goToNext = function () {
+					currentindex += 1;
+					goTo();
+				};
+			common.disableControls([prev, next]);
+			if (currentindex === getItemCount() - 1) {
+				common.enableControl(prev, goToPrev);
 			}
-			ul.style.left = '-' + (100 * index) + '%';
-			currentindex = index;
-			goToCallback(listItems);
-			if (currentindex === listItems.length - 1) {
-				next.style.opacity = '0.3';
-				next.disabled = 'disabled';
-			}
-			if (currentindex < listItems.length - 1 && currentindex > 0) {
-				next.style.opacity = '1.0';
-				next.removeAttribute('disabled');
-				prev.style.opacity = '1.0';
-				prev.removeAttribute('disabled');
+			if (currentindex < getItemCount() - 1 && currentindex > 0) {
+				common.enableControl(next, goToNext);
+				common.enableControl(prev, goToPrev);
 			}
 			if (currentindex === 0) {
-				prev.style.opacity = '0.3';
-				prev.disabled = 'disabled';
+				common.enableControl(next, goToNext);
 			}
+			goToItem();
+			if (goToCallback) {
+				goToCallback();
+			}
+		},
+		result = {
+			ready : function (controls, callback) {
+				initializeControls(controls);
+				goToCallback = callback;
+				currentindex = 0;
+				setListWidth();
+				goTo();
+			},
+			getActiveItem : function () {
+				return items[currentindex];
+			}
+
 		};
-	if (listItems.length > 0) {
-		ul.style.width = (listItems[0].clientWidth * listItems.length) + 'px';
-	}
-	return {
-		goToListItem : function (index, callback) {
-			if (index < 0 || index > listItems.length - 1) {
-				return;
-			}
-			ul.style.left = '-' + (100 * index) + '%';
-			listItems.removeClass('active');
-			listItems.get(index).addClass('active');
-			if (callback) {
-				callback();
-			}
-		},
-		getCurrentIndex : function () {
-			return currentindex;
-		},
-		goToPrev: function () {
-			goTo(currentindex - 1);
-		},
-		goToNext: function () {
-			goTo(currentindex + 1);
-		}
-	};
+	return result;
 };
-
-
-

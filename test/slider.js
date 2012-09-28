@@ -1,0 +1,168 @@
+/*global  describe, beforeEach, afterEach, it*/
+"use strict";
+var sinon = require('sinon'),
+	assert = require('assert'),
+	$ = require('jquery'),
+	localStorage = {},
+	common =  require('../modules/common').common(localStorage),
+	sut = require('../modules/slider').slider(common),
+	controls,
+	clientWidth = 10,
+	getImage = function () {
+		return $('<img/>');
+	},
+	getListItem = function (name) {
+		var li = $('<li/>');
+		li.clientWidth = clientWidth;
+		li.name = name;
+		return li;
+	},
+	callback = function () {
+	},
+	setup = function () {
+		controls = {
+			ul : $('<ul/>'),
+			listItems : [getListItem("a"), getListItem("b"), getListItem("c")],
+			prev: getImage(),
+			next: getImage()
+		};
+	};
+describe('slider_module', function () {
+	beforeEach(setup);
+	describe('ready', function () {
+		it("should set list width to item client width times list item count", function () {
+			var expected, actual;
+			sut.ready(controls, callback);
+			expected = (controls.listItems.length * clientWidth) + 'px';
+			actual = controls.ul.css("width");
+			assert.equal(actual, expected);
+		});
+		it("should set current list item to active", function () {
+			var expected, actual;
+			sut.ready(controls, callback);
+			expected = sut.getActiveItem().name;
+			actual = 'a';
+			assert.strictEqual(actual, expected);
+		});
+		it("should set next image click event", function () {
+			var expected, actual;
+			sut.ready(controls, callback);
+			controls.next.click();
+			expected = sut.getActiveItem().name;
+			actual = 'b';
+			assert.strictEqual(actual, expected);
+			controls.next.click();
+			expected = sut.getActiveItem().name;
+			actual = 'c';
+			assert.strictEqual(actual, expected);
+			controls.next.click();
+			expected = sut.getActiveItem().name;
+			actual = 'c';
+			assert.strictEqual(actual, expected);
+		});
+		it("should set prev image click event", function () {
+			var expected, actual;
+			sut.ready(controls, callback);
+			controls.next.click();
+			controls.next.click();
+			expected = sut.getActiveItem().name;
+			actual = 'c';
+			assert.strictEqual(actual, expected);
+			controls.prev.click();
+			expected = sut.getActiveItem().name;
+			actual = 'b';
+			assert.strictEqual(actual, expected);
+			controls.prev.click();
+			expected = sut.getActiveItem().name;
+			actual = 'a';
+			assert.strictEqual(actual, expected);
+			controls.prev.click();
+			expected = sut.getActiveItem().name;
+			actual = 'a';
+			assert.strictEqual(actual, expected);
+		});
+		it("should call common disableControls", function () {
+			var spy;
+			spy = sinon.spy(common, 'disableControls');
+			sut.ready(controls, callback);
+			common.disableControls.restore();
+
+			sinon.assert.calledOnce(spy);
+			sinon.assert.calledWith(spy, [controls.prev, controls.next]);
+		});
+		it("should call callback", function () {
+			var count = 0;
+			var goToCallback = function () {
+				count = 42;
+			}
+			sut.ready(controls, goToCallback);
+			assert.strictEqual(count, 42);
+		});
+		describe('when index is first', function () {
+			it("should call common enableControls", function () {
+				var spy;
+				spy = sinon.spy(common, 'enableControl');
+				sut.ready(controls, callback);
+				common.enableControl.restore();
+
+				sinon.assert.calledOnce(spy);
+				sinon.assert.calledWith(spy, controls.next);
+			});
+			it("should disable prev image and enable next image", function () {
+				sut.ready(controls, callback);
+				assert.strictEqual(controls.prev.css('opacity'), '0.3')
+				assert.strictEqual(controls.next.css('opacity'), '1')
+			});
+			it("should set left to expected", function () {
+				var actual, expected;
+				sut.ready(controls, callback);
+				actual = controls.ul.css('left');
+				expected = '-0%';
+				assert.strictEqual(actual, expected);
+			});
+		});
+		describe('when index is last', function () {
+			it("should disable prev image and enable next image", function () {
+				sut.ready(controls, callback);
+				controls.next.click();
+				controls.next.click();
+				assert.strictEqual(controls.next.css('opacity'), '0.3')
+				assert.strictEqual(controls.prev.css('opacity'), '1')
+			});
+			it("should set left to expected", function () {
+				var actual, expected;
+				sut.ready(controls, callback);
+				controls.next.click();
+				controls.next.click();
+				actual = controls.ul.css('left');
+				expected = '-200%';
+				assert.strictEqual(actual, expected);
+			});
+		});
+		describe('when index is neither first nor last', function () {
+			it("should call common enableControls thrice", function () {
+				var spy;
+				spy = sinon.spy(common, 'enableControl');
+				sut.ready(controls, callback);
+				controls.next.click();
+				common.enableControl.restore();
+
+				sinon.assert.calledThrice(spy);
+			});
+			it("should enable prev image and next image", function () {
+				sut.ready(controls, callback);
+				controls.next.click();
+				assert.strictEqual(controls.next.css('opacity'), '1')
+				assert.strictEqual(controls.prev.css('opacity'), '1')
+			});
+			it("should set left to expected", function () {
+				var actual, expected;
+				sut.ready(controls, callback);
+				controls.next.click();
+				actual = controls.ul.css('left');
+				expected = '-100%';
+				assert.strictEqual(actual, expected);
+			});
+		});
+	});
+});
