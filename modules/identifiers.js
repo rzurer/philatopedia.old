@@ -1,168 +1,164 @@
 /*globals $*/
 "use strict";
-exports.identifiers = function (common, stamp, slider, cataloglistings) {
-	var uicontrols,
-		setCatalogNumber = function (value) {
+exports.identifiers = function (slider, stamp, cataloglistings, propertyManager) {
+	var uicontrols;
+	return {
+		setCatalogNumber : function (value) {
 			uicontrols.catalognumber.val(value);
 		},
-		setWatermark = function (wmk) {
+		setWatermark : function (wmk) {
 			uicontrols.wmk.val(wmk);
 		},
-		getCatalogId = function () {
+		getCatalogId : function () {
 			return uicontrols.getActiveCatalogId().val();
 		},
-		getCatalogIds = function () {
+		getCatalogIds : function () {
 			var result = [];
 			uicontrols.getCatalogIds().each(function () {
-				result.push(value);
+				result.push(this.value);
 			});
 			return result;
 		},
-		getCatalogName = function () {
+		getCatalogName : function () {
 			return uicontrols.getActiveCatalogName().text();
-		};
-		setCurrentCatalogId = function (value) {
+		},
+		setCurrentCatalogId : function (value) {
 			uicontrols.currentCatalogId.val(value);
-		};
-		getCurrentCatalogId = function () {
-			return uicontrols.currentCatalogId..val();
-		};
-		enableDisableDefaultCatalog = function (enabled) {
+		},
+		getCurrentCatalogId : function () {
+			return uicontrols.currentCatalogId.val();
+		},
+		enableDisableDefaultCatalog : function (enabled) {
 			if (enabled) {
 				uicontrols.defaultcatalog.removeAttr('disabled');
 				return;
 			}
 			uicontrols.defaultcatalog.attr('disabled', 'disabled');
-		};
-		checkUncheckDefaultCatalog = function (checked) {
+		},
+		checkUncheckDefaultCatalog : function (checked) {
 			if (checked) {
 				uicontrols.defaultcatalog.attr('checked', 'checked');
 				return;
 			}
 			uicontrols.defaultcatalog.removeAttr('checked');
-		};
-		defaultCatalogIsChecked = function () {
+		},
+		defaultCatalogIsChecked : function () {
 			return uicontrols.defaultcatalog.is(':checked');
-		};
-		setDefaultCatalogTitle = function (title) {
+		},
+		setDefaultCatalogTitle : function (title) {
 			uicontrols.defaultcatalog.attr('title', title);
-		};
-		getListItems = function () {
+		},
+		getListItems : function () {
 			return slider.children('li');
-		};
-		activateListItem = function (index) {
-			getListItems().removeClass('active');
-			$(getListItems().get(index)).addClass('active');
-		};
-		goToListItem = function (listItems, index) {
+		},
+		goToListItem : function (listItems, index) {
 			if (index < 0 || index > listItems.length - 1) {
 				return;
 			}
 			slider.ul.style.left = '-' + (100 * index) + '%';
-			activateListItem(index);
-			setCatalogValue();
-			setDefaultCatalogCheckbox();
-		};
-		setCatalogValue = function () {
-			var idx, value, wmk
-			idx = getIndexOfCatalog(getCatalogId());
+			this.setCatalogValue();
+			this.setDefaultCatalogCheckbox();
+		},
+		setCatalogValue : function () {
+			var idx, value, wmk;
+			idx = this.getIndexOfCatalog(this.getCatalogId());
 			if (idx === -1) {
-				setCatalogNumber(null);
-				setWatermark(null);
-				setCurrentCatalogId(getCatalogId());
+				this.setCatalogNumber(null);
+				this.setWatermark(null);
+				this.setCurrentCatalogId(this.getCatalogId());
 				return;
 			}
 			value = stamp.identifiers[idx].value;
-			wmk = stamp.identifiers[idx].wmk;			
-			setCatalogNumber(value);
-			setWatermark(wmk);
-			setCurrentCatalogId(getCatalogId());
-		};
-		setDefaultCatalogCheckbox = function () {
+			wmk = stamp.identifiers[idx].wmk;
+			this.setCatalogNumber(value);
+			this.setWatermark(wmk);
+			this.setCurrentCatalogId(this.getCatalogId());
+		},
+		setDefaultCatalogCheckbox : function () {
 			var  defaultCatalogId, currentCatalogId, catalogName, input;
-			defaultCatalogId = getDefaultCatalogId();
-			currentCatalogId = getCurrentCatalogId();
-			checkUncheckDefaultCatalog(defaultCatalogId === currentCatalogId);
+			defaultCatalogId = this.getDefaultCatalogId();
+			currentCatalogId = this.getCurrentCatalogId();
+			this.checkUncheckDefaultCatalog(defaultCatalogId === currentCatalogId);
 			input = $('#catalogSlider > li > input[value="' + defaultCatalogId + '"]');
 			catalogName = input.next('label').text();
-			setDefaultCatalogTitle('The preferred catalog is ' + catalogName);
-		};
-		getDefaultCatalogIndex = function () {
+			this.setDefaultCatalogTitle('The preferred catalog is ' + catalogName);
+		},
+		getDefaultCatalogIndex : function () {
 			var result, defaultCatalogId, catalogIds;
 			result = 0;
-			catalogIds = getCatalogIds();
-			defaultCatalogId = getDefaultCatalogId();
+			catalogIds = this.getCatalogIds();
+			defaultCatalogId = this.getDefaultCatalogId();
 			catalogIds.forEach(function (element, idx) {
 				if (element === defaultCatalogId) {
 					result = idx;
 				}
 			});
 			return result;
-		};
-		getDefaultCatalogId = function () {
+		},
+		getDefaultCatalogId : function () {
 			return propertyManager.getPropertyValue(stamp.displayProperties, 'defaultcatalog');
-		};
-		getIndexOfCatalog = function (catalog) {
+		},
+		getIndexOfCatalog : function (catalog) {
 			var catalogs, index;
 			catalogs = stamp.identifiers.map(function (item) {
 				return item.catalog;
 			});
 			index = catalogs.indexOf(catalog);
 			return index;
-		};
-	},
-	gotoCallback: function (listItems, that) {
-		var idx;
-		idx = that.slider.getCurrentIndex();
-		that.activateListItem(idx);
-		that.setCatalogValue();
-		that.setDefaultCatalogCheckbox();
-	},
-	setCatalogToDefault: function () {
-		var idx;
-		if (cataloglistings.length === 0) {
-			enableDisableDefaultCatalog(false);
-			checkUncheckDefaultCatalog(false);
-			return;
-		}
-		idx = getDefaultCatalogIndex();
-		if (stamp.identifiers.length > 0) {
-			var identifier = stamp.identifiers[idx];
-			if(identifier){
-				setCurrentCatalogId(identifier.catalog);
+		},
+		gotoCallback : function (listItems, that) {
+			var idx;
+			idx = that.slider.getCurrentIndex();
+			that.activateListItem(idx);
+			that.setCatalogValue();
+			that.setDefaultCatalogCheckbox();
+		},
+		setCatalogToDefault : function () {
+			var idx, identifier;
+			if (cataloglistings.length === 0) {
+				this.enableDisableDefaultCatalog(false);
+				this.checkUncheckDefaultCatalog(false);
+				return;
 			}
-			goToListItem(slider, getListItems(), idx);
+			idx = this.getDefaultCatalogIndex();
+			if (stamp.identifiers.length > 0) {
+				identifier = stamp.identifiers[idx];
+				if (identifier) {
+					this.setCurrentCatalogId(identifier.catalog);
+				}
+				this.goToListItem(slider, this.getListItems(), idx);
+			}
+			slider.goTo(idx);
+		},
+		addIdentifier : function (value, wmk) {
+			var idx, name;
+			name = this.getCatalogName();
+			idx = this.getIndexOfCatalog(this.getCatalogId());
+			if (idx === -1) {
+				stamp.identifiers.push({
+					catalog: this.getCatalogId(),
+					name: name,
+					wmk: wmk,
+					value: value
+				});
+				return;
+			}
+			stamp.identifiers[idx].value = value;
+			stamp.identifiers[idx].wmk = wmk;
+		},
+		setDefaultCatalog : function () {
+			var array, propertyname, value;
+			array = stamp.displayProperties;
+			propertyname = 'defaultcatalog';
+			value = this.getCurrentCatalogId();
+			if (this.defaultCatalogIsChecked()) {
+				propertyManager.addOrReplaceProperty(array, propertyname, value);
+				this.setCurrentCatalogId(value);
+				return;
+			}
+			propertyManager.removeProperty(array, propertyname);
+			this.setCurrentCatalogId(value);
+			this.conditionalSave();
 		}
-		slider.goTo(idx);
-	},
-	addIdentifier: function (value, wmk) {
-		var idx, name;
-		name = getCatalogName();
-		idx = getIndexOfCatalog(getCatalogId());
-		if (idx === -1) {
-			stamp.identifiers.push({
-				catalog: getCatalogId(),
-				name: name,
-				wmk: wmk,
-				value: value
-			});
-			return;
-		}
-		stamp.identifiers[idx].value = value;
-		stamp.identifiers[idx].wmk = wmk;
-	},
-	setDefaultCatalog : function () {
-		var array, propertyname, value;
-		array = stamp.displayProperties;
-		propertyname = 'defaultcatalog';
-		value = getCurrentCatalogId();
-		if (defaultCatalogIsChecked()) {
-			propertyManager.addOrReplaceProperty(array, propertyname, value);
-			setCurrentCatalogId(value);
-			return;
-		}
-		propertyManager.removeProperty(array, propertyname);
-		setCurrentCatalogId(value);
-		conditionalSave();
-	}
+	};
 };

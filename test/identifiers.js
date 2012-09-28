@@ -16,16 +16,11 @@ var localStorage = {},
 	searchRouter = require('../modules/routers').searchRouter(urls, postFunction),
 	search = require('../modules/search').search(searchInternals, common, searchRouter),
 	methods = require('../modules/_imageCarousel')._imageCarousel(),
-	sut = require('../modules/imageCarousel').imageCarousel(methods, search);
-describe('imageCarousel_module', function () {
+	sut = require('../modules/imageCarousel').identifiers(methods, search);
+describe('indentifiers_module', function () {
 	describe('displayThumbnails', function () {
-		it("should call search getStampIdDefaultImageIdImageSrcArray with callback", function () {
-			var spy;
-			spy = sinon.spy(search, 'getStampIdDefaultImageIdImageSrcArray');
-			sut.displayThumbnails();
-			search.getStampIdDefaultImageIdImageSrcArray.restore();
+		it("should ", function () {
 
-			sinon.assert.calledWith(spy, methods.createThumbnails);
 		});
 	});
 });
