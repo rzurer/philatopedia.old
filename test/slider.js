@@ -11,18 +11,25 @@ var sinon = require('sinon'),
 	getImage = function () {
 		return $('<img/>');
 	},
+	createListItem = function () {
+		return $('<li/>');
+	},
+	createInput = function (value) {
+		var input = $('<input/>');
+		input.val(value)
+		return input;
+	},
 	getListItem = function (name) {
-		var li = $('<li/>');
+		var li = createListItem();
 		li.clientWidth = clientWidth;
 		li.name = name;
 		return li;
 	},
-	callback = function () {
-	},
+	callback = function () {},
 	setup = function () {
 		controls = {
 			ul : $('<ul/>'),
-			listItems : [getListItem("a"), getListItem("b"), getListItem("c")],
+			items : [getListItem("a"), getListItem("b"), getListItem("c")],
 			prev: getImage(),
 			next: getImage()
 		};
@@ -33,7 +40,7 @@ describe('slider_module', function () {
 		it("should set list width to item client width times list item count", function () {
 			var expected, actual;
 			sut.ready(controls, callback);
-			expected = (controls.listItems.length * clientWidth) + 'px';
+			expected = (controls.items.length * clientWidth) + 'px';
 			actual = controls.ul.css("width");
 			assert.equal(actual, expected);
 		});
@@ -163,6 +170,28 @@ describe('slider_module', function () {
 				expected = '-100%';
 				assert.strictEqual(actual, expected);
 			});
+		});
+	});
+	describe('isEmpty', function () {
+		it("should return false when there are list items", function () {
+			var actual;
+			sut.ready(controls, callback);
+			actual = sut.isEmpty();
+			assert.strictEqual(actual, false);
+		});
+		it("should return true when there list items is undefined", function () {					
+			var actual;
+			controls.items = undefined;
+			sut.ready(controls, callback);
+			actual = sut.isEmpty();
+			assert.strictEqual(actual, true);
+		});
+		it("should return true when there ar no list items ", function () {					
+			var actual;
+			controls.items = [];
+			sut.ready(controls, callback);
+			actual = sut.isEmpty();
+			assert.strictEqual(actual, true);
 		});
 	});
 });

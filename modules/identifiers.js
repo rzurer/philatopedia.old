@@ -1,164 +1,107 @@
 /*globals $*/
 "use strict";
-exports.identifiers = function (slider, stamp, cataloglistings, propertyManager) {
-	var uicontrols;
-	return {
-		setCatalogNumber : function (value) {
-			uicontrols.catalognumber.val(value);
+exports.identifiers = function (slider, common) {
+	var uicontrols,
+		stamp,
+		defaultCatalogIdPropertyName = 'defaultCatalogId',
+		setCatalogNumber = function (index) {
+			var catalogNumber = !index || index === -1 ? null : stamp.identifiers[index].value;
+			uicontrols.catalogNumber.val(catalogNumber);
 		},
-		setWatermark : function (wmk) {
-			uicontrols.wmk.val(wmk);
+		setWatermark = function (index) {
+			var watermark = !index || index === -1 ? null : stamp.identifiers[index].wmk;
+			uicontrols.watermark.val(watermark);
 		},
-		getCatalogId : function () {
-			return uicontrols.getActiveCatalogId().val();
-		},
-		getCatalogIds : function () {
-			var result = [];
-			uicontrols.getCatalogIds().each(function () {
-				result.push(this.value);
-			});
-			return result;
-		},
-		getCatalogName : function () {
-			return uicontrols.getActiveCatalogName().text();
-		},
-		setCurrentCatalogId : function (value) {
+		setCurrentCatalogId = function (value) {
 			uicontrols.currentCatalogId.val(value);
 		},
-		getCurrentCatalogId : function () {
-			return uicontrols.currentCatalogId.val();
+		getDefaultCatalogId = function () {
+			return common.getPropertyValue(stamp.displayProperties, defaultCatalogIdPropertyName);
 		},
-		enableDisableDefaultCatalog : function (enabled) {
+		enableDisableDefaultCatalogCheckbox = function (enabled) {
 			if (enabled) {
-				uicontrols.defaultcatalog.removeAttr('disabled');
+				uicontrols.defaultCatalogCheckbox.removeAttr('disabled');
 				return;
 			}
-			uicontrols.defaultcatalog.attr('disabled', 'disabled');
+			uicontrols.defaultCatalogCheckbox.attr('disabled', 'disabled');
 		},
-		checkUncheckDefaultCatalog : function (checked) {
+		checkUncheckDefaultCatalogCheckbox = function (checked) {
 			if (checked) {
-				uicontrols.defaultcatalog.attr('checked', 'checked');
+				uicontrols.defaultCatalogCheckbox.attr('checked', 'checked');
 				return;
 			}
-			uicontrols.defaultcatalog.removeAttr('checked');
+			uicontrols.defaultCatalogCheckbox.removeAttr('checked');
 		},
-		defaultCatalogIsChecked : function () {
-			return uicontrols.defaultcatalog.is(':checked');
+		setCatalogValues = function () {
+			var index = stamp.getCatalogIndex();
+			setCatalogNumber(index);
+			setWatermark(index);
 		},
-		setDefaultCatalogTitle : function (title) {
-			uicontrols.defaultcatalog.attr('title', title);
+		setDefaultCatalogCheckbox = function (listItems) {
+			var defaultCatalogName, input, defaultCatalogId, currentCatalogId, title;
+			defaultCatalogId = getDefaultCatalogId();
+			currentCatalogId = uicontrols.currentCatalogId.val();
+			checkUncheckDefaultCatalogCheckbox(defaultCatalogId === currentCatalogId);
+			defaultCatalogName = uicontrols.getDefaultCatalogName(defaultCatalogId);
+			title = 'The preferred catalog is ' + defaultCatalogName;
+			uicontrols.defaultCatalogCheckbox.attr('title', title);
 		},
-		getListItems : function () {
-			return slider.children('li');
-		},
-		goToListItem : function (listItems, index) {
-			if (index < 0 || index > listItems.length - 1) {
-				return;
-			}
-			slider.ul.style.left = '-' + (100 * index) + '%';
-			this.setCatalogValue();
-			this.setDefaultCatalogCheckbox();
-		},
-		setCatalogValue : function () {
-			var idx, value, wmk;
-			idx = this.getIndexOfCatalog(this.getCatalogId());
-			if (idx === -1) {
-				this.setCatalogNumber(null);
-				this.setWatermark(null);
-				this.setCurrentCatalogId(this.getCatalogId());
-				return;
-			}
-			value = stamp.identifiers[idx].value;
-			wmk = stamp.identifiers[idx].wmk;
-			this.setCatalogNumber(value);
-			this.setWatermark(wmk);
-			this.setCurrentCatalogId(this.getCatalogId());
-		},
-		setDefaultCatalogCheckbox : function () {
-			var  defaultCatalogId, currentCatalogId, catalogName, input;
-			defaultCatalogId = this.getDefaultCatalogId();
-			currentCatalogId = this.getCurrentCatalogId();
-			this.checkUncheckDefaultCatalog(defaultCatalogId === currentCatalogId);
-			input = $('#catalogSlider > li > input[value="' + defaultCatalogId + '"]');
-			catalogName = input.next('label').text();
-			this.setDefaultCatalogTitle('The preferred catalog is ' + catalogName);
-		},
-		getDefaultCatalogIndex : function () {
-			var result, defaultCatalogId, catalogIds;
-			result = 0;
-			catalogIds = this.getCatalogIds();
-			defaultCatalogId = this.getDefaultCatalogId();
-			catalogIds.forEach(function (element, idx) {
+		getDefaultCatalogIndex = function () {
+			var defaultCatalogId, catalogIds;
+			catalogIds = uicontrols.getCatalogIds();
+			defaultCatalogId = getDefaultCatalogId();
+			catalogIds.each(function (index, element) {
 				if (element === defaultCatalogId) {
-					result = idx;
+					return index;
 				}
 			});
-			return result;
+			return 0;
 		},
-		getDefaultCatalogId : function () {
-			return propertyManager.getPropertyValue(stamp.displayProperties, 'defaultcatalog');
-		},
-		getIndexOfCatalog : function (catalog) {
-			var catalogs, index;
-			catalogs = stamp.identifiers.map(function (item) {
-				return item.catalog;
-			});
-			index = catalogs.indexOf(catalog);
-			return index;
-		},
-		gotoCallback : function (listItems, that) {
-			var idx;
-			idx = that.slider.getCurrentIndex();
-			that.activateListItem(idx);
-			that.setCatalogValue();
-			that.setDefaultCatalogCheckbox();
+		onNavigate = function (listItem) {
+			setCatalogValues();
+			setDefaultCatalogCheckbox();
+		};
+	return {
+		ready : function (controls, source) {
+			uicontrols = controls;
+			stamp = source;
+			slider.ready(controls.sliderControls, onNavigate);
 		},
 		setCatalogToDefault : function () {
-			var idx, identifier;
-			if (cataloglistings.length === 0) {
-				this.enableDisableDefaultCatalog(false);
-				this.checkUncheckDefaultCatalog(false);
+			var index, identifier;
+			if (slider.isEmpty()) {
+				enableDisableDefaultCatalogCheckbox(false);
+				checkUncheckDefaultCatalogCheckbox(false);
 				return;
 			}
-			idx = this.getDefaultCatalogIndex();
+			index = getDefaultCatalogIndex();
 			if (stamp.identifiers.length > 0) {
-				identifier = stamp.identifiers[idx];
+				identifier = stamp.identifiers[index];
 				if (identifier) {
-					this.setCurrentCatalogId(identifier.catalog);
+					setCurrentCatalogId(identifier.catalog);
 				}
-				this.goToListItem(slider, this.getListItems(), idx);
 			}
-			slider.goTo(idx);
+			slider.navigateTo(index);
 		},
 		addIdentifier : function (value, wmk) {
-			var idx, name;
-			name = this.getCatalogName();
-			idx = this.getIndexOfCatalog(this.getCatalogId());
-			if (idx === -1) {
-				stamp.identifiers.push({
-					catalog: this.getCatalogId(),
-					name: name,
-					wmk: wmk,
-					value: value
-				});
-				return;
-			}
-			stamp.identifiers[idx].value = value;
-			stamp.identifiers[idx].wmk = wmk;
+			var identifier = {
+					catalog: uicontrols.getCatalogId(),
+					name: uicontrols.catalogName.text(),
+					wmk: uicontrols.watermark.val(),
+					value: uicontrols.catalogNumber.val()
+				};
+			stamp.updateOrInsertIdentifier(identifier);
 		},
-		setDefaultCatalog : function () {
-			var array, propertyname, value;
-			array = stamp.displayProperties;
-			propertyname = 'defaultcatalog';
-			value = this.getCurrentCatalogId();
-			if (this.defaultCatalogIsChecked()) {
-				propertyManager.addOrReplaceProperty(array, propertyname, value);
-				this.setCurrentCatalogId(value);
+		setDefaultCatalog : function (displayProperties) {
+			var currentCatalogId;
+			currentCatalogId = uicontrols.currentCatalogId.val();
+			if (uicontrols.defaultCatalogCheckbox.is(':checked')) {
+				common.addOrReplaceProperty(displayProperties, defaultCatalogIdPropertyName, currentCatalogId);
+				setCurrentCatalogId(currentCatalogId);
 				return;
 			}
-			propertyManager.removeProperty(array, propertyname);
-			this.setCurrentCatalogId(value);
-			this.conditionalSave();
+			common.removeProperty(displayProperties, defaultCatalogIdPropertyName);
+			setCurrentCatalogId(currentCatalogId);
 		}
 	};
 };
