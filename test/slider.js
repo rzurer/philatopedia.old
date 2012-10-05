@@ -44,49 +44,44 @@ describe('slider_module', function () {
 			actual = controls.ul.css("width");
 			assert.equal(actual, expected);
 		});
-		it("should set current list item to active", function () {
+		it("should set current index to zero", function () {
 			var expected, actual;
 			sut.ready(controls, callback);
-			expected = sut.getActiveItem().name;
-			actual = 'a';
+			expected = sut.getCurrentIndex();
+			actual = 0;
 			assert.strictEqual(actual, expected);
 		});
 		it("should set next image click event", function () {
 			var expected, actual;
 			sut.ready(controls, callback);
+			actual = sut.getCurrentIndex();
+			assert.strictEqual(actual, 0);
 			controls.next.click();
-			expected = sut.getActiveItem().name;
-			actual = 'b';
-			assert.strictEqual(actual, expected);
+			actual = sut.getCurrentIndex();
+			assert.strictEqual(actual, 1);
 			controls.next.click();
-			expected = sut.getActiveItem().name;
-			actual = 'c';
-			assert.strictEqual(actual, expected);
+			actual = sut.getCurrentIndex();
+			assert.strictEqual(actual, 2);
 			controls.next.click();
-			expected = sut.getActiveItem().name;
-			actual = 'c';
-			assert.strictEqual(actual, expected);
+			actual = sut.getCurrentIndex();
+			assert.strictEqual(actual, 2);
 		});
 		it("should set prev image click event", function () {
 			var expected, actual;
 			sut.ready(controls, callback);
 			controls.next.click();
 			controls.next.click();
-			expected = sut.getActiveItem().name;
-			actual = 'c';
-			assert.strictEqual(actual, expected);
+			actual = sut.getCurrentIndex();
+			assert.strictEqual(actual, 2);
 			controls.prev.click();
-			expected = sut.getActiveItem().name;
-			actual = 'b';
-			assert.strictEqual(actual, expected);
+			actual = sut.getCurrentIndex();
+			assert.strictEqual(actual, 1);
 			controls.prev.click();
-			expected = sut.getActiveItem().name;
-			actual = 'a';
-			assert.strictEqual(actual, expected);
+			actual = sut.getCurrentIndex();
+			assert.strictEqual(actual, 0);
 			controls.prev.click();
-			expected = sut.getActiveItem().name;
-			actual = 'a';
-			assert.strictEqual(actual, expected);
+			actual = sut.getCurrentIndex();
+			assert.strictEqual(actual, 0);
 		});
 		it("should call common disableControls", function () {
 			var spy;

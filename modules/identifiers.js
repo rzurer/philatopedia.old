@@ -3,13 +3,11 @@
 exports.identifiers = function (slider, common) {
 	var uicontrols,
 		stamp,
-		defaultCatalogIdPropertyName = 'defaultCatalogId',
-		setCatalogNumber = function (index) {
-			var catalogNumber = !index || index === -1 ? null : stamp.identifiers[index].value;
+		defaultCatalogIdPropertyName = 'defaultcatalog',
+		setCatalogNumber = function (catalogNumber) {
 			uicontrols.catalogNumber.val(catalogNumber);
 		},
-		setWatermark = function (index) {
-			var watermark = !index || index === -1 ? null : stamp.identifiers[index].wmk;
+		setWatermark = function (watermark) {
 			uicontrols.watermark.val(watermark);
 		},
 		setCurrentCatalogId = function (value) {
@@ -33,9 +31,10 @@ exports.identifiers = function (slider, common) {
 			uicontrols.defaultCatalogCheckbox.removeAttr('checked');
 		},
 		setCatalogValues = function () {
-			var index = stamp.getCatalogIndex();
-			setCatalogNumber(index);
-			setWatermark(index);
+			var identifiers = stamp.getCurrentIdentifiers();
+			setCatalogNumber(identifiers.value);
+			setWatermark(identifiers.wmk);
+			setCurrentCatalogId(identifiers.catalog);
 		},
 		setDefaultCatalogCheckbox = function (listItems) {
 			var defaultCatalogName, input, defaultCatalogId, currentCatalogId, title;
@@ -62,10 +61,15 @@ exports.identifiers = function (slider, common) {
 			setDefaultCatalogCheckbox();
 		};
 	return {
-		ready : function (controls, source) {
+		ready : function (controls, source, callback) {
 			uicontrols = controls;
 			stamp = source;
-			slider.ready(controls.sliderControls, onNavigate);
+			slider.ready(controls.sliderControls, function () {
+				if (callback) {
+					callback();
+				}
+				onNavigate();
+			});
 		},
 		setCatalogToDefault : function () {
 			var index, identifier;
@@ -86,7 +90,7 @@ exports.identifiers = function (slider, common) {
 		addIdentifier : function (value, wmk) {
 			var identifier = {
 					catalog: uicontrols.getCatalogId(),
-					name: uicontrols.catalogName.text(),
+					name: uicontrols.getCatalogName().text(),
 					wmk: uicontrols.watermark.val(),
 					value: uicontrols.catalogNumber.val()
 				};

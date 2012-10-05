@@ -26,8 +26,11 @@ var sinon = require('sinon'),
 	stamp,
 	sut,
 	defaultCatalogId = "1234561",
-	catalogNumber = "245",
+	catalogname = "Scott",
+	catalognumber = "245",
 	watermark = "C 3",
+	nullIdentifiers,
+	stampIdentifiers,
 	func = function () {},
     postFunction = function (url, data, callback) {
         if (callback) {
@@ -46,10 +49,13 @@ var sinon = require('sinon'),
 			defaultCatalogCheckbox : getCheckbox(),
 			watermark : getInput(),
 			getDefaultCatalogName : function (defaultCatalogId) {
-				return "Scott";
+				return catalogname;
 			},
 			getCatalogIds: function () {
 				 //return $('li > input').map(function () { return this.value);});			
+			},
+			getCatalogName : function () {
+				return $('<label/>'); 
 			},
 			getCatalogId: function () {},
 			sliderControls : {
@@ -59,43 +65,50 @@ var sinon = require('sinon'),
 				next : getImage()
 			}
 		};
+		nullIdentifiers =  {catalog : defaultCatalogId, value : null, wmk : null };
+		stampIdentifiers = {catalog : defaultCatalogId, value : catalognumber, wmk : watermark };
 		stamp = {
 			identifiers : [
-				{catalog : defaultCatalogId,  value : catalogNumber, wmk : watermark },
+				stampIdentifiers
 			],
 			updateOrInsertIdentifier : func,
+			getCurrentIdentifiers : function () {
+				return stamp.identifiers[0];
+			},
 			displayProperties : [{name : 'defaultCatalogId', value: defaultCatalogId}],
 			getCatalogIndex : function () {
-
 				//console.log("getCatalogIndex called");
 				//var catalogId, index;
-				//catalogId = uicontrols.getCatalogId(); //$('li.active > input').val();//activateListItem(idx); //still used?
+				//catalogId = uicontrols.getCatalogId();
+				 
+				//$('li.active > input').val();
+				//activateListItem(idx); //still used?
 				//if (catalogId === undefined) {
 				//return;
 				//}
 			}
 		};
 		sut = require('../modules/identifiers').identifiers(slider, common);
-		sut.ready(controls, stamp);
+		sut.ready(controls, stamp, func);
     };
 describe('indentifiers_module', function () {
 	beforeEach(setup);
 	describe('ready', function () {
-		it("should get stamp catalog index", function () {
+		it("should get stamp current identifiers", function () {
 			var spy;
-			spy = sinon.spy(stamp, 'getCatalogIndex');
+			spy = sinon.spy(stamp, 'getCurrentIdentifiers');
 			sut.ready(controls, stamp);
-			stamp.getCatalogIndex.restore();
+			stamp.getCurrentIdentifiers.restore();
 	
 			sinon.assert.calledOnce(spy);
 		});
-		it("should get default stamp catalog id", function () {
+		it("should set default stamp catalog id", function () {
 			var spy;
-			spy = sinon.spy(common, 'getPropertyValue');
+			spy = sinon.spy(controls.currentCatalogId, 'val');
 			sut.ready(controls, stamp);
-			common.getPropertyValue.restore();
+			controls.currentCatalogId.val.restore();
 	
-			sinon.assert.calledWith(spy, stamp.displayProperties, 'defaultCatalogId');
+			sinon.assert.calledWith(spy, defaultCatalogId);
 		});
 		it("should get current catalog id", function () {
 			var spy;
@@ -103,7 +116,7 @@ describe('indentifiers_module', function () {
 			sut.ready(controls, stamp);
 			controls.currentCatalogId.val.restore();
 
-			sinon.assert.calledOnce(spy);
+			sinon.assert.calledTwice(spy);
 		});
 		it("should get default catalog name", function () {
 			var spy, defaultStub, defaultCatalogId;
@@ -161,52 +174,48 @@ describe('indentifiers_module', function () {
 				sinon.assert.calledWith(spy, 'checked');
 			});
 		});
-		describe('when index is not valid', function () {
+		describe('when current identifiers do not exist', function () {
 			it("should clear catalog number", function () {
 				var spy, stub;
-				stub = sinon.stub(stamp, 'getCatalogIndex').returns(-1);
+				stub = sinon.stub(stamp, 'getCurrentIdentifiers').returns(nullIdentifiers);
 				spy = sinon.spy(controls.catalogNumber, 'val');
 				sut.ready(controls, stamp);
 				controls.catalogNumber.val.restore();
-				stamp.getCatalogIndex.restore();
+				stamp.getCurrentIdentifiers.restore();
 
 				sinon.assert.calledWith(spy, null);
 			});	
 			it("should clear catalog watermark", function () {
 				var spy, stub;
-				stub = sinon.stub(stamp, 'getCatalogIndex').returns(-1);
+				stub = sinon.stub(stamp, 'getCurrentIdentifiers').returns(nullIdentifiers);
 				spy = sinon.spy(controls.watermark, 'val');
 				sut.ready(controls, stamp);
 				controls.watermark.val.restore();
-				stamp.getCatalogIndex.restore();
+				stamp.getCurrentIdentifiers.restore();
 
 				sinon.assert.calledWith(spy, null);
 			});		
 		});
-		describe('when index is valid', function () {
+		describe('when current identifiers exists', function () {
 			it("should set catalog number to stamp catalog number", function () {
-				var spy, stub, catalogNum;
-				catalogNum = 42;
-				stub = sinon.stub(stamp, 'getCatalogIndex').returns(1);
-				stamp.identifiers.push({value : catalogNum})
+				var spy, stub;
+				stub = sinon.stub(stamp, 'getCurrentIdentifiers').returns(stampIdentifiers);
 				spy = sinon.spy(controls.catalogNumber, 'val');
 				sut.ready(controls, stamp);
 				controls.catalogNumber.val.restore();
-				stamp.getCatalogIndex.restore();
+				stamp.getCurrentIdentifiers.restore();
 
-				sinon.assert.calledWith(spy, catalogNum);
+				sinon.assert.calledWith(spy, catalognumber);
 			});
 			it("should set catalog watermark to stamp catalog watermark", function () {
-				var spy, stub, wmk;
-				wmk = "inverted crown";
-				stub = sinon.stub(stamp, 'getCatalogIndex').returns(1);
-				stamp.identifiers.push({wmk : wmk})
+				var spy, stub;
+				stub = sinon.stub(stamp, 'getCurrentIdentifiers').returns(stampIdentifiers);
 				spy = sinon.spy(controls.watermark, 'val');
 				sut.ready(controls, stamp);
 				controls.watermark.val.restore();
-				stamp.getCatalogIndex.restore();
+				stamp.getCurrentIdentifiers.restore();
 
-				sinon.assert.calledWith(spy, wmk);
+				sinon.assert.calledWith(spy, watermark);
 			});
 		});
 	});
@@ -262,7 +271,7 @@ describe('indentifiers_module', function () {
 		});
 	});
 	describe('addIdentifier', function () {
-		it("should get catalog name control", function () {
+		it("should get catalog id control", function () {
 			var spy;
 			spy = sinon.spy(controls, 'getCatalogId');
 			sut.addIdentifier();
@@ -272,9 +281,9 @@ describe('indentifiers_module', function () {
 		});
 		it("should get catalog name", function () {
 			var spy;
-			spy = sinon.spy(controls.catalogName, 'text');
+			spy = sinon.spy(controls, 'getCatalogName');
 			sut.addIdentifier();
-			controls.catalogName.text.restore();
+			controls.getCatalogName.restore();
 
 			sinon.assert.calledOnce(spy);
 		});
@@ -295,26 +304,24 @@ describe('indentifiers_module', function () {
 			sinon.assert.calledOnce(spy);
 		});
 		it("should call stamp updateOrInsertIdentifier", function () {
-			var catalogNumber = '1425a',
-				catalogId = '42',
-				watermark = 'C 3',
-				catalogName = 'Scott',
-				identifier = {
-					catalog : catalogId,
-					name : catalogName,
+			var identifier = {
+					catalog : defaultCatalogId,
+					name : catalogname,
 					wmk : watermark,
-					value : catalogNumber
+					value : catalognumber
 				},
 				spy = sinon.spy(stamp, 'updateOrInsertIdentifier'),
-				catelogIdStub = sinon.stub(controls, 'getCatalogId').returns(catalogId),
-				catalogNameStub = sinon.stub(controls.catalogName, 'text').returns(catalogName),
+				catelogIdStub = sinon.stub(controls, 'getCatalogId').returns(defaultCatalogId),
+				label = $('<label/>'),
+				catalogNameStub = sinon.stub(controls, 'getCatalogName').returns(label),
 				watermarkStub = sinon.stub(controls.watermark, 'val').returns(watermark),
-				catalogNumberStub = sinon.stub(controls.catalogNumber, 'val').returns(catalogNumber);
+				catalogNumberStub = sinon.stub(controls.catalogNumber, 'val').returns(catalognumber);
+			label.text(catalogname);
 			sut.addIdentifier();
 
 			stamp.updateOrInsertIdentifier.restore();
 			controls.getCatalogId.restore();
-			controls.catalogName.text.restore();
+			controls.getCatalogName.restore();
 			controls.watermark.val.restore();
 			controls.catalogNumber.val.restore();
 
@@ -355,12 +362,10 @@ describe('indentifiers_module', function () {
 		});
 		describe('when there are catalogs', function () {
 			beforeEach(function () {
-				var input, listItem,
+				var input,
 				stub = sinon.stub(controls, 'getCatalogIds').returns($([]));
 				input = getInput();
-				listItem = slider.getActiveItem();
 				input.val(defaultCatalogId);
-				listItem.append(input);
 			});
 			it("should store the id of the default catalog", function () {
 				var actual, expected;

@@ -53,17 +53,16 @@ exports.slider = function (common) {
 				setListWidth();
 				goTo();
 			},
+			getCurrentIndex : function () {
+				return currentindex;
+			},
 			isEmpty : function () {
 				return !items || items.length === 0;
-			},
-			getActiveItem : function () {
-				return items[currentindex];
 			},
 			navigateTo : function (index) {
 				currentindex = index;
 				goTo();
 			}
-
 		};
 	return result;
 };
