@@ -7,7 +7,7 @@ var sliders, imageCarousel, identifiers, popupStatus, noimagesrc; //stamp, catal
 noimagesrc = '/images/dropimagehere.png';
 var updateStamp = function (obj) {
 	stamp[obj.name] = obj.value;
-	// console.log(obj.name +'='+ stamp[obj.name]);
+	console.log(obj.name +'='+ stamp[obj.name]);
 };
 var getFullSizeImageUrl = function () {
 	var src;
@@ -459,7 +459,7 @@ var setCurrencyName = function () {
 	}
 };
 var doInitializeStamp = function () {
-	$(window).bind('beforeunload', upsertStamp);
+	$(window).bind('beforeunload', upsertStamp);//tested
 	addStampTags(stamp.tags);//tags
 	addCategoryTags(stamp.categories);//collections
 	addCollectionTags(stamp.collections);//collections

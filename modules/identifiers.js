@@ -64,6 +64,7 @@ exports.identifiers = function (slider, common) {
 		ready : function (controls, source, callback) {
 			uicontrols = controls;
 			stamp = source;
+			uicontrols.defaultCatalogCheckbox.change(this.setDefaultCatalog);
 			slider.ready(controls.sliderControls, function () {
 				if (callback) {
 					callback();
